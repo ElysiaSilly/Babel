@@ -91,7 +91,7 @@ public class CycleBlockItem extends BlockItem {
 
     @Override
     protected @Nullable BlockState getPlacementState(BlockPlaceContext context) {
-        BlockState blockstate = getOptStateBlock().getState(context); //this.getBlock().getStateForPlacement(context);
+        BlockState blockstate = getOptStateBlock().get(context); //this.getBlock().getStateForPlacement(context);
         return blockstate != null && this.canPlace(context, blockstate) ? blockstate : null;
     }
 

@@ -21,7 +21,7 @@ import org.joml.Vector3f;
 
 public class RenderUtil {
 
-    public static void drawCube(VertexConsumer consumer, Matrix4f matrix4f, float size, int packedLight, boolean centred, boolean cull, RGBA rgba) {
+    public static void drawCube(VertexConsumer consumer, Matrix4f matrix4f, float size, int packedLight, RGBA rgba) {
         // up
         drawPlane(consumer, matrix4f, packedLight, rgba, new Vec3(0, size, 0), new Vec3(size, size, size), new Vec3(size, size, 0), new Vec3(0, size, size));
 
@@ -106,25 +106,6 @@ public class RenderUtil {
         drawPlane(consumer, matrix4f, packedLight, rgba, start, end, new Vec3(end.x, end.y, start.z), new Vec3(start.x, start.y, end.z));
     }
 
-    /*
-    public static void renderPlaneWithTextureDimensions(
-            VertexConsumer consumer, Matrix4f matrix4f, int packedLight, int translucency, ResourceLocation resourceLocation,
-            float offsetX, float offsetY, float offsetZ,
-            boolean centred
-    ) {
-
-        NativeImage image;
-
-        //try { image = ImageUtils.returnNativeImage(resourceLocation);
-        //} catch (IOException e) { throw new RuntimeException(e);}
-
-        int height = 0; //ImageUtils.getHeight(image); // TODO : fix
-        int width = 0; //ImageUtils.getWidth(image);
-
-        renderPlane(consumer, matrix4f, packedLight, translucency, 0, 0, 0, (float) width / 16, 0, (float) height / 16, offsetX, offsetY, offsetZ, centred);
-    }
-     */
-
     private static void drawPlane(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Vec3 a, Vec3 b, Vec3 c, Vec3 d) {
 
         consumer.addVertex(matrix4f, (float) c.x, (float) c.y, (float) c.z)
@@ -158,35 +139,5 @@ public class RenderUtil {
                 .setUv1(0, 0)
                 .setUv2(0, 0)
                 .setNormal(0, 1, 0);
-    }
-
-    public static void setUniform(ShaderInstance instance, String name, Object value) {
-        Uniform uniform = instance.getUniform(name);
-        if(uniform == null) return;
-
-        switch(value) {
-            case Float f -> uniform.set(f);
-            case Integer i -> uniform.set(i);
-            default -> throw new IllegalStateException("Unexpected value: " + value);
-        }
-    }
-
-    public static boolean stage(RenderLevelStageEvent event, RenderLevelStageEvent.Stage stage) {
-        return event.getStage() != stage;
-    }
-
-    public static class ObjRenderer {
-        private final CompositeRenderable MODEL;
-
-        public ObjRenderer(ResourceLocation modelLocation, boolean automaticCulling, boolean shadeQuads, boolean flipV, boolean emissiveAmbient, @Nullable String mtlOverride) {
-            modelLocation = ResourceLocation.parse(String.format("%s:models/%s.obj", modelLocation.getNamespace(), modelLocation.getPath()));
-
-            ObjModel model = ObjLoader.INSTANCE.loadModel(new ObjModel.ModelSettings(modelLocation, automaticCulling, shadeQuads, flipV, emissiveAmbient, mtlOverride));
-            this.MODEL = model.bakeRenderable(StandaloneGeometryBakingContext.create(modelLocation));
-        }
-
-        public void render(PoseStack poseStack, MultiBufferSource bufferSource, RenderType renderType, int packedLight) {
-            MODEL.render(poseStack, bufferSource, t -> renderType, packedLight, OverlayTexture.NO_OVERLAY, 0, CompositeRenderable.Transforms.EMPTY);
-        }
     }
 }

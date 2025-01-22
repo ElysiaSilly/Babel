@@ -27,8 +27,8 @@ public class BlockPropertyHolder {
 
     public <P extends Comparable<P>, V extends P> BlockPropertyHolder setProperty(Property<P> property, V value) {
         PropertyValuePair<?, ?> pair = new PropertyValuePair<>(property, value);
-        if(this.properties.contains(pair)) return this;
-        this.properties.add(pair); return this;
+        if(!this.properties.contains(pair)) this.properties.add(pair);
+        return this;
     }
 
     public BlockPropertyHolder placementContext() {
@@ -43,12 +43,13 @@ public class BlockPropertyHolder {
         return this.cost;
     }
 
+    // TODO : nuke
     public ResourceLocation getIcon() {
         return this.icon;
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"}) // scary ?
-    public BlockState getState(BlockPlaceContext context) {
+    public BlockState get(BlockPlaceContext context) {
 
         BlockState state = this.context ? getBlock().getStateForPlacement(context) : getBlock().defaultBlockState();
 

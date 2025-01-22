@@ -67,7 +67,7 @@ public class MathUtil {
                 }
             }
             return index;
-        }
+        } 
 
         public static boolean roughlyEquals(Vec3 first, Vec3 second, float blur) {
             return true;
@@ -126,12 +126,8 @@ public class MathUtil {
         return new Vec2((float) (radius * Math.cos(angle)), (float) (radius * Math.sin(angle)));
     }
 
-    public static double degreeToRadian(float degree) {
-        return degree * PI / 180;
-    }
-
     public static Vec2 rotateAroundPoint(Vec2 centre, Vec2 position, float degrees) {
-        double radian = degreeToRadian(degrees);
+        double radian = Math.toRadians(degrees);
 
         double x = centre.x + (position.x - centre.x) * Math.cos(radian) - (position.y - centre.y) * Math.sin(radian);
         double y = centre.y + (position.x - centre.x) * Math.sin(radian) + (position.y - centre.y) * Math.cos(radian);
