@@ -5,8 +5,11 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "babel.refmap.json",
   "mixins": [
+    "common.FireBlockMixin"
   ],
   "client": [
+    "client.GameRendererMixin",
+    "client.GuiMixin"
   ],
   "injectors": {
     "defaultRequire": 1
