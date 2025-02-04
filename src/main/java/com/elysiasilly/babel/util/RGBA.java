@@ -9,7 +9,7 @@ public class RGBA {
     public int red;
     public int green;
     public int blue;
-    public int alpha;
+    public int alpha = 255;
 
     public RGBA(int R, int G, int B, int A) {
         this.red = R;
@@ -22,41 +22,47 @@ public class RGBA {
         this.red = R;
         this.green = G;
         this.blue = B;
-        this.alpha = 255;
     }
 
     public RGBA(int gray) {
         this.red = gray;
         this.green = gray;
         this.blue = gray;
-        this.alpha = 255;
     }
 
     public RGBA(float gray) {
-        this.red = (int) MathUtil.numbers.castToRange(0, 1, 0, 255, gray);
-        this.green = (int) MathUtil.numbers.castToRange(0, 1, 0, 255, gray);
-        this.blue = (int) MathUtil.numbers.castToRange(0, 1, 0, 255, gray);
-        this.alpha = 255;
+        int i = cast(gray);
+
+        this.red = i;
+        this.green = i;
+        this.blue = i;
     }
 
     public RGBA(float R, float G, float B) {
-        this.red = (int) MathUtil.numbers.castToRange(0, 1, 0, 255, R);
-        this.green = (int) MathUtil.numbers.castToRange(0, 1, 0, 255, G);
-        this.blue = (int) MathUtil.numbers.castToRange(0, 1, 0, 255, B);
-        this.alpha = 255;
+        this.red = cast(R);
+        this.green = cast(G);
+        this.blue = cast(B);
     }
 
     public RGBA(float R, float G, float B, float A) {
-        this.red = (int) MathUtil.numbers.castToRange(0, 1, 0, 255, R);
-        this.green = (int) MathUtil.numbers.castToRange(0, 1, 0, 255, G);
-        this.blue = (int) MathUtil.numbers.castToRange(0, 1, 0, 255, B);
-        this.alpha = (int) MathUtil.numbers.castToRange(0, 1, 0, 255, A);
+        this.red = cast(R);
+        this.green = cast(G);
+        this.blue = cast(B);
+        this.alpha = cast(A);
     }
 
-    public RGBA shade(float bias) {
-        this.red = (int) (this.red / bias);
-        this.green = (int) (this.green / bias);
-        this.blue = (int) (this.blue / bias);
+    private int cast(float f) {
+        return MathUtil.numbers.castToRangeInt(0, 1, 0, 255, f);
+    }
+
+    public boolean isTransparent() {
+        return this.alpha == 0;
+    }
+
+    public RGBA shade(float val) {
+        this.red = (int) (this.red / val);
+        this.green = (int) (this.green / val);
+        this.blue = (int) (this.blue / val);
         return this;
     }
 
@@ -80,17 +86,6 @@ public class RGBA {
         return Conversions.colour.rgba(this);
     }
 
-    public RGBA aberrate(float bias) { // todo
-        RGBA temp = new RGBA(0, 0, 0, 0);
-        temp.red = (int) (this.red > this.green && this.red > this.blue ? this.red * .1 : this.red / bias);
-        temp.green = (int) (this.green > this.red && this.green > this.blue ? this.green * .1 : this.green / bias);
-        temp.blue = (int) (this.blue > this.green && this.blue > this.red ? this.blue * .1 : this.blue / bias);
-        this.red = temp.red;
-        this.green = temp.green;
-        this.blue = temp.blue;
-        return this;
-    }
-
     public static class colours {
         public static RGBA random(RandomSource ran) {
             return new RGBA(ran.nextInt(255), ran.nextInt(255), ran.nextInt(255), ran.nextInt(255));
@@ -98,5 +93,9 @@ public class RGBA {
 
         public static final RGBA WHITE = new RGBA(1f);
         public static final RGBA BLACK = new RGBA(0f);
+
+        public static final RGBA RED = new RGBA(1f, 0f, 0f);
+        public static final RGBA GREEN = new RGBA(0f, 1f, 0f);
+        public static final RGBA BLUE = new RGBA(0f, 0f, 1f);
     }
 }

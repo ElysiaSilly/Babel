@@ -6,21 +6,14 @@ import com.elysiasilly.babel.util.MutableTrio;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.phys.Vec2;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public abstract class BabelScreen<M extends AbstractContainerMenu, C extends BabelCursor> extends Screen implements MenuAccess<M> {
-
-    //public final C cursor;
-    public final M menu;
+public abstract class BabelScreen extends Screen {
 
     public final List<BabelWidget<?, ?>> children = new ArrayList<>(), descendants = new ArrayList<>();
 
@@ -44,9 +37,8 @@ public abstract class BabelScreen<M extends AbstractContainerMenu, C extends Bab
         this.tick = this.tick == Integer.MAX_VALUE ? 0 : this.tick + 1;
     }
 
-    public BabelScreen(@Nullable M menu) {
+    public BabelScreen() {
         super(Component.empty());
-        this.menu = menu;
     }
 
     @Override
@@ -69,15 +61,11 @@ public abstract class BabelScreen<M extends AbstractContainerMenu, C extends Bab
         rebuild();
     }
 
-    public @NotNull M getMenu() {
-        return this.menu;
-    }
-
-    public void initBefore() {};
+    public void initBefore() {}
 
     public abstract List<BabelWidget<?, ?>> initWidgets();
 
-    public void initAfter() {};
+    public void initAfter() {}
 
 
     public void updateHover() {
@@ -140,7 +128,7 @@ public abstract class BabelScreen<M extends AbstractContainerMenu, C extends Bab
     }
 
     public boolean isHovering(BabelWidget widget) {
-        return this.hoveredWidget == null ? false : this.hoveredWidget.equals(widget);
+        return this.hoveredWidget.equals(widget);
     }
 
     public BabelWidget getHoveredWidget() {
@@ -152,11 +140,11 @@ public abstract class BabelScreen<M extends AbstractContainerMenu, C extends Bab
     }
 
     public boolean isDragging(BabelWidget widget) {
-        return this.draggedWidget == null ? false : this.draggedWidget.equals(widget);
+        return this.draggedWidget.equals(widget);
     }
 
     public boolean isFocused(BabelWidget widget) {
-        return this.focusedWidget == null ? false : this.focusedWidget.equals(widget);
+        return this.focusedWidget.equals(widget);
     }
 
     public BabelWidget getDraggedWidget() {

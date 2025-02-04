@@ -53,8 +53,7 @@ public class CycleBlockItem extends BlockItem {
     }
 
     public CycleBlockItem assignToItem() {
-        this.assignToItem = true;
-        return this;
+        this.assignToItem = true; return this;
     }
 
     @Override

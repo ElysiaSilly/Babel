@@ -1,6 +1,7 @@
 package com.elysiasilly.babel.mixin.client;
 
-import com.elysiasilly.babel.client.screen.IModifyCameraScreen;
+import com.elysiasilly.babel.client.screen.screen.IHideElementsScreen;
+import com.elysiasilly.babel.client.screen.screen.IModifyCameraScreen;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -22,12 +23,12 @@ public class GameRendererMixin {
 
     @Inject(
             method = "renderItemInHand",
-            at = @At(value = "HEAD"),
+            at = @At("HEAD"),
             cancellable = true
     )
 
     private void babel$renderItemInHand(Camera camera, float partialTick, Matrix4f projectionMatrix, CallbackInfo ci) {
-        if(this.minecraft.screen instanceof IModifyCameraScreen screen) if(screen.hideElements()) ci.cancel();
+        if(this.minecraft.screen instanceof IHideElementsScreen screen) if(screen.hideCharacter()) ci.cancel();
     }
 
     @Inject(

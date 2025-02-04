@@ -20,6 +20,8 @@ public abstract class BabelBE extends BlockEntity {
         super(type, pos, blockState);
     }
 
+
+
     @Override
     public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
@@ -31,7 +33,9 @@ public abstract class BabelBE extends BlockEntity {
         level.sendBlockUpdated(worldPosition, this.getBlockState(), this.getBlockState(), Block.UPDATE_CLIENTS);
     }
 
-    //public abstract void tick();
+    public void tickServer() {}
+
+    public void tickClient() {}
 
     @Override
     public @NotNull CompoundTag getUpdateTag(HolderLookup.Provider registries) {

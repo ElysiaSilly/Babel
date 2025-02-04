@@ -80,6 +80,10 @@ public class MathUtil {
             return (((value - oldMin) * (newMax - newMin)) / (oldMax - oldMin)) + newMin;
         }
 
+        public static int castToRangeInt(float oldMin, float oldMax, int newMin, int newMax, float value) {
+            return Mth.ceil((((value - oldMin) * (newMax - newMin)) / (oldMax - oldMin)) + newMin);
+        }
+
         public static float closest(float number, float...values) {
             float distance = Math.abs(values[0] - number);
             int index = 0;
@@ -132,24 +136,5 @@ public class MathUtil {
         double x = centre.x + (position.x - centre.x) * Math.cos(radian) - (position.y - centre.y) * Math.sin(radian);
         double y = centre.y + (position.x - centre.x) * Math.sin(radian) + (position.y - centre.y) * Math.cos(radian);
         return new Vec2((float) x, (float) y);
-    }
-
-    public static class Velocity {
-
-        Vec3 previous;
-        Vec3 current;
-
-        public Velocity() {}
-
-        public void update(Vec3 position) {
-            if(this.previous == null) this.previous = position;
-            if(this.current != null) this.previous = current;
-            this.current = position;
-        }
-
-        // todo : need to actually do the math for this lol
-        public Vec3 velocity() {
-            return this.previous.subtract(this.current);
-        }
     }
 }

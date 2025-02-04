@@ -1,6 +1,7 @@
 package com.elysiasilly.babel.util;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleOptions;
@@ -29,7 +30,6 @@ public class MCUtil {
             return false;
         }
 
-        @SuppressWarnings("unboxing")
         public static boolean hasComponent(ItemStack stack, Supplier<? extends DataComponentType<?>> component) {
             return stack.has(component) ? stack.get(component) != null : false;
         }
@@ -99,12 +99,8 @@ public class MCUtil {
     public static class blockPos {
 
         public static boolean isNeighbour(BlockPos pos, BlockPos potentialNeighbourPos) {
-            return pos.above().equals(potentialNeighbourPos) ||
-                   pos.below().equals(potentialNeighbourPos) ||
-                   pos.north().equals(potentialNeighbourPos) ||
-                   pos.east().equals(potentialNeighbourPos)  ||
-                   pos.south().equals(potentialNeighbourPos) ||
-                   pos.west().equals(potentialNeighbourPos);
+            for(Direction dir : Direction.values()) if(pos.relative(dir).equals(potentialNeighbourPos)) return true;
+            return false;
         }
     }
 }

@@ -24,11 +24,9 @@ public class BabelScreenUtil {
     // todo : lighting for flat models is broken
     public static void renderItem(ItemStack stack, PoseStack pose, Vec2 pos, float depth, Vec2 offset) {
         if(!MCUtil.item.isEmpty(stack)) {
-
-            ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-
             pose.pushPose();
 
+            ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
 
             BakedModel bakedmodel = itemRenderer.getModel(stack, Minecraft.getInstance().level, null, 0);
 

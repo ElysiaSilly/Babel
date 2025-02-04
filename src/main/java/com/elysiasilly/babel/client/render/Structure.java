@@ -1,5 +1,6 @@
-package com.elysiasilly.babel.util;
+package com.elysiasilly.babel.client.render;
 
+import com.elysiasilly.babel.util.MutablePair;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;

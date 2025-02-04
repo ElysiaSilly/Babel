@@ -46,7 +46,6 @@ public abstract class BabelWidget<W extends BabelWidget, S extends BabelScreen> 
         this(null, screen, bounds);
     }
 
-    @SuppressWarnings("unchecked")
     public void add(List<BabelWidget<?, ?>> widgets) {
         this.children.addAll(widgets);
         this.screen.descendants.addAll(widgets);

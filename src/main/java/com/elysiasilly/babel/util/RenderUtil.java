@@ -1,21 +1,12 @@
 package com.elysiasilly.babel.util;
 
-import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
-import net.neoforged.neoforge.client.model.geometry.StandaloneGeometryBakingContext;
-import net.neoforged.neoforge.client.model.obj.ObjLoader;
-import net.neoforged.neoforge.client.model.obj.ObjModel;
-import net.neoforged.neoforge.client.model.renderable.CompositeRenderable;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -25,23 +16,17 @@ public class RenderUtil {
         // up
         drawPlane(consumer, matrix4f, packedLight, rgba, new Vec3(0, size, 0), new Vec3(size, size, size), new Vec3(size, size, 0), new Vec3(0, size, size));
 
-        rgba.alpha = ((int) (rgba.alpha * .8));
-
         // down
         drawPlane(consumer, matrix4f, packedLight, rgba, new Vec3(0, 0, size), new Vec3(size, 0, 0), new Vec3(size, 0, size), new Vec3(0, 0, 0));
-        rgba.alpha = ((int) (rgba.alpha * .8));
 
         // north
         drawPlane(consumer, matrix4f, packedLight, rgba, new Vec3(0, 0, 0), new Vec3(size, size, 0), new Vec3(size, 0, 0), new Vec3(0, size, 0));
-        rgba.alpha = ((int) (rgba.alpha * .8));
 
         // south
         drawPlane(consumer, matrix4f, packedLight, rgba, new Vec3(0, size, size), new Vec3(size, 0, size), new Vec3(size, size, size), new Vec3(0, 0, size));
-        rgba.alpha = ((int) (rgba.alpha * .8));
 
         // east
         drawPlane(consumer, matrix4f, packedLight, rgba, new Vec3(size, 0, 0), new Vec3(size, size, size), new Vec3(size, 0, size), new Vec3(size, size, 0));
-        rgba.alpha = ((int) (rgba.alpha * .8));
 
         // west
         drawPlane(consumer, matrix4f, packedLight, rgba, new Vec3(0, size, 0), new Vec3(0, 0, size), new Vec3(0, size, size), new Vec3(0, 0, 0));
@@ -88,36 +73,32 @@ public class RenderUtil {
         RenderUtil.drawLineThatIsActuallyARectangle(consumer, matrix4f, bottomRight, topRight, girth, rgba);
     }
 
-    public static void drawPlane(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Vec3 start, Vec3 end, Vec3 offset, boolean centred) {
-
-        //startX = centred ? startX / 2 : startX;
-        //startY = centred ? startY / 2 : startY;
-        //startZ = centred ? startZ / 2 : startZ;
-
-        //endX = centred ? endX / 2 : endX;
-        //endY = centred ? endY / 2 : endY;
-        //endZ = centred ? endZ / 2 : endZ;
-
-        // TODO : STUPID ^
-
-        start.add(offset);
-        end.add(offset);
-
-        drawPlane(consumer, matrix4f, packedLight, rgba, start, end, new Vec3(end.x, end.y, start.z), new Vec3(start.x, start.y, end.z));
+    public static void drawPlane(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Vec3 start, Vec3 end, Vec2 startUV, Vec2 endUV) {
+        drawPlane(consumer, matrix4f, packedLight, rgba, start, end, new Vec3(end.x, end.y, start.z), new Vec3(start.x, start.y, end.z), startUV, endUV);
     }
 
-    private static void drawPlane(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Vec3 a, Vec3 b, Vec3 c, Vec3 d) {
+    public static void drawPlane(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Vec3 start, Vec3 end) {
+        drawPlane(consumer, matrix4f, packedLight, rgba, start, end, new Vec3(end.x, end.y, start.z), new Vec3(start.x, start.y, end.z), Vec2.ZERO, Vec2.ONE);
+    }
+
+    public static void drawPlane(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Vec3 a, Vec3 b, Vec3 c, Vec3 d) {
+        drawPlane(consumer, matrix4f, packedLight, rgba, a, b, c, d, Vec2.ZERO, Vec2.ONE);
+    }
+
+    public static void drawPlane(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Vec3 a, Vec3 b, Vec3 c, Vec3 d, Vec2 startUV, Vec2 endUV) {
 
         consumer.addVertex(matrix4f, (float) c.x, (float) c.y, (float) c.z)
-                .setUv(1, 0)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setUv(startUV.x, startUV.y)
                 .setLight(packedLight)
                 .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
-                .setUv1(0, 0)
-                .setUv2(1, 1)
-                .setNormal(0, 1, 0);
+                .setUv1(0, 0) // ?
+                .setUv2(1, 1) // ?
+                .setNormal(0, 1, 0); // ?
 
         consumer.addVertex(matrix4f, (float) a.x, (float) a.y, (float) a.z)
-                .setUv(0, 0)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setUv(startUV.x, endUV.y)
                 .setLight(packedLight)
                 .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
                 .setUv1(0, 0)
@@ -125,7 +106,8 @@ public class RenderUtil {
                 .setNormal(0, 1, 0);
 
         consumer.addVertex(matrix4f, (float) d.x, (float) d.y, (float) d.z)
-                .setUv(0, 1)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setUv(endUV.x, endUV.y)
                 .setLight(packedLight)
                 .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
                 .setUv1(0, 0)
@@ -133,7 +115,8 @@ public class RenderUtil {
                 .setNormal(0, 1, 0);
 
         consumer.addVertex(matrix4f, (float) b.x,   (float) b.y,   (float) b.z)
-                .setUv(1, 1)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setUv(endUV.x, startUV.y)
                 .setLight(packedLight)
                 .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
                 .setUv1(0, 0)

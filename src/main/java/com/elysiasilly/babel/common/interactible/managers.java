@@ -1,6 +1,7 @@
 package com.elysiasilly.babel.common.interactible;
 
 import com.elysiasilly.babel.core.Babel;
+import com.elysiasilly.babel.core.registry.BabelRegistries;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
@@ -19,7 +20,7 @@ public class managers {
 
     @SubscribeEvent
     public static void init(ServerStartingEvent event) {
-        List<InteractableManager<?>> managers = Babel.registries.INTERACTABLE_MANAGER.stream().toList();
+        List<InteractableManager<?>> managers = BabelRegistries.INTERACTABLE_MANAGER.stream().toList();
 
         Babel.LOGGER.info("Found {} Interactable Manager(s)", managers.size());
 

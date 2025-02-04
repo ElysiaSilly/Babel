@@ -20,7 +20,7 @@ public abstract class BabelBERenderer<BE extends BlockEntity> implements BlockEn
     }
 
     public BlockEntityRendererProvider.Context context() {
-        return context;
+        return this.context;
     }
 
     @Override

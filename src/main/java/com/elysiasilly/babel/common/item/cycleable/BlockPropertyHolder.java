@@ -53,7 +53,7 @@ public class BlockPropertyHolder {
 
         BlockState state = this.context ? getBlock().getStateForPlacement(context) : getBlock().defaultBlockState();
 
-        if(state != null) for(PropertyValuePair entry : this.properties) state = state.setValue(entry.property, entry.value);
+        if(state != null) for(PropertyValuePair entry : this.properties) state = state.setValue(entry.property(), entry.value());
 
         return state;
     }
