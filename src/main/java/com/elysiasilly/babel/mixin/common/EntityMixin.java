@@ -28,11 +28,11 @@ public class EntityMixin {
     // todo
     private List<VoxelShape> babel$collide(Level instance, Entity entity, AABB aabb, Operation<List<VoxelShape>> original) {
 
-        List<Scene<?, ?>> scenes = Theatre.get(instance);
+        List<Scene<?>> scenes = Theatre.get(instance);
 
         List<VoxelShape> list = new ArrayList<>(original.call(instance, entity, aabb));
 
-        for(Scene<?, ?> scene : scenes) {
+        for(Scene<?> scene : scenes) {
             list.addAll(scene.getCollisions(aabb));
         }
 

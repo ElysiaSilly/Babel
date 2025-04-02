@@ -31,9 +31,7 @@ public class TestItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
 
-        System.out.println(player.chunkPosition().toLong());
-
-        if(!level.isClientSide && false) {
+        if(!level.isClientSide) {
 
             if(end == null && start != null) {
                 List<Vec3> ray = MCUtil.Raycast.shittyRayCast(player, 10, MCUtil.Raycast.GOOD_ENOUGH);

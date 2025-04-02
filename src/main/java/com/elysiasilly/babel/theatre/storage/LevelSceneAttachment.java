@@ -3,8 +3,6 @@ package com.elysiasilly.babel.theatre.storage;
 import com.elysiasilly.babel.core.Babel;
 import com.elysiasilly.babel.core.registry.BabelRegistries;
 import com.elysiasilly.babel.theatre.Theatre;
-import com.elysiasilly.babel.theatre.actor.Actor;
-import com.elysiasilly.babel.theatre.actor.ActorType;
 import com.elysiasilly.babel.theatre.scene.ClientScene;
 import com.elysiasilly.babel.theatre.scene.Scene;
 import com.elysiasilly.babel.theatre.scene.SceneType;
@@ -29,8 +27,8 @@ import java.util.Map;
 @EventBusSubscriber(modid = Babel.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class LevelSceneAttachment {
 
-    public static final HashMap<Level, List<Scene<?, ?>>> sceneLevelMap = new HashMap<>();
-    public static final List<Scene<?, ?>> scenes = new ArrayList<>();
+    public static final HashMap<Level, List<Scene<?>>> sceneLevelMap = new HashMap<>();
+    public static final List<Scene<?>> scenes = new ArrayList<>();
     public static final HashMap<ResourceKey<Level>, ServerLevel> dimensionLevelMap = new HashMap<>();
 
     @SubscribeEvent
@@ -50,32 +48,28 @@ public class LevelSceneAttachment {
             if(level instanceof ServerLevel server) {
                 dimensionLevelMap.put(server.dimension(), server);
 
-                ServerScene<?> scene = type.createServer(server);
+                ServerScene scene = type.createServer(server);
                 put(server, scene);
                 scene.onSceneLoad();
             }
             if(level instanceof ClientLevel client) {
-                ClientScene<?> scene = type.createClient(client);
+                ClientScene scene = type.createClient(client);
                 put(client, scene);
                 scene.onSceneLoad();
             }
         }
     }
 
-    private static void put(Level level, Scene<?, ?> scene) {
+    private static void put(Level level, Scene<?> scene) {
         scenes.add(scene);
-        if(sceneLevelMap.containsKey(level)) {
-            sceneLevelMap.get(level).add(scene);
-        } else {
-            sceneLevelMap.put(level, List.of(scene));
-        }
+        sceneLevelMap.computeIfAbsent(level, i -> new ArrayList<>()).add(scene);
     }
 
     @SubscribeEvent
     private static void unload(LevelEvent.Unload event) {
         Level level = (Level) event.getLevel();
 
-        for(Scene<?, ?> scene : sceneLevelMap.get(level)) {
+        for(Scene<?> scene : sceneLevelMap.get(level)) {
             scene.onSceneUnload();
             scenes.remove(scene);
         }
@@ -86,15 +80,15 @@ public class LevelSceneAttachment {
 
     @SubscribeEvent
     private static void tick(LevelTickEvent.Pre event) {
-        for(Scene<?, ?> scene : scenes) {
-            if(scene.getSceneType().tickPre()) scene.tick();
+        for(Scene<?> scene : scenes) {
+            if(scene.getSceneType().tickPre()) scene.tickInternal();
         }
     }
 
     @SubscribeEvent
     private static void tick(LevelTickEvent.Post event) {
-        for(Scene<?, ?> scene : scenes) {
-            if(scene.getSceneType().tickPost()) scene.tick();
+        for(Scene<?> scene : scenes) {
+            if(scene.getSceneType().tickPost()) scene.tickInternal();
         }
     }
 
@@ -103,7 +97,7 @@ public class LevelSceneAttachment {
         Level level = (Level) event.getLevel();
         ChunkAccess chunk = event.getChunk();
 
-        for(Scene<?, ?> scene : Theatre.get(level)) {
+        for(Scene<?> scene : Theatre.get(level)) {
             scene.loadChunk(chunk);
         }
     }
@@ -113,7 +107,7 @@ public class LevelSceneAttachment {
         Level level = (Level) event.getLevel();
         ChunkAccess chunk = event.getChunk();
 
-        for(Scene<?, ?> scene : Theatre.get(level)) {
+        for(Scene<?> scene : Theatre.get(level)) {
             scene.unloadChunk(chunk);
         }
     }

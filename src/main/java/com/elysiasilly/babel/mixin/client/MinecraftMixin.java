@@ -38,9 +38,9 @@ public class MinecraftMixin {
     )
 
     private void babel$startUseItem(CallbackInfo ci, @Local InteractionHand hand, @Local ItemStack stack) {
-        List<Scene<?, ?>> scenes = Theatre.get(this.level);
+        List<Scene< ?>> scenes = Theatre.get(this.level);
 
-        Scene<?, ?> scene = scenes.getFirst();
+        Scene<?> scene = scenes.getFirst();
 
         InteractionResult result = scene.playerInteractionRequest(this.player, hand, stack);
 

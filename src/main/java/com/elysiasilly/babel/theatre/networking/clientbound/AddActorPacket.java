@@ -5,7 +5,6 @@ import com.elysiasilly.babel.theatre.Theatre;
 import com.elysiasilly.babel.theatre.actor.Actor;
 import com.elysiasilly.babel.theatre.actor.ActorType;
 import com.elysiasilly.babel.theatre.networking.PayloadHandler;
-import com.elysiasilly.babel.theatre.storage.LevelSceneAttachment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
@@ -41,15 +40,14 @@ public record AddActorPacket(UUID uuid, ActorType<?> actorType, CompoundTag tag)
         Theatre.add(minecraft.level, unpack(packet));
     }
 
-    public static AddActorPacket pack(Actor<?> actor) {
+    public static AddActorPacket pack(Actor actor) {
         CompoundTag tag = new CompoundTag();
         actor.serializeForClient(tag);
         return new AddActorPacket(actor.uuid(), actor.getActorType(), tag);
     }
 
-    public static Actor<?> unpack(AddActorPacket packet) {
-        Actor<?> actor = packet.actorType.create();
-        actor.setUuid(packet.uuid);
+    public static Actor unpack(AddActorPacket packet) {
+        Actor actor = packet.actorType.create(packet.uuid);
         actor.deserializeForClient(packet.tag);
 
         return actor;

@@ -5,7 +5,7 @@ import com.elysiasilly.babel.theatre.scene.SceneType;
 import com.elysiasilly.babel.theatre.scene.ServerScene;
 import net.minecraft.server.level.ServerLevel;
 
-public class GenericServerScene extends ServerScene<TestActor> {
+public class GenericServerScene extends ServerScene {
     public GenericServerScene(ServerLevel level) {
         super(level);
     }

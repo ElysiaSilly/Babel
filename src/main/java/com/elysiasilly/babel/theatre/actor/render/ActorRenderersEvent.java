@@ -9,7 +9,7 @@ public class ActorRenderersEvent extends Event implements IModBusEvent {
 
     public ActorRenderersEvent() {}
 
-    public <A extends Actor<?>> void registerRenderer(ActorType<? extends A> actorType, ActorRendererProvider<A> provider) {
+    public <A extends Actor> void registerRenderer(ActorType<? extends A> actorType, ActorRendererProvider<A> provider) {
         ActorRenderers.put(actorType, provider);
     }
 }

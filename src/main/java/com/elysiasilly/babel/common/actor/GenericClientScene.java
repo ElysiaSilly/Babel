@@ -7,7 +7,7 @@ import com.elysiasilly.babel.core.registry.BBScenes;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.level.Level;
 
-public class GenericClientScene extends ClientScene<TestActor> {
+public class GenericClientScene extends ClientScene {
 
     public GenericClientScene(ClientLevel level) {
         super(level);

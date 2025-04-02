@@ -7,48 +7,46 @@ import net.minecraft.core.SectionPos;
 import java.util.Collection;
 import java.util.UUID;
 
-public class ActorStorage<A extends Actor> {
+public class ActorStorage {
 
     /// all actors in the level
-    final ActorLookup<A> lookupLevel = new ActorLookup<>();
+    final ActorLookup lookupLevel = new ActorLookup();
 
     /// map of section and actors that are in it
-    final ActorSectionMap<A> lookupSection = new ActorSectionMap<>();
+    final ActorSectionMap lookupSection = new ActorSectionMap();
 
-    public Long2ObjectMap<ActorLookup<A>> getSections() {
+    public Long2ObjectMap<ActorLookup> getSections() {
         return this.lookupSection.getSections();
     }
 
-    public Collection<A> getActors() {
+    public Collection<Actor> getActors() {
         return this.lookupLevel.getActors();
     }
 
-    public void addActor(A actor) {
+    public void addActor(Actor actor) {
         this.lookupLevel.addActor(actor);
         this.lookupSection.addActor(actor);
     }
 
-    public void removeActor(A actor) {
+    public void removeActor(Actor actor) {
         this.lookupLevel.removeActor(actor);
         this.lookupSection.removeActor(actor);
     }
 
-    public A getActor(UUID uuid) {
+    public Actor getActor(UUID uuid) {
         return this.lookupLevel.getActor(uuid);
     }
 
-    public Collection<A> getActorsInSection(long key) {
+    public Collection<Actor> getActorsInSection(long key) {
         return this.lookupSection.getActorsInSection(key);
     }
 
-    public Collection<A> getActorsInSection(SectionPos pos) {
+    public Collection<Actor> getActorsInSection(SectionPos pos) {
         return this.lookupSection.getActorsInSection(pos);
     }
 
     public void unloadSection(SectionPos pos) {
-        for(A actor : getActorsInSection(pos)) {
-            lookupLevel.removeActor(actor);
-        }
+        for(Actor actor : getActorsInSection(pos)) lookupLevel.removeActor(actor);
         lookupSection.removeSection(pos);
     }
 }

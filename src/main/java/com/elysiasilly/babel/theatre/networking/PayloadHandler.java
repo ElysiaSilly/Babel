@@ -4,7 +4,7 @@ import com.elysiasilly.babel.core.Babel;
 import com.elysiasilly.babel.theatre.networking.clientbound.AddActorPacket;
 import com.elysiasilly.babel.theatre.networking.clientbound.RemoveActorPacket;
 import com.elysiasilly.babel.theatre.networking.clientbound.UpdateActorPacket;
-import com.elysiasilly.babel.theatre.networking.serverbound.RequestChunkPacket;
+import com.elysiasilly.babel.theatre.networking.serverbound.RequestLoadChunkPacket;
 import com.elysiasilly.babel.theatre.networking.serverbound.RequestUpdateActorPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -26,7 +26,7 @@ public class PayloadHandler {
 
         // serverbound
         registrar.playToServer(RequestUpdateActorPacket.TYPE, RequestUpdateActorPacket.CODEC, RequestUpdateActorPacket::run);
-        registrar.playToServer(RequestChunkPacket.TYPE, RequestChunkPacket.CODEC, RequestChunkPacket::run);
+        registrar.playToServer(RequestLoadChunkPacket.TYPE, RequestLoadChunkPacket.CODEC, RequestLoadChunkPacket::run);
     }
 
     // forgive me

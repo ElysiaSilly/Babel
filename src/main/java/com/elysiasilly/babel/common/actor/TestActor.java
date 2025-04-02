@@ -15,10 +15,13 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.joml.Vector3f;
 
-public class TestActor extends Actor<GenericClientScene> {
+import java.util.UUID;
+
+public class TestActor extends Actor {
 
     public int rotation = 0;
 
@@ -27,6 +30,10 @@ public class TestActor extends Actor<GenericClientScene> {
 
     public Block block;
     public FluidStack fluid;
+
+    public TestActor(UUID uuid) {
+        super(uuid);
+    }
 
     public void init(Vec3 start, Vec3 end) {
         this.startPos = start;
@@ -63,8 +70,7 @@ public class TestActor extends Actor<GenericClientScene> {
     }
 
     @Override
-    public void tick() {
-        System.out.println("i am loaded!");
+    public void onTick() {
     }
 
     @Override
@@ -76,7 +82,6 @@ public class TestActor extends Actor<GenericClientScene> {
                 if(this.fluid.getAmount() <= getVolume() - 1000) this.fluid.grow(1000);
             }
         }
-        System.out.println(getPos());
 
         if(stack.is(Items.BUCKET)) {
             if(this.fluid != null) {
@@ -87,6 +92,10 @@ public class TestActor extends Actor<GenericClientScene> {
         if(stack.isEmpty()) {
             String string = this.fluid == null || this.fluid.isEmpty() ? "No Contents" : this.fluid.getAmount() + " mb of " + Component.translatable(this.fluid.getFluid().getFluidType().toString()).getString();
             player.displayClientMessage(Component.literal("Tank Volume is " + getVolume() + " mb (" + string + ")"), true);
+        }
+
+        if(stack.is(Tags.Items.MINING_TOOL_TOOLS)) {
+            destroy();
         }
 
         return InteractionResult.SUCCESS;

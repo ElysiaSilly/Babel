@@ -7,15 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class ActorLookup<A extends Actor> {
+public class ActorLookup {
 
-    private final Map<UUID, A> uuidActorMap = new HashMap<>();
+    private final Map<UUID, Actor> uuidActorMap = new HashMap<>();
 
-    public void addActor(A actor) {
+    public void addActor(Actor actor) {
         this.uuidActorMap.put(actor.uuid(), actor);
     }
 
-    public void removeActor(A actor) {
+    public void removeActor(Actor actor) {
         removeActor(actor.uuid());
     }
 
@@ -23,11 +23,11 @@ public class ActorLookup<A extends Actor> {
         this.uuidActorMap.remove(id);
     }
 
-    public A getActor(UUID id) {
+    public Actor getActor(UUID id) {
         return uuidActorMap.get(id);
     }
 
-    public Collection<A> getActors() {
+    public Collection<Actor> getActors() {
         return uuidActorMap.values();
     }
 

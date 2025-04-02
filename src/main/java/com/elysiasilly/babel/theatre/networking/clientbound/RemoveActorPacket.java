@@ -6,7 +6,6 @@ import com.elysiasilly.babel.theatre.actor.Actor;
 import com.elysiasilly.babel.theatre.networking.PayloadHandler;
 import com.elysiasilly.babel.theatre.scene.Scene;
 import com.elysiasilly.babel.theatre.scene.SceneType;
-import com.elysiasilly.babel.theatre.storage.LevelSceneAttachment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -35,11 +34,11 @@ public record RemoveActorPacket(UUID uuid, SceneType<?, ?> sceneType) implements
     ///
 
     public static void run(RemoveActorPacket packet, IPayloadContext context) {
-        Scene<?, ?> scene = Theatre.get(Minecraft.getInstance().level, packet.sceneType);
+        Scene<?> scene = Theatre.get(Minecraft.getInstance().level, packet.sceneType);
         scene.removeActor(packet.uuid);
     }
 
-    public static RemoveActorPacket pack(Actor<?> actor) {
+    public static RemoveActorPacket pack(Actor actor) {
         return new RemoveActorPacket(actor.uuid(), actor.getSceneType());
     }
 }

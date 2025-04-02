@@ -22,15 +22,23 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.UUID;
 
-@SuppressWarnings({"unchecked", "rawtypes"})
-public abstract class Actor<S extends Scene> {
+@SuppressWarnings({"unchecked"})
+public abstract class Actor {
 
-    private UUID uuid = UUID.randomUUID();
-    private S scene;
+    private final UUID uuid;
+    private Scene<?> scene;
 
     private boolean dirty = true, removed = false;
 
     public Vec3 position = Vec3.ZERO;
+
+    protected Actor() {
+        this.uuid = UUID.randomUUID();
+    }
+
+    protected Actor(UUID uuid) {
+        this.uuid = uuid;
+    }
 
     /// position
 
@@ -38,13 +46,10 @@ public abstract class Actor<S extends Scene> {
         return position;
     }
 
+    // TODO section positions currently dont get recalculated
     public void setPos(Vec3 pos) {
         this.position = pos;
     }
-
-    //public void movePos(Vector3f chunkPos) {
-    //    this.position = this.position.add(chunkPos);
-    //}
 
     public SectionPos getSectionPos() {
         return SectionPos.of(getPos());
@@ -60,11 +65,11 @@ public abstract class Actor<S extends Scene> {
         return this.scene.level();
     }
 
-    public S getScene() {
+    public Scene<?> getScene() {
         return this.scene;
     }
 
-    public void setScene(S scene) {
+    public void setScene(Scene<?> scene) {
         this.scene = scene;
     }
 
@@ -72,14 +77,12 @@ public abstract class Actor<S extends Scene> {
         return this.uuid;
     }
 
-    // don't randomly reassign this unless you fancy yourself desyncs and other funniness probably :pray:
-    // todo : ^ lol
-    public void setUuid(UUID id) {
-        this.uuid = id;
-    }
-
     public void destroy() {
         this.scene.removeActor(this);
+    }
+
+    public void markDirty() {
+        this.dirty = true;
     }
 
     public void markRemoved() {
@@ -102,8 +105,16 @@ public abstract class Actor<S extends Scene> {
     ///
 
     // lmao
-    public <A extends Actor<?>> A self() {
+    public <A extends Actor> A self() {
         return (A) this;
+    }
+
+    public final Actor copy(UUID uuid) {
+        Actor copy = getActorType().create(uuid).self();
+        CompoundTag tag = new CompoundTag();
+        copy.serializeForCopying(tag);
+        copy.deserializeForCopying(tag);
+        return copy;
     }
 
     /// serializing
@@ -128,6 +139,16 @@ public abstract class Actor<S extends Scene> {
         deserialize(tag);
     }
 
+    /// for copying
+    public void serializeForCopying(CompoundTag tag) {
+        serialize(tag);
+    }
+
+    /// for copying
+    public void deserializeForCopying(CompoundTag tag) {
+        deserialize(tag);
+    }
+
     public void serialize(CompoundTag tag) {
         MCUtil.Serialize.vec3("pos", getPos(), tag);
     }
@@ -136,11 +157,9 @@ public abstract class Actor<S extends Scene> {
         setPos(MCUtil.Serialize.vec3("pos", tag));
     }
 
-    public void markDirty() {
+    /// syncing
 
-    }
-
-    public void sendUpdate() {
+    public final void sendUpdate() {
         if(level() instanceof ServerLevel server) {
             if(getActorType().synced()) PacketDistributor.sendToPlayersTrackingChunk(server, getChunkPos(), UpdateActorPacket.pack(this));
         } else {
@@ -148,7 +167,7 @@ public abstract class Actor<S extends Scene> {
         }
     }
 
-    public void requestUpdate() {
+    public final void requestUpdate() {
         if(level() instanceof ClientLevel) {
             if(getActorType().synced()) PacketDistributor.sendToServer(RequestUpdateActorPacket.pack(this));
         } else {
@@ -158,18 +177,36 @@ public abstract class Actor<S extends Scene> {
 
     /// functionality
 
-    public void tick() {}
+    public void onTick() {
+
+    }
 
     public boolean canTick() {
         return false;
     }
 
-    public void onAdd() {}
+    public void onRandomTick() {
 
-    public void onRemove() {}
+    }
+
+    public boolean canRandomTick() {
+        return false;
+    }
+
+    public void onAdd() {
+
+    }
+
+    public void onRemove() {
+
+    }
 
     public InteractionResult onPlayerInteraction(Player player, InteractionHand hand, ItemStack stack) {
         return InteractionResult.PASS;
+    }
+
+    public boolean canPlayerInteract() {
+        return false;
     }
 
     /// types

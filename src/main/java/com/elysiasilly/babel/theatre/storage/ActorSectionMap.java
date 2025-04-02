@@ -9,33 +9,33 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class ActorSectionMap<A extends Actor> {
+public class ActorSectionMap {
 
     /// map of section keys to the actors in a section
-    private final Long2ObjectMap<ActorLookup<A>> lookupBySection = new Long2ObjectOpenHashMap<>();
+    private final Long2ObjectMap<ActorLookup> lookupBySection = new Long2ObjectOpenHashMap<>();
 
     /// map of actor uuid to section keys
     private final HashMap<UUID, Long> actorSectionMap = new HashMap<>();
 
 
-    public Long2ObjectMap<ActorLookup<A>> getSections() {
+    public Long2ObjectMap<ActorLookup> getSections() {
         return this.lookupBySection;
     }
 
-    public ActorLookup<A> getLookupInSection(SectionPos pos) {
+    public ActorLookup getLookupInSection(SectionPos pos) {
         return this.lookupBySection.get(pos.asLong());
     }
 
-    public void addActor(A actor) {
+    public void addActor(Actor actor) {
         long key = actor.getSectionPos().asLong();
 
         actorSectionMap.put(actor.uuid(), key);
 
-        if(!lookupBySection.containsKey(key)) lookupBySection.put(key, new ActorLookup<>());
+        if(!lookupBySection.containsKey(key)) lookupBySection.put(key, new ActorLookup());
         lookupBySection.get(key).addActor(actor);
     }
 
-    public void removeActor(A actor) {
+    public void removeActor(Actor actor) {
         long key = actor.getSectionPos().asLong();
 
         actorSectionMap.remove(actor.uuid());
@@ -44,17 +44,12 @@ public class ActorSectionMap<A extends Actor> {
         if(lookupBySection.get(key).getActors().isEmpty()) lookupBySection.remove(key);
     }
 
-    public Collection<A> getActorsInSection(SectionPos pos) {
-        if(lookupBySection.containsKey(pos.asLong())) {
-            return lookupBySection.get(pos.asLong()).getActors();
-        } else {
-            return new ActorLookup<A>().getActors();
-        }
-        //return lookupBySection.getOrDefault(pos.asLong(), new ActorLookup<>()).getActors();
+    public Collection<Actor> getActorsInSection(SectionPos pos) {
+        return lookupBySection.getOrDefault(pos.asLong(), new ActorLookup()).getActors();
     }
 
-    public Collection<A> getActorsInSection(long key) {
-        return lookupBySection.getOrDefault(key, new ActorLookup<>()).getActors();
+    public Collection<Actor> getActorsInSection(long key) {
+        return lookupBySection.getOrDefault(key, new ActorLookup()).getActors();
     }
 
     public void removeSection(SectionPos pos) {
@@ -65,7 +60,7 @@ public class ActorSectionMap<A extends Actor> {
                 this.lookupBySection.remove(key);
                 return;
             }
-            for(A actor : getActorsInSection(pos)) {
+            for(Actor actor : getActorsInSection(pos)) {
                 actorSectionMap.remove(actor.uuid());
             }
             getLookupInSection(pos).clear();

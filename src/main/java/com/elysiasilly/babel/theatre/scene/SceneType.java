@@ -5,7 +5,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 
-public class SceneType<C extends ClientScene<?>, S extends ServerScene<?>> {
+public class SceneType<C extends ClientScene, S extends ServerScene> {
 
     private final ClientSceneFactory<? extends C> clientSceneFactory;
     private final ServerSceneFactory<? extends S> serverSceneFactory;
@@ -48,7 +48,7 @@ public class SceneType<C extends ClientScene<?>, S extends ServerScene<?>> {
 
     public enum Tick { PRE, POST, NONE }
 
-    public static class Builder<C extends ClientScene<?>, S extends ServerScene<?>> {
+    public static class Builder<C extends ClientScene, S extends ServerScene> {
 
         private final ClientSceneFactory<C> clientSceneFactory;
         private final ServerSceneFactory<S> serverSceneFactory;
@@ -60,7 +60,7 @@ public class SceneType<C extends ClientScene<?>, S extends ServerScene<?>> {
             this.serverSceneFactory = serverSceneFactory;
         }
 
-        public static <C extends ClientScene<?>, S extends ServerScene<?>> Builder<C,S> of(ClientSceneFactory<C> clientSceneFactory, ServerSceneFactory<S> serverSceneFactory) {
+        public static <C extends ClientScene, S extends ServerScene> Builder<C,S> of(ClientSceneFactory<C> clientSceneFactory, ServerSceneFactory<S> serverSceneFactory) {
             return new Builder<C, S>(clientSceneFactory, serverSceneFactory);
         }
 
@@ -74,12 +74,12 @@ public class SceneType<C extends ClientScene<?>, S extends ServerScene<?>> {
     }
 
     @FunctionalInterface
-    public interface ClientSceneFactory<C extends ClientScene<?>> {
+    public interface ClientSceneFactory<C extends ClientScene> {
         C create(ClientLevel client);
     }
 
     @FunctionalInterface
-    public interface ServerSceneFactory<S extends ServerScene<?>> {
+    public interface ServerSceneFactory<S extends ServerScene> {
         S create(ServerLevel server);
     }
 }

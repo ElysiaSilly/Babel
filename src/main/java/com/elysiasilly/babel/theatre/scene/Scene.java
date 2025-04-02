@@ -22,13 +22,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-@SuppressWarnings({"unchecked", "rawtypes"})
-public abstract class Scene<A extends Actor, L extends Level> /* extends SavedData */ {
+@SuppressWarnings({"unchecked"})
+public abstract class Scene<L extends Level> {
 
-    // todo : will probably need something more elegant than SavedData
-    // todo : separate into ClientScene and ServerScene (SceneType<YourClientScene, YourServerScene>)
-
-    private final ActorStorage<A> storage = new ActorStorage<>();
+    private final ActorStorage storage = new ActorStorage();
     private final L level;
 
     protected Scene(L level) {
@@ -39,11 +36,11 @@ public abstract class Scene<A extends Actor, L extends Level> /* extends SavedDa
         return this.level;
     }
 
-    //public ResourceKey<Level> dimension() {
-    //    return level().dimension();
-    //}
+    public ResourceKey<Level> dimension() {
+        return level().dimension();
+    }
 
-    public ActorStorage<A> storage() {
+    public ActorStorage storage() {
         return this.storage;
     }
 
@@ -52,20 +49,20 @@ public abstract class Scene<A extends Actor, L extends Level> /* extends SavedDa
     ///
 
     // lmao
-    public <S extends Scene> S self() {
+    public <S extends Scene<?>> S self() {
         return (S) this;
     }
 
     /// functionality
 
-    private void tickInternal() {
+    public final void tickInternal() {
         tickActors();
         tick();
     }
 
-    private void tickActors() { // temp
-        for(A actor : getActorsInStorage()) {
-            if(actor.canTick()) actor.tick();
+    private final void tickActors() {
+        for(Actor actor : getActorsInStorage()) {
+            if(actor.canTick()) actor.onTick();
         }
     }
 
@@ -77,17 +74,19 @@ public abstract class Scene<A extends Actor, L extends Level> /* extends SavedDa
 
     /// actor storage
 
-    public ActorStorage<A> getActorStorage() {
+    public ActorStorage getActorStorage() {
         return this.storage;
     }
 
-    public Collection<A> getActorsInStorage() {
+    public Collection<Actor> getActorsInStorage() {
         return this.storage.getActors();
     }
 
     // eventually want to allow adding actors from client (synced to server) with specific conditions, but need to think through security
-    public void addActor(A actor) {
+    public void addActor(Actor actor) {
         System.out.println("added actor on " + level() + " : " + actor.getSectionPos().asLong());
+
+        // todo
 
         actor.setScene(self());
         this.storage.addActor(actor);
@@ -95,7 +94,7 @@ public abstract class Scene<A extends Actor, L extends Level> /* extends SavedDa
     }
 
     // ditto
-    public void removeActor(A actor) {
+    public void removeActor(Actor actor) {
         actor.onRemove();
         actor.markRemoved();
         this.storage.removeActor(actor);
@@ -105,7 +104,7 @@ public abstract class Scene<A extends Actor, L extends Level> /* extends SavedDa
         removeActor(this.storage.getActor(uuid));
     }
 
-    public A getActor(UUID uuid) {
+    public Actor getActor(UUID uuid) {
         return this.storage.getActor(uuid);
     }
 
@@ -115,11 +114,11 @@ public abstract class Scene<A extends Actor, L extends Level> /* extends SavedDa
 
     /// TEMP collisions (ActorGetter)
 
-    public List<Actor<?>> getActors(AABB area, Predicate<? super Actor<?>> predicate) {
+    public List<Actor> getActors(AABB area, Predicate<? super Actor> predicate) {
 
-        List<Actor<?>> actors = new ArrayList<>();
+        List<Actor> actors = new ArrayList<>();
 
-        for(Actor<?> actor : getActorsInStorage()) {
+        for(Actor actor : getActorsInStorage()) {
             if(area.contains(actor.getPos())) {
                 actors.add(actor);
             }
@@ -130,11 +129,11 @@ public abstract class Scene<A extends Actor, L extends Level> /* extends SavedDa
 
     public List<VoxelShape> getCollisions(AABB area) {
 
-        List<Actor<?>> actors = getActors(area.inflate(1), ActorSelector.CAN_BE_COLLIDED_WITH);
+        List<Actor> actors = getActors(area.inflate(1), ActorSelector.CAN_BE_COLLIDED_WITH);
 
         ImmutableList.Builder<VoxelShape> builder = ImmutableList.builderWithExpectedSize(actors.size());
 
-        for(Actor<?> actor : actors) {
+        for(Actor actor : actors) {
             builder.add(actor.getCollisionBox());
         }
 
@@ -146,9 +145,9 @@ public abstract class Scene<A extends Actor, L extends Level> /* extends SavedDa
     public InteractionResult playerInteractionRequest(Player player, InteractionHand hand, ItemStack stack) {
         List<Vec3> raycast = MCUtil.Raycast.shittyRayCast(player, MCUtil.Raycast.GOOD_ENOUGH);
 
-        A temp = null;
+        Actor temp = null;
 
-        outer : for(A actor : getActorsInStorage()) {
+        outer : for(Actor actor : getActorsInStorage()) {
             for(Vec3 point : raycast) {
                 if(actor.getCollisionBox().isEmpty()) break;
                 AABB aabb = actor.getCollisionBox().bounds().move(actor.getPos());
@@ -162,29 +161,4 @@ public abstract class Scene<A extends Actor, L extends Level> /* extends SavedDa
 
         return temp == null ? InteractionResult.PASS : temp.onPlayerInteraction(player, hand, stack);
     }
-
-    /// TEMP savedata stuff
-
-    /*
-    public Scene<?, ?> get(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(new Factory<>(this::create, this::load), getSceneType().getKey().toString());
-    }
-
-    public Scene<?, ?> load(CompoundTag compoundTag, HolderLookup.Provider provider) {
-        return copy();
-    }
-
-    public Scene<?, ?> copy() {
-        return getSceneType().create(this.level);
-    }
-
-    private Scene<?, ?> create() {
-        return copy();
-    }
-
-    @Override
-    public CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider provider) {
-        return compoundTag;
-    }
-    */
 }

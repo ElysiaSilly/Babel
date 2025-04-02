@@ -5,7 +5,6 @@ import com.elysiasilly.babel.theatre.Theatre;
 import com.elysiasilly.babel.theatre.actor.Actor;
 import com.elysiasilly.babel.theatre.actor.ActorType;
 import com.elysiasilly.babel.theatre.scene.Scene;
-import com.elysiasilly.babel.theatre.storage.LevelSceneAttachment;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -33,7 +32,7 @@ public class ActorRenderDispatcher implements ResourceManagerReloadListener {
     private Map<ActorType<?>, ActorRenderer<?>> renderers;
 
     @Nullable
-    public <A extends Actor<?>> ActorRenderer<?> getRenderer(A actor) {
+    public <A extends Actor> ActorRenderer<?> getRenderer(A actor) {
         return this.renderers.get(actor.getActorType());
     }
 
@@ -53,10 +52,10 @@ public class ActorRenderDispatcher implements ResourceManagerReloadListener {
 
             Level level = Minecraft.getInstance().level;
 
-            List<Scene<?, ?>> scenes = Theatre.get(level);
+            List<Scene<?>> scenes = Theatre.get(level);
 
-            for(Scene<?, ?> scene : scenes) {
-                for(Actor<?> actor : scene.getActorsInStorage()) {
+            for(Scene<?> scene : scenes) {
+                for(Actor actor : scene.getActorsInStorage()) {
                     PoseStack poseStack = event.getPoseStack();
 
                     poseStack.pushPose();

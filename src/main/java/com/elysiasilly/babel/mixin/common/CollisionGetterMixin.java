@@ -30,11 +30,11 @@ public interface CollisionGetterMixin {
 
     private List<VoxelShape> babel$getCollisions(CollisionGetter instance, Entity entity, AABB aabb, Operation<List<VoxelShape>> original) {
 
-        List<Scene<?, ?>> scenes = Theatre.get((Level) this);
+        List<Scene<?>> scenes = Theatre.get((Level) this);
 
         List<VoxelShape> list = new ArrayList<>(original.call(instance, entity, aabb));
 
-        for(Scene<?, ?> scene : scenes) {
+        for(Scene<?> scene : scenes) {
             list.addAll(scene.getCollisions(aabb));
         }
 
@@ -48,11 +48,11 @@ public interface CollisionGetterMixin {
     )
 
     private void babel$noCollision(Entity entity, AABB collisionBox, CallbackInfoReturnable<Boolean> cir) {
-        List<Scene<?, ?>> scenes = Theatre.get((Level) this);
+        List<Scene<?>> scenes = Theatre.get((Level) this);
 
         List<VoxelShape> list = new ArrayList<>();
 
-        for(Scene<?, ?> scene : scenes) {
+        for(Scene<?> scene : scenes) {
             list.addAll(scene.getCollisions(collisionBox));
         }
 

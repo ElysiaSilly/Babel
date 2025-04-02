@@ -6,7 +6,6 @@ import com.elysiasilly.babel.theatre.actor.Actor;
 import com.elysiasilly.babel.theatre.networking.PayloadHandler;
 import com.elysiasilly.babel.theatre.scene.Scene;
 import com.elysiasilly.babel.theatre.scene.SceneType;
-import com.elysiasilly.babel.theatre.storage.LevelSceneAttachment;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -36,12 +35,12 @@ public record RequestUpdateActorPacket(UUID uuid, SceneType<?, ?> sceneType) imp
 
     public static void run(RequestUpdateActorPacket packet, IPayloadContext context) {
         if(context.player().level() instanceof ServerLevel server) {
-            Scene<?, ?> scene = Theatre.get(server, packet.sceneType);
+            Scene<?> scene = Theatre.get(server, packet.sceneType);
             scene.getActor(packet.uuid).sendUpdate();
         }
     }
 
-    public static RequestUpdateActorPacket pack(Actor<?> actor) {
+    public static RequestUpdateActorPacket pack(Actor actor) {
         return new RequestUpdateActorPacket(actor.uuid(), actor.getSceneType());
     }
 }

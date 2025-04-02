@@ -7,7 +7,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 // wip
-public interface ActorRenderer<A extends Actor<?>> {
+public interface ActorRenderer<A extends Actor> {
 
     /// future plans:
     /// instanced rendering :c

@@ -5,8 +5,7 @@ import com.elysiasilly.babel.core.registry.BBAttachments;
 import com.elysiasilly.babel.theatre.actor.Actor;
 import com.elysiasilly.babel.theatre.networking.clientbound.AddActorPacket;
 import com.elysiasilly.babel.theatre.networking.clientbound.RemoveActorPacket;
-import com.elysiasilly.babel.theatre.networking.serverbound.RequestChunkPacket;
-import com.elysiasilly.babel.theatre.storage.ActorLookup;
+import com.elysiasilly.babel.theatre.networking.serverbound.RequestLoadChunkPacket;
 import com.elysiasilly.babel.theatre.storage.ChunkData;
 import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.CompoundTag;
@@ -20,14 +19,14 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ServerScene<A extends Actor<?>> extends Scene<A, ServerLevel> {
+public abstract class ServerScene extends Scene<ServerLevel> {
 
     protected ServerScene(ServerLevel level) {
         super(level);
     }
 
     @Override
-    public void addActor(A actor) {
+    public void addActor(Actor actor) {
         super.addActor(actor);
 
         if(actor.getActorType().synced()) {
@@ -36,7 +35,7 @@ public abstract class ServerScene<A extends Actor<?>> extends Scene<A, ServerLev
     }
 
     @Override
-    public void removeActor(A actor) {
+    public void removeActor(Actor actor) {
         super.removeActor(actor);
 
         if(actor.getActorType().synced()) {
@@ -48,43 +47,26 @@ public abstract class ServerScene<A extends Actor<?>> extends Scene<A, ServerLev
     public void loadChunk(ChunkAccess chunk) {
         ChunkData serializedData = chunk.getData(BBAttachments.SCENE_DATA);
 
-        //System.out.println("chunk loaded on server!");
-
         for(ChunkData.ActorData data : serializedData.data()) {
-
             System.out.println("actor loaded on server!");
 
-            A actor = data.actorType().create().self();
+            Actor actor = data.actorType().create().self();
             actor.deserializeForSaving(data.tag());
             System.out.println(actor.getPos());
             addActor(actor);
         }
-
-        //PacketDistributor.sendToPlayersTrackingChunk(level(), chunk.getPos(), RequestChunkPacket.pack(chunk.getPos(), this));
-
-        // packet to client to sync?
     }
 
     // yeah no
-    public void packChunkForClient(RequestChunkPacket packet, ServerPlayer player) {
-
-        System.out.println("requested update for " + packet.chunkPos());
-
-        for(long key : storage().getSections().keySet()) {
-            System.out.println(key + " present");
-        }
-
+    public void packChunkForClient(RequestLoadChunkPacket packet, ServerPlayer player) {
         ChunkPos pos = new ChunkPos(packet.chunkPos());
 
         LevelChunk chunk = level().getChunk(pos.x, pos.z);
 
-
         // TODO pack into a single packet because this is horrible :p
         for(int y = chunk.getMinSection(); y < chunk.getMaxSection(); y++) {
             SectionPos section = SectionPos.of(pos, y);
-            for (A actor : this.storage().getActorsInSection(section.asLong())) {
-                System.out.println("actor sent to client!");
-                System.out.println(actor.getPos());
+            for (Actor actor : this.storage().getActorsInSection(section.asLong())) {
                 PacketDistributor.sendToPlayer(player, AddActorPacket.pack(actor));
             }
         }
@@ -96,7 +78,7 @@ public abstract class ServerScene<A extends Actor<?>> extends Scene<A, ServerLev
 
         for(int y = chunk.getMinSection(); y < chunk.getMaxSection(); y++) {
             SectionPos pos = SectionPos.of(chunk.getPos(), y);
-            for (A actor : storage().getActorsInSection(pos)) {
+            for (Actor actor : storage().getActorsInSection(pos)) {
                 System.out.println("actor unload on server!");
 
                 CompoundTag tag = new CompoundTag();

@@ -11,7 +11,7 @@ public class ActorRenderers {
 
     private static final Map<ActorType<?>, ActorRendererProvider<?>> PROVIDERS = new ConcurrentHashMap<>();
 
-    public static <A extends Actor<?>> void put(ActorType<? extends A> actorType, ActorRendererProvider<A> provider) {
+    public static <A extends Actor> void put(ActorType<? extends A> actorType, ActorRendererProvider<A> provider) {
         PROVIDERS.put(actorType, provider);
     }
 

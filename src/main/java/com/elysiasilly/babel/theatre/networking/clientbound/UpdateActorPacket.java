@@ -6,7 +6,6 @@ import com.elysiasilly.babel.theatre.actor.Actor;
 import com.elysiasilly.babel.theatre.networking.PayloadHandler;
 import com.elysiasilly.babel.theatre.scene.Scene;
 import com.elysiasilly.babel.theatre.scene.SceneType;
-import com.elysiasilly.babel.theatre.storage.LevelSceneAttachment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
@@ -37,11 +36,11 @@ public record UpdateActorPacket(UUID uuid, SceneType<?, ?> sceneType, CompoundTa
     ///
 
     public static void run(UpdateActorPacket packet, IPayloadContext context) {
-        Scene<?, ?> scene = Theatre.get(Minecraft.getInstance().level, packet.sceneType);
+        Scene<?> scene = Theatre.get(Minecraft.getInstance().level, packet.sceneType);
         scene.getActor(packet.uuid).deserializeForClient(packet.tag);
     }
 
-    public static UpdateActorPacket pack(Actor<?> actor) {
+    public static UpdateActorPacket pack(Actor actor) {
         CompoundTag tag = new CompoundTag();
         actor.serializeForClient(tag);
         return new UpdateActorPacket(actor.uuid(), actor.getSceneType(), tag);

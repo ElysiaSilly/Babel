@@ -3,7 +3,9 @@ package com.elysiasilly.babel.theatre.actor;
 import com.elysiasilly.babel.core.registry.BabelRegistries;
 import net.minecraft.resources.ResourceLocation;
 
-public class ActorType<A extends Actor<?>> {
+import java.util.UUID;
+
+public class ActorType<A extends Actor> {
 
     private final ActorFactory<? extends A> factory;
     private final boolean synced;
@@ -22,15 +24,19 @@ public class ActorType<A extends Actor<?>> {
     }
 
     //@Nullable
+    public A create(UUID uuid) {
+        return this.factory.create(uuid);
+    }
+
     public A create() {
-        return this.factory.create();
+        return this.factory.create(UUID.randomUUID());
     }
 
     public boolean synced() {
         return this.synced;
     }
 
-    public static class Builder<A extends Actor<?>> {
+    public static class Builder<A extends Actor> {
 
         private final ActorFactory<? extends A> factory;
         boolean sync = true;
@@ -39,7 +45,7 @@ public class ActorType<A extends Actor<?>> {
             this.factory = factory;
         }
 
-        public static <A extends Actor<?>> Builder<A> of(ActorFactory<? extends A> factory) {
+        public static <A extends Actor> Builder<A> of(ActorFactory<? extends A> factory) {
             return new Builder<>(factory);
         }
 
@@ -53,7 +59,7 @@ public class ActorType<A extends Actor<?>> {
     }
 
     @FunctionalInterface
-    public interface ActorFactory<A extends Actor<?>> {
-        A create();
+    public interface ActorFactory<A extends Actor> {
+        A create(UUID uuid);
     }
 }
