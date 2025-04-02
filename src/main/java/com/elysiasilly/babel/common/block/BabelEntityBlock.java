@@ -21,6 +21,14 @@ public abstract class BabelEntityBlock extends Block implements EntityBlock {
         super(properties);
     }
 
+    private boolean tickClient(Tick tick) {
+        return tick.equals(Tick.ONLY_CLIENT) || tick.equals(Tick.BOTH);
+    }
+
+    private boolean tickServer(Tick tick) {
+        return tick.equals(Tick.ONLY_SERVER) || tick.equals(Tick.BOTH);
+    }
+
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return null;
@@ -29,18 +37,18 @@ public abstract class BabelEntityBlock extends Block implements EntityBlock {
     @Override
     public abstract @NotNull BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState);
 
-    public abstract Tick shouldTick(Level level, BlockState state);
+    public abstract Tick tick(Level level, BlockPos pos, BlockState state, BabelBE be);
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        Tick tick = shouldTick(level, state);
-
-        return tick.equals(Tick.NONE) ? null : (lvl, pos, st, blockEntity) -> {
+        return (lvl, pos, st, blockEntity) -> {
             if(blockEntity instanceof BabelBE be) {
-                if(level.isClientSide) {
-                    if(tick.equals(Tick.BOTH) || tick.equals(Tick.ONLY_CLIENT)) be.tickClient();
+                Tick tick = tick(lvl, pos, st, be);
+
+                if(lvl.isClientSide()) {
+                    if(tickClient(tick)) be.tickClient();
                 } else {
-                    if(tick.equals(Tick.BOTH) || tick.equals(Tick.ONLY_SERVER)) be.tickServer();
+                    if(tickServer(tick)) be.tickServer();
                 }
             }
         };

@@ -4,7 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 
 public interface ISavableWidget {
 
-    CompoundTag serialize();
+    void serialize(CompoundTag tag);
 
     void deserialize(CompoundTag tag);
 

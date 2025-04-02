@@ -2,7 +2,7 @@ package com.elysiasilly.babel.client.screen;
 
 import com.elysiasilly.babel.client.screen.widget.*;
 import com.elysiasilly.babel.util.MathUtil;
-import com.elysiasilly.babel.util.MutableTrio;
+import com.elysiasilly.babel.util.data.ImmutableTrio;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -109,21 +109,21 @@ public abstract class BabelScreen extends Screen {
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
-    private final List<MutableTrio<Integer, Integer, Integer>> pressedKeys = new ArrayList<>();
+    private final List<ImmutableTrio<Integer, Integer, Integer>> pressedKeys = new ArrayList<>();
 
-    public List<MutableTrio<Integer, Integer, Integer>> getPressedKeys() {
+    public List<ImmutableTrio<Integer, Integer, Integer>> getPressedKeys() {
         return List.copyOf(this.pressedKeys);
     }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if(!pressedKeys.contains(new MutableTrio<>(keyCode, scanCode, modifiers))) pressedKeys.add(new MutableTrio<>(keyCode, scanCode, modifiers));
+        if(!pressedKeys.contains(new ImmutableTrio<>(keyCode, scanCode, modifiers))) pressedKeys.add(new ImmutableTrio<>(keyCode, scanCode, modifiers));
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        pressedKeys.remove(new MutableTrio<>(keyCode, scanCode, modifiers));
+        pressedKeys.remove(new ImmutableTrio<>(keyCode, scanCode, modifiers));
         return super.keyReleased(keyCode, scanCode, modifiers);
     }
 
@@ -217,7 +217,7 @@ public abstract class BabelScreen extends Screen {
         this.descendants.remove(widget);
     }
 
-    public abstract void renderBackground(GuiGraphics guiGraphics, float partialTick);
+    public void renderBackground(GuiGraphics guiGraphics, float partialTick) {};
 
     @Override
     public void tick() {

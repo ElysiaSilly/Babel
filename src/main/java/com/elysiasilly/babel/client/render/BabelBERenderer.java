@@ -11,33 +11,29 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT) @SuppressWarnings("all")
-public abstract class BabelBERenderer<BE extends BlockEntity> implements BlockEntityRenderer<BE> {
+public abstract class BabelBERenderer<B extends BlockEntity> implements BlockEntityRenderer<B> {
 
-    private final BlockEntityRendererProvider.Context context;
+    public final BlockEntityRendererProvider.Context context;
 
     public BabelBERenderer(BlockEntityRendererProvider.Context context) {
         this.context = context;
     }
 
-    public BlockEntityRendererProvider.Context context() {
-        return this.context;
-    }
+    @Override
+    public abstract void render(B be, float partialTick, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, int packedOverlay);
 
     @Override
-    public abstract void render(BE be, float v, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, int packedOverlay);
-
-    @Override
-    public boolean shouldRender(BE blockEntity, Vec3 cameraPos) {
+    public boolean shouldRender(B blockEntity, Vec3 cameraPos) {
         return BlockEntityRenderer.super.shouldRender(blockEntity, cameraPos);
     }
 
     @Override
-    public boolean shouldRenderOffScreen(BE blockEntity) {
+    public boolean shouldRenderOffScreen(B blockEntity) {
         return BlockEntityRenderer.super.shouldRenderOffScreen(blockEntity);
     }
 
     @Override
-    public AABB getRenderBoundingBox(BE blockEntity) {
+    public AABB getRenderBoundingBox(B blockEntity) {
         return BlockEntityRenderer.super.getRenderBoundingBox(blockEntity);
     }
 }

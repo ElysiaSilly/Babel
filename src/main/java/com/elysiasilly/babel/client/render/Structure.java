@@ -1,6 +1,6 @@
 package com.elysiasilly.babel.client.render;
 
-import com.elysiasilly.babel.util.MutablePair;
+import com.elysiasilly.babel.util.data.MutablePair;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -24,8 +24,8 @@ public class Structure {
 
         public static class codec{
             public static final Codec<Data> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                    BlockState.CODEC.fieldOf("state").forGetter(i -> i.left),
-                    Codec.BOOL.fieldOf("render").forGetter(i -> i.right)
+                    BlockState.CODEC.fieldOf("state").forGetter(i -> i.first),
+                    Codec.BOOL.fieldOf("render").forGetter(i -> i.second)
             ).apply(instance, Data::new));
         }
     }
@@ -80,7 +80,7 @@ public class Structure {
                             this.structure.containsKey(pos.south()) &&
                             this.structure.containsKey(pos.west())
             ) {
-                this.structure.get(pos).right = false;
+                this.structure.get(pos).second = false;
             }
         }
     }
@@ -88,7 +88,7 @@ public class Structure {
     @SuppressWarnings("deprecation")
     public void render(PoseStack pose, MultiBufferSource.BufferSource source) {
         for(Map.Entry<BlockPos, Data> entry : this.structure.entrySet()) {
-            if(entry.getValue().right) {
+            if(entry.getValue().second) {
                 pose.pushPose();
                 pose.translate(entry.getKey().getX(), entry.getKey().getY(), entry.getKey().getZ());
                 // todo : batched rendering (AO, culling, and etc)
@@ -97,7 +97,7 @@ public class Structure {
                 //RenderSystem.blendFunc(GlStateManager.SourceFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
                 //RenderSystem.setShaderColor(1, .5f, .5f, 1);
 
-                Minecraft.getInstance().getBlockRenderer().renderSingleBlock(entry.getValue().left, pose, source, LightTexture.FULL_SKY, OverlayTexture.NO_OVERLAY);
+                Minecraft.getInstance().getBlockRenderer().renderSingleBlock(entry.getValue().first, pose, source, LightTexture.FULL_SKY, OverlayTexture.NO_OVERLAY);
                 pose.popPose();
             }
         }

@@ -1,8 +1,8 @@
 package com.elysiasilly.babel.client.screen;
 
 import com.elysiasilly.babel.util.Conversions;
-import com.elysiasilly.babel.util.RGBA;
 import com.elysiasilly.babel.util.RenderUtil;
+import com.elysiasilly.babel.util.resource.RGBA;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.phys.Vec2;
@@ -100,12 +100,12 @@ public abstract class BabelWidget<W extends BabelWidget, S extends BabelScreen> 
     private RGBA current;
 
     private void renderDebug(GuiGraphics guiGraphics, float partialTick) {
-        RGBA to = isHovering() || isDragging() || isFocused() ? RGBA.colours.WHITE : new RGBA(this.bounds.depth / 2);
+        RGBA to = isHovering() || isDragging() || isFocused() ? RGBA.WHITE : new RGBA(this.bounds.depth / 2);
         if(this.current == null) this.current = to;
 
         this.current = this.current.lerp(to, .5);
 
-        RenderUtil.drawOutlineRectangle(guiGraphics.bufferSource().getBuffer(RenderType.gui()), guiGraphics.pose().last().pose(), Conversions.vector.vec3(this.boundStart()),  Conversions.vector.vec3(this.boundEnd()), 1, this.current);
+        RenderUtil.drawOutlineRectangle(guiGraphics.bufferSource().getBuffer(RenderType.gui()), guiGraphics.pose().last().pose(), Conversions.Vec.vec3(this.boundStart()),  Conversions.Vec.vec3(this.boundEnd()), 1, this.current);
     }
 
     public void destroy() {

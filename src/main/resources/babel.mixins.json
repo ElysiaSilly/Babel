@@ -5,11 +5,13 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "babel.refmap.json",
   "mixins": [
+    "common.ClientHooksMixin",
     "common.FireBlockMixin"
   ],
   "client": [
     "client.GameRendererMixin",
-    "client.GuiMixin"
+    "client.GuiMixin",
+    "client.MinecraftMixin"
   ],
   "injectors": {
     "defaultRequire": 1

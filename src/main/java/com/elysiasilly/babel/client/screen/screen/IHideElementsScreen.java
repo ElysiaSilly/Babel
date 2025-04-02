@@ -5,4 +5,6 @@ public interface IHideElementsScreen {
     boolean hideHUD();
 
     boolean hideCharacter();
+
+    boolean hideVignette();
 }

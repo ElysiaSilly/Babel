@@ -1,5 +1,7 @@
 package com.elysiasilly.babel.util;
 
+import com.elysiasilly.babel.util.resource.RGBA;
+import com.elysiasilly.babel.util.resource.UV;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,25 +14,89 @@ import org.joml.Vector3f;
 
 public class RenderUtil {
 
-    public static void drawCube(VertexConsumer consumer, Matrix4f matrix4f, float size, int packedLight, RGBA rgba) {
-        // up
-        drawPlane(consumer, matrix4f, packedLight, rgba, new Vec3(0, size, 0), new Vec3(size, size, size), new Vec3(size, size, 0), new Vec3(0, size, size));
+    /// cubes
 
-        // down
-        drawPlane(consumer, matrix4f, packedLight, rgba, new Vec3(0, 0, size), new Vec3(size, 0, 0), new Vec3(size, 0, size), new Vec3(0, 0, 0));
+    public record Cube(boolean up, boolean down, boolean east, boolean west, boolean north, boolean south) {}
 
-        // north
-        drawPlane(consumer, matrix4f, packedLight, rgba, new Vec3(0, 0, 0), new Vec3(size, size, 0), new Vec3(size, 0, 0), new Vec3(0, size, 0));
+    public static final Cube FULL_CUBE = new Cube(true, true, true, true, true, true);
 
-        // south
-        drawPlane(consumer, matrix4f, packedLight, rgba, new Vec3(0, size, size), new Vec3(size, 0, size), new Vec3(size, size, size), new Vec3(0, 0, size));
+    //
 
-        // east
-        drawPlane(consumer, matrix4f, packedLight, rgba, new Vec3(size, 0, 0), new Vec3(size, size, size), new Vec3(size, 0, size), new Vec3(size, size, 0));
-
-        // west
-        drawPlane(consumer, matrix4f, packedLight, rgba, new Vec3(0, size, 0), new Vec3(0, 0, size), new Vec3(0, size, size), new Vec3(0, 0, 0));
+    public static void drawCube(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Cube sides, Vec3 start, Vec3 end) {
+        drawCube(consumer, matrix4f, packedLight, rgba, sides, start, end, new UV());
     }
+
+    public static void drawCubeSideUV(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Cube sides, Vec3 start, Vec3 end, UV sideUV, UV endUV) {
+
+    }
+
+    public static void drawCube(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Cube sides, Vec3 start, Vec3 end, UV uv) {
+        if(sides.up) {
+            drawPlane(consumer, matrix4f, packedLight, rgba,
+                    new Vec3(start.x, end.y, start.z),
+                    new Vec3(end.x, end.y, end.z),
+                    new Vec3(end.x, end.y, start.z),
+                    new Vec3(start.x, end.y, end.z),
+                    uv
+            );
+        }
+
+        if(sides.down) {
+            drawPlane(consumer, matrix4f, packedLight, rgba,
+                    new Vec3(start.x, start.y, end.z),
+                    new Vec3(end.x, start.y, start.z),
+                    new Vec3(end.x, start.y, end.z),
+                    new Vec3(start.x, start.y, start.z),
+                    uv
+            );
+        }
+
+        if(sides.north) {
+            drawPlane(consumer, matrix4f, packedLight, rgba,
+                    new Vec3(start.x, start.y, start.z),
+                    new Vec3(end.x, end.y, start.z),
+                    new Vec3(end.x, start.y, start.z),
+                    new Vec3(start.x, end.y, start.z),
+                    uv
+            );
+        }
+
+        if(sides.south) {
+            drawPlane(consumer, matrix4f, packedLight, rgba,
+                    new Vec3(start.x, end.y, end.z),
+                    new Vec3(end.x, start.y, end.z),
+                    new Vec3(end.x, end.y, end.z),
+                    new Vec3(start.x, start.y, end.z),
+                    uv
+            );
+        }
+
+        if(sides.east) {
+            drawPlane(consumer, matrix4f, packedLight, rgba,
+                    new Vec3(end.x, start.y, start.z),
+                    new Vec3(end.x, end.y, end.z),
+                    new Vec3(end.x, start.y, end.z),
+                    new Vec3(end.x, end.y, start.z),
+                    uv
+            );
+        }
+
+        if(sides.west) {
+            drawPlane(consumer, matrix4f, packedLight, rgba,
+                    new Vec3(start.x, end.y, start.z),
+                    new Vec3(start.x, start.y, end.z),
+                    new Vec3(start.x, end.y, end.z),
+                    new Vec3(start.x, start.y, start.z),
+                    uv
+            );
+        }
+    }
+
+    public static void drawCube(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Cube sides, float size) {
+        drawCube(consumer, matrix4f, packedLight, rgba, sides, new Vec3(0, 0, 0), new Vec3(size, size, size));
+    }
+
+    /// lines
 
     public static void drawLine(MultiBufferSource multiBufferSource, PoseStack.Pose stack, RGBA rgba, Vec3 start, Vec3 end) {
         VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.debugLineStrip(50));
@@ -73,23 +139,24 @@ public class RenderUtil {
         RenderUtil.drawLineThatIsActuallyARectangle(consumer, matrix4f, bottomRight, topRight, girth, rgba);
     }
 
-    public static void drawPlane(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Vec3 start, Vec3 end, Vec2 startUV, Vec2 endUV) {
-        drawPlane(consumer, matrix4f, packedLight, rgba, start, end, new Vec3(end.x, end.y, start.z), new Vec3(start.x, start.y, end.z), startUV, endUV);
+    /// planes
+
+    public static void drawPlane(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Vec3 start, Vec3 end, UV uv) {
+        drawPlane(consumer, matrix4f, packedLight, rgba, start, end, new Vec3(end.x, end.y, start.z), new Vec3(start.x, start.y, end.z), uv);
     }
 
     public static void drawPlane(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Vec3 start, Vec3 end) {
-        drawPlane(consumer, matrix4f, packedLight, rgba, start, end, new Vec3(end.x, end.y, start.z), new Vec3(start.x, start.y, end.z), Vec2.ZERO, Vec2.ONE);
+        drawPlane(consumer, matrix4f, packedLight, rgba, start, end, new Vec3(end.x, end.y, start.z), new Vec3(start.x, start.y, end.z), new UV());
     }
 
     public static void drawPlane(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Vec3 a, Vec3 b, Vec3 c, Vec3 d) {
-        drawPlane(consumer, matrix4f, packedLight, rgba, a, b, c, d, Vec2.ZERO, Vec2.ONE);
+        drawPlane(consumer, matrix4f, packedLight, rgba, a, b, c, d, new UV());
     }
 
-    public static void drawPlane(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Vec3 a, Vec3 b, Vec3 c, Vec3 d, Vec2 startUV, Vec2 endUV) {
-
+    public static void drawPlane(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Vec3 a, Vec3 b, Vec3 c, Vec3 d, UV uv) {
         consumer.addVertex(matrix4f, (float) c.x, (float) c.y, (float) c.z)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setUv(startUV.x, startUV.y)
+                .setUv(uv.startU(), uv.startV())
                 .setLight(packedLight)
                 .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
                 .setUv1(0, 0) // ?
@@ -98,29 +165,29 @@ public class RenderUtil {
 
         consumer.addVertex(matrix4f, (float) a.x, (float) a.y, (float) a.z)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setUv(startUV.x, endUV.y)
+                .setUv(uv.startU(), uv.endV())
                 .setLight(packedLight)
                 .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
-                .setUv1(0, 0)
-                .setUv2(1, 1)
-                .setNormal(0, 1, 0);
+                .setUv1(0, 0) // ?
+                .setUv2(1, 1) // ?
+                .setNormal(0, 1, 0); // ?
 
         consumer.addVertex(matrix4f, (float) d.x, (float) d.y, (float) d.z)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setUv(endUV.x, endUV.y)
+                .setUv(uv.endU(), uv.endV())
                 .setLight(packedLight)
                 .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
-                .setUv1(0, 0)
-                .setUv2(1, 1)
-                .setNormal(0, 1, 0);
+                .setUv1(0, 0) // ?
+                .setUv2(1, 1) // ?
+                .setNormal(0, 1, 0); // ?
 
         consumer.addVertex(matrix4f, (float) b.x,   (float) b.y,   (float) b.z)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setUv(endUV.x, startUV.y)
+                .setUv(uv.endU(), uv.startV())
                 .setLight(packedLight)
                 .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
-                .setUv1(0, 0)
-                .setUv2(0, 0)
-                .setNormal(0, 1, 0);
+                .setUv1(0, 0) // ?
+                .setUv2(0, 0) // ?
+                .setNormal(0, 1, 0); // ?
     }
 }

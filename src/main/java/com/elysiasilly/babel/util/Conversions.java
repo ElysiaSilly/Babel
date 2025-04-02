@@ -1,17 +1,46 @@
 package com.elysiasilly.babel.util;
 
+import com.elysiasilly.babel.util.resource.RGBA;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector2f;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
+import java.text.DecimalFormat;
+
 public class Conversions {
 
-    public static class vector {
+    public static class Vec {
 
         // crying
+
+        public static Vector2f toJOML(Vec2 vec) {
+            return new Vector2f(vec.x, vec.y);
+        }
+
+        public static Vec2 toMojang(Vector2f vec) {
+            return new Vec2(vec.x, vec.y);
+        }
+
+        /// rahhhh
+        public static Vector3f toJOML(Vec3 vec) {
+
+            //double d = 1.234567;
+            //DecimalFormat df = new DecimalFormat("#.##");
+
+
+            return new Vector3f( ((Double) vec.x).floatValue(), ((Double) vec.y).floatValue(), ((Double) vec.z).floatValue());
+        }
+
+        public static Vec3 toMojang(Vector3f vec) {
+            return new Vec3(vec.x, vec.y, vec.z);
+        }
+
+        ///
 
         public static BlockPos blockPos(Vec3 vec3) {
             return BlockPos.containing(vec3.x, vec3.y, vec3.z);
@@ -19,10 +48,6 @@ public class Conversions {
 
         public static Vec3 vec3(BlockPos pos) {
             return pos.getCenter();
-        }
-
-        public static Vector3f vector3f(Vec3 vec3) {
-            return new Vector3f((float) vec3.x, (float) vec3.y, (float) vec3.z);
         }
 
         public static Vector3i vector3i(Vec3 vec3) {
@@ -37,13 +62,13 @@ public class Conversions {
             return new Vec3(vec2.x, vec2.y, 0);
         }
 
-        public static Vec2 vec2(Vec3 vec3) {
+        public static Vec2 Vec2(Vec3 vec3) {
             return new Vec2((float) vec3.x, (float) vec3.y);
         }
 
     }
 
-    public static class colour {
+    public static class Col {
 
         // insanity
 

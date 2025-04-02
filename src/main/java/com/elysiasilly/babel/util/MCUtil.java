@@ -1,6 +1,6 @@
 package com.elysiasilly.babel.util;
 
-import net.minecraft.core.BlockPos;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
@@ -12,6 +12,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.loading.FMLLoader;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +23,7 @@ import java.util.function.Supplier;
 
 public class MCUtil {
 
-    public static class item {
+    public static class Item {
 
         public static boolean isEmpty(ItemStack...stacks) {
             for(ItemStack stack : stacks) {
@@ -28,6 +31,14 @@ public class MCUtil {
                 if(stack.isEmpty()) return true;
             }
             return false;
+        }
+
+        public static boolean isValid(ItemStack...stacks) {
+            for(ItemStack stack : stacks) {
+                if(stack == null) return false;
+                if(stack.isEmpty()) return false;
+            }
+            return true;
         }
 
         public static boolean hasComponent(ItemStack stack, Supplier<? extends DataComponentType<?>> component) {
@@ -59,7 +70,7 @@ public class MCUtil {
         }
     }
 
-    public static class raycast {
+    public static class Raycast {
 
         public static final float GOOD_ENOUGH = .005f;
 
@@ -76,16 +87,18 @@ public class MCUtil {
             List<Vec3> points = new ArrayList<>();
 
             for(float i = 0; i <= distance; i+= precision) {
-                Vec3 point = start.lerp(MathUtil.vectors.offset(start, direction, distance), i);
-                if(level.getBlockState(Conversions.vector.blockPos(point)).isSolid()) break; // todo
+                Vec3 point = start.lerp(MathUtil.Vec.offset(start, direction, distance), i);
+                if(level.getBlockState(Conversions.Vec.blockPos(point)).isSolid()) break; // todo
                 points.add(point);
             }
+
+            //Minecraft.getInstance().hitResult
 
             return points;
         }
     }
 
-    public static class particle {
+    public static class Particle {
 
         public static void add(Level level, ParticleOptions particle, Vec3 position, Vec3 velocity) {
             level.addParticle(particle, position.x, position.y, position.z, velocity.x, velocity.y, velocity.z);
@@ -96,11 +109,53 @@ public class MCUtil {
         }
     }
 
-    public static class blockPos {
+    public static class BlockPos {
 
-        public static boolean isNeighbour(BlockPos pos, BlockPos potentialNeighbourPos) {
+        public static boolean isNeighbour(net.minecraft.core.BlockPos pos, net.minecraft.core.BlockPos potentialNeighbourPos) {
             for(Direction dir : Direction.values()) if(pos.relative(dir).equals(potentialNeighbourPos)) return true;
             return false;
+        }
+    }
+
+    public static class Dev {
+
+        public static boolean isDevEnv() {
+            return !FMLLoader.isProduction();
+        }
+
+        public static boolean isModPresent(String namespace) {
+            return ModList.get().isLoaded(namespace);
+        }
+
+        public static boolean isModsPresent(String...namespaces) {
+            for(String namespace : namespaces) {
+                if(!isModPresent(namespace)) return false;
+            }
+
+            return true;
+        }
+    }
+
+    public static class Serialize {
+
+        public static void vec3(String id, Vec3 vec, CompoundTag tag) {
+            tag.putDouble(id + "_x", vec.x);
+            tag.putDouble(id + "_y", vec.y);
+            tag.putDouble(id + "_z", vec.z);
+        }
+
+        public static Vec3 vec3(String id, CompoundTag tag) {
+            return new Vec3(tag.getDouble(id + "_x"), tag.getDouble(id + "_y"), tag.getDouble(id + "_z"));
+        }
+
+        public static void vector3f(String id, Vector3f vec, CompoundTag tag) {
+            tag.putFloat(id + "_x", vec.x);
+            tag.putFloat(id + "_y", vec.y);
+            tag.putFloat(id + "_z", vec.z);
+        }
+
+        public static Vector3f vector3f(String id, CompoundTag tag) {
+            return new Vector3f(tag.getFloat(id + "_x"), tag.getFloat(id + "_y"), tag.getFloat(id + "_z"));
         }
     }
 }

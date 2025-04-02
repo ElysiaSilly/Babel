@@ -13,7 +13,7 @@ public class MathUtil {
 
     public static final double PI = Math.PI;
 
-    public static class vectors {
+    public static class Vec {
 
         public static Vec2 lerp(Vec2 start, Vec2 to, double delta) {
             return new Vec2((float) Mth.lerp(delta, start.x, to.x), (float) Mth.lerp(delta, start.y, to.y));
@@ -36,7 +36,7 @@ public class MathUtil {
         }
 
         public static float distance(Vec3 start, Vec3 end) {
-            return distance(Conversions.vector.vector3f(start), Conversions.vector.vector3f(end));
+            return distance(Conversions.Vec.toJOML(start), Conversions.Vec.toJOML(end));
         }
 
         public static Vec3 offset(Vec3 position, Vec3 direction, float distance) {
@@ -44,10 +44,10 @@ public class MathUtil {
         }
 
         public static Vec3 closest(Vec3 vec3, Vec3...values) {
-            float distance = vectors.distance(vec3, values[0]);
+            float distance = distance(vec3, values[0]);
             int index = 0;
             for(int i = 1; i < values.length; i++) {
-                float temp = vectors.distance(vec3, values[i]);
+                float temp = distance(vec3, values[i]);
                 if(temp < distance) {
                     index = i;
                     distance = temp;
@@ -57,10 +57,10 @@ public class MathUtil {
         }
 
         public static int closest(Vec3 vec3, List<Vec3> values) {
-            float distance = vectors.distance(vec3, values.getFirst());
+            float distance = distance(vec3, values.getFirst());
             int index = 0;
             for(int i = 1; i < values.size(); i++) {
-                float temp = vectors.distance(vec3, values.get(i));
+                float temp = distance(vec3, values.get(i));
                 if(temp < distance) {
                     index = i;
                     distance = temp;
@@ -81,17 +81,17 @@ public class MathUtil {
         }
 
         public static int castToRangeInt(float oldMin, float oldMax, int newMin, int newMax, float value) {
-            return Mth.ceil((((value - oldMin) * (newMax - newMin)) / (oldMax - oldMin)) + newMin);
+            return Math.round(castToRange(oldMin, oldMax, newMin, newMax, value));
         }
 
         public static float closest(float number, float...values) {
-            float distance = Math.abs(values[0] - number);
+            float dif = Math.abs(values[0] - number);
             int index = 0;
             for(int i = 1; i < values.length; i++){
                 float temp = Math.abs(values[i] - number);
-                if(temp < distance) {
+                if(temp < dif) {
                     index = i;
-                    distance = temp;
+                    dif = temp;
                 }
             }
             return values[index];

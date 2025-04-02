@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -26,7 +25,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,13 +34,13 @@ public class CycleBlockItem extends BlockItem {
     private final Mode mode;
     private boolean assignToItem = false;
 
-    private final List<BlockPropertyHolder> blocks = new ArrayList<>();
+    private final List<DefinedBlockState> blocks = new ArrayList<>();
     private int index;
     private final int max;
 
     private int random;
 
-    public CycleBlockItem(Properties properties, Mode mode, @Nonnull BlockPropertyHolder...blocks) {
+    public CycleBlockItem(Properties properties, Mode mode, DefinedBlockState...blocks) {
         super(null, properties);
 
         this.mode = mode;
@@ -99,7 +97,7 @@ public class CycleBlockItem extends BlockItem {
         return getOptStateBlock().getBlock();
     }
 
-    public BlockPropertyHolder getOptStateBlock() {
+    public DefinedBlockState getOptStateBlock() {
         if(index == 0) {
             return this.blocks.get(this.random);
         } else {
@@ -147,22 +145,14 @@ public class CycleBlockItem extends BlockItem {
         return true;
     }
 
-    public BlockPropertyHolder getOptStateBlock(int index) {
+    public DefinedBlockState getOptStateBlock(int index) {
         return this.blocks.get(index - 1);
-    }
-
-    public ResourceLocation getIcon(int index) {
-        if(index == 0) {
-            return ResourceLocation.parse("null"); // todo
-        } else {
-            return getOptStateBlock(index).getIcon();
-        }
     }
 
     @Override
     public void registerBlocks(Map<Block, Item> blockToItemMap, Item item) {
         if(assignToItem) {
-            for(BlockPropertyHolder block : this.blocks) {
+            for(DefinedBlockState block : this.blocks) {
                 blockToItemMap.put(block.getBlock(), item);
             }
         }
