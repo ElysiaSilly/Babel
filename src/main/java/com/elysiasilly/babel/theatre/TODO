@@ -1,3 +1,0 @@
-improve networking - especially the client chunk packets, and don't sync chunks that don't have anything in them
-documenting (lol)
-...

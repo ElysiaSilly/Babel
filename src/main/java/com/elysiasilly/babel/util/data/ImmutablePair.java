@@ -13,4 +13,9 @@ public record ImmutablePair<F, S> (F first, S second) {
     public int hashCode() {
         return Objects.hash(this.first, this.second);
     }
+
+    @Override
+    public String toString() {
+        return "[" + first.toString() + ", " + second.toString() + "]";
+    }
 }

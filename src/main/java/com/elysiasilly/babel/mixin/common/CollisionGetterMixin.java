@@ -1,8 +1,7 @@
 package com.elysiasilly.babel.mixin.common;
 
-import com.elysiasilly.babel.theatre.Theatre;
-import com.elysiasilly.babel.theatre.scene.Scene;
-import com.elysiasilly.babel.theatre.storage.LevelSceneAttachment;
+import com.elysiasilly.babel.api.theatre.Theatre;
+import com.elysiasilly.babel.api.theatre.scene.Scene;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.entity.Entity;
@@ -38,6 +37,10 @@ public interface CollisionGetterMixin {
             list.addAll(scene.getCollisions(aabb));
         }
 
+        ///
+        //list = new ArrayList<>();
+        ///
+
         return list;
     }
 
@@ -48,6 +51,11 @@ public interface CollisionGetterMixin {
     )
 
     private void babel$noCollision(Entity entity, AABB collisionBox, CallbackInfoReturnable<Boolean> cir) {
+
+        ///
+        //cir.setReturnValue(true);
+        ///
+
         List<Scene<?>> scenes = Theatre.get((Level) this);
 
         List<VoxelShape> list = new ArrayList<>();

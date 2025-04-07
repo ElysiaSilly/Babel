@@ -1,0 +1,4 @@
+improve networking - especially the client chunk packets, and don't sync chunks that don't have anything in them
+documenting (lol)
+rotatable voxelshape implementation with size restriction of 16x16x16 blocks
+...

@@ -9,6 +9,7 @@
     "common.FireBlockMixin"
   ],
   "client": [
+    "client.EntityRenderDispatcherMixin",
     "client.GameRendererMixin",
     "client.GuiMixin",
     "client.MinecraftMixin"

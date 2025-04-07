@@ -1,8 +1,7 @@
 package com.elysiasilly.babel.mixin.common;
 
-import com.elysiasilly.babel.theatre.Theatre;
-import com.elysiasilly.babel.theatre.scene.Scene;
-import com.elysiasilly.babel.theatre.storage.LevelSceneAttachment;
+import com.elysiasilly.babel.api.theatre.Theatre;
+import com.elysiasilly.babel.api.theatre.scene.Scene;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.entity.Entity;
@@ -35,6 +34,10 @@ public class EntityMixin {
         for(Scene<?> scene : scenes) {
             list.addAll(scene.getCollisions(aabb));
         }
+
+        ///
+        //list = new ArrayList<>();
+        ///
 
         return list;
     }

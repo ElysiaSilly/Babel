@@ -13,4 +13,9 @@ public record ImmutableTrio<F, S, T> (F first, S second, T third) {
     public int hashCode() {
         return Objects.hash(this.first, this.second, this.third);
     }
+
+    @Override
+    public String toString() {
+        return "[" + first.toString() + ", " + second.toString() + ", " + third.toString() + "]";
+    }
 }

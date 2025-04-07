@@ -1,10 +1,8 @@
 package com.elysiasilly.babel.util;
 
-import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
+import com.elysiasilly.babel.util.conversions.VectorConversions;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,28 +13,12 @@ public class MathUtil {
 
     public static class Vec {
 
-        public static Vec2 lerp(Vec2 start, Vec2 to, double delta) {
-            return new Vec2((float) Mth.lerp(delta, start.x, to.x), (float) Mth.lerp(delta, start.y, to.y));
-        }
-
-        public static Vec3 random(RandomSource random) {
-            return new Vec3(random.nextFloat(), random.nextFloat(), random.nextFloat());
-        }
-
-        public static Vec3 add(Vec3 vec3, double amount) {
-            return vec3.add(amount, amount, amount);
-        }
-
         public static Vec3 multiply(Vec3 vec3, double amount) {
             return new Vec3(vec3.x * amount, vec3.y * amount, vec3.z * amount);
         }
 
-        public static float distance(Vector3f start, Vector3f end) {
-            return Vector3f.distance(start.x, start.y, start.z, end.x, end.y, end.z);
-        }
-
-        public static float distance(Vec3 start, Vec3 end) {
-            return distance(Conversions.Vec.toJOML(start), Conversions.Vec.toJOML(end));
+        public static double distance(Vec3 start, Vec3 end) {
+            return VectorConversions.toJOML(start).distance(VectorConversions.toJOML(end));
         }
 
         public static Vec3 offset(Vec3 position, Vec3 direction, float distance) {
@@ -44,10 +26,10 @@ public class MathUtil {
         }
 
         public static Vec3 closest(Vec3 vec3, Vec3...values) {
-            float distance = distance(vec3, values[0]);
+            double distance = distance(vec3, values[0]);
             int index = 0;
             for(int i = 1; i < values.length; i++) {
-                float temp = distance(vec3, values[i]);
+                double temp = distance(vec3, values[i]);
                 if(temp < distance) {
                     index = i;
                     distance = temp;
@@ -57,10 +39,10 @@ public class MathUtil {
         }
 
         public static int closest(Vec3 vec3, List<Vec3> values) {
-            float distance = distance(vec3, values.getFirst());
+            double distance = distance(vec3, values.getFirst());
             int index = 0;
             for(int i = 1; i < values.size(); i++) {
-                float temp = distance(vec3, values.get(i));
+                double temp = distance(vec3, values.get(i));
                 if(temp < distance) {
                     index = i;
                     distance = temp;
@@ -77,6 +59,10 @@ public class MathUtil {
     public static class numbers {
 
         public static float castToRange(float oldMin, float oldMax, float newMin, float newMax, float value) {
+            return (((value - oldMin) * (newMax - newMin)) / (oldMax - oldMin)) + newMin;
+        }
+
+        public static double castToRange(double oldMin, double oldMax, double newMin, double newMax, double value) {
             return (((value - oldMin) * (newMax - newMin)) / (oldMax - oldMin)) + newMin;
         }
 

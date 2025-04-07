@@ -1,11 +1,11 @@
 package com.elysiasilly.babel.mixin.common;
 
-import com.elysiasilly.babel.theatre.actor.render.ActorRenderersEvent;
+import com.elysiasilly.babel.api.theatre.actor.render.ActorRenderersEvent;
+import com.elysiasilly.babel.util.utils.DevUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.neoforged.fml.ModLoader;
 import net.neoforged.neoforge.client.ClientHooks;
-import net.neoforged.neoforge.common.NeoForge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,6 +25,6 @@ public class ClientHooksMixin {
     )
 
     private static void babel$initClientHooks(Minecraft mc, ReloadableResourceManager resourceManager, CallbackInfo ci) {
-        ModLoader.postEvent(new ActorRenderersEvent());
+        DevUtil.postEvent(new ActorRenderersEvent());
     }
 }

@@ -1,7 +1,7 @@
 package com.elysiasilly.babel.mixin.client;
 
-import com.elysiasilly.babel.client.screen.screen.IHideElementsScreen;
-import com.elysiasilly.babel.client.screen.screen.IModifyCameraScreen;
+import com.elysiasilly.babel.api.client.screen.screen.IHideElementsScreen;
+import com.elysiasilly.babel.api.client.screen.screen.IModifyCameraScreen;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;

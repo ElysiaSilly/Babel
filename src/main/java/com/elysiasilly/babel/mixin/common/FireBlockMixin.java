@@ -1,6 +1,6 @@
 package com.elysiasilly.babel.mixin.common;
 
-import com.elysiasilly.babel.common.block.api.ITransformOnBurnBlock;
+import com.elysiasilly.babel.api.common.block.api.ITransformOnBurnBlock;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

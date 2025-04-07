@@ -1,7 +1,7 @@
 package com.elysiasilly.babel.util.resource;
 
-import com.elysiasilly.babel.util.Conversions;
 import com.elysiasilly.babel.util.MathUtil;
+import com.elysiasilly.babel.util.conversions.ColourConversions;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
@@ -63,19 +63,19 @@ public class RGBA {
     }
 
     public int dec() {
-        return Conversions.Col.dec(this);
+        return ColourConversions.dec(this);
     }
 
     public int hex() {
-        return Conversions.Col.hex(this);
+        return ColourConversions.hex(this);
     }
 
     public int abgr() {
-        return Conversions.Col.abgr(this);
+        return ColourConversions.abgr(this);
     }
 
     public Vec3 vec3() {
-        return Conversions.Col.rgba(this);
+        return ColourConversions.rgba(this);
     }
 
     @Override
