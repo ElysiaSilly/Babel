@@ -8,24 +8,27 @@ import com.elysiasilly.babel.util.utils.RenderUtil;
 import com.elysiasilly.babel.util.utils.ShaderUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ShadowRenderer {
 
     // TODO move this into its own mod
+
+
+    // future config stuff
+    public static boolean customShadowRadius = true;
+
 
     public static EntityShadowShader shader() {
         return BabelShaders.ENTITY_SHADOW;
@@ -47,11 +50,13 @@ public class ShadowRenderer {
 
         // create a shadow radius from the entity's bounding box
         AABB bounds = entity.getBoundingBox().inflate(.05);
-        double radius = (((bounds.maxX - bounds.minX) / 2) + ((bounds.maxZ - bounds.minZ) / 2)) / 2;
+        double radius = customShadowRadius ? (((bounds.maxX - bounds.minX) / 2) + ((bounds.maxZ - bounds.minZ) / 2)) / 2 : originalRadius;
 
         int rad = 0;
 
         BlockPos entityBlockPos = entity.blockPosition();
+
+        //System.out.println(LightTexture.sky(LevelRenderer.getLightColor(levelReader, entityBlockPos)));
 
         int blockLight = levelReader.getBrightness(LightLayer.BLOCK, entityBlockPos);
         int blockLightAbove = levelReader.getBrightness(LightLayer.BLOCK, entityBlockPos.above());
@@ -69,6 +74,7 @@ public class ShadowRenderer {
         for(int x = -rad; x <= rad; x++) {
             for(int z = -rad; z <= rad; z++) {
                 for(int y = 0; y <= depth; y++) {
+
                     BlockPos blockPos = entity.getOnPos().offset(x, -y, z);
                     BlockState state = levelReader.getBlockState(blockPos);
 

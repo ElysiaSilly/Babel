@@ -1,8 +1,8 @@
 package com.elysiasilly.babel.impl.registry;
 
+import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.api.BabelRegistries;
 import com.elysiasilly.babel.api.theatre.scene.SceneType;
-import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.impl.common.scene.BuiltInClientScene;
 import com.elysiasilly.babel.impl.common.scene.BuiltInServerScene;
 import net.neoforged.neoforge.registries.DeferredRegister;

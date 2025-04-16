@@ -1,6 +1,5 @@
 package com.elysiasilly.babel.api.client.screen;
 
-import com.elysiasilly.babel.util.MCUtil;
 import com.elysiasilly.babel.util.resource.RGBA;
 import com.elysiasilly.babel.util.utils.ItemUtil;
 import com.mojang.blaze3d.platform.Lighting;

@@ -12,7 +12,6 @@ import net.minecraft.server.packs.resources.ResourceProvider;
 import java.io.IOException;
 
 import static net.minecraft.client.renderer.RenderStateShard.*;
-import static net.minecraft.client.renderer.RenderStateShard.LEQUAL_DEPTH_TEST;
 
 public class TilingCutoutShader extends CoreShader {
 

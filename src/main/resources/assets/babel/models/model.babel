@@ -1,0 +1,27 @@
+texture test1 one.png
+texture test2 two.png
+
+#this is a comment!
+//i am a comment too :D
+
+element cube
+v [1 1 1] uv [0 0] texture [test1]
+v [1 1 0] uv [0 1] texture [test1]
+v [1 0 1] uv [1 0] texture [test1]
+v [1 0 0] uv [0 0] texture [test1]
+v [0 1 0] uv [0 1] texture [test1]
+v [0 1 1] uv [1 0] texture [test1]
+v [0 0 0] uv [0 1] texture [test1]
+v [0 0 1] uv [1 0] texture [test1]
+
+anchor test
+p [0.5, 0.5, 0.5]
+
+group test1
+[test, cube]
+
+group test3
+[cube]
+
+group test2
+[test1, test3]

@@ -4,7 +4,6 @@ import com.elysiasilly.babel.api.theatre.actor.render.ActorRenderersEvent;
 import com.elysiasilly.babel.util.utils.DevUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
-import net.neoforged.fml.ModLoader;
 import net.neoforged.neoforge.client.ClientHooks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -1,7 +1,7 @@
 package com.elysiasilly.babel.api.theatre.storage;
 
-import com.elysiasilly.babel.api.theatre.actor.ActorType;
 import com.elysiasilly.babel.api.BabelRegistries;
+import com.elysiasilly.babel.api.theatre.actor.ActorType;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;

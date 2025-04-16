@@ -1,10 +1,10 @@
 package com.elysiasilly.babel.api.theatre.actor.render;
 
+import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.api.theatre.Theatre;
 import com.elysiasilly.babel.api.theatre.actor.Actor;
 import com.elysiasilly.babel.api.theatre.actor.ActorType;
 import com.elysiasilly.babel.api.theatre.scene.Scene;
-import com.elysiasilly.babel.Babel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;

@@ -1,6 +1,5 @@
 package com.elysiasilly.babel.api.theatre.scene;
 
-import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.api.theatre.actor.Actor;
 import com.elysiasilly.babel.api.theatre.actor.ActorEvents;
 import com.elysiasilly.babel.api.theatre.networking.clientbound.AddActorPacket;

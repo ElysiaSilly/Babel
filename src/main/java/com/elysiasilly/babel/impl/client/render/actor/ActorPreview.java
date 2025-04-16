@@ -1,20 +1,14 @@
-package com.elysiasilly.babel.impl.client.render;
+package com.elysiasilly.babel.impl.client.render.actor;
 
 import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.impl.common.item.TankItem;
-import com.elysiasilly.babel.impl.registry.BBActors;
 import com.elysiasilly.babel.util.MCUtil;
-import com.elysiasilly.babel.util.MathUtil;
 import com.elysiasilly.babel.util.conversions.VectorConversions;
-import com.elysiasilly.babel.util.resource.RGBA;
 import com.elysiasilly.babel.util.utils.RenderUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
@@ -25,10 +19,12 @@ import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import java.util.List;
 
 @EventBusSubscriber(modid = Babel.MODID, bus = EventBusSubscriber.Bus.GAME)
-public class Misc {
+public class ActorPreview {
 
     @SubscribeEvent
     private static void render(RenderLevelStageEvent event) {
+        if(true) return;
+
         if(event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_BLOCK_ENTITIES)) {
 
             if(Minecraft.getInstance().player.getMainHandItem().getItem() instanceof TankItem item) {

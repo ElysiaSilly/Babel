@@ -1,0 +1,42 @@
+{
+  "loader": "babel:model",
+  "textures": {
+    "particle": "lol.png",
+    "test": "lol.png"
+  },
+  "elements": [
+    {
+      "type": "element",
+      "name": "cube1",
+      "vertices": [
+        {
+          "position": [1, 1, 1],
+          "uv": [1, 1],
+          "texture": "test"
+        },
+        {
+          "position": [0, 0, 0],
+          "uv": [1, 0],
+          "texture": "test"
+        }
+      ]
+    },
+    {
+      "type": "anchor",
+      "name": "anchor1",
+      "position": [0.5, 0.5, 0.5]
+    },
+    {
+      "type": "bounds",
+      "name": "bound1",
+      "vertices": [
+        {
+          "position": [1, 1, 1]
+        },
+        {
+          "position": [0, 0, 0]
+        }
+      ]
+    }
+  ]
+}

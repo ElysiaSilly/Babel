@@ -11,8 +11,8 @@ import net.minecraft.server.packs.resources.ResourceProvider;
 
 import java.io.IOException;
 
-import static net.minecraft.client.renderer.RenderStateShard.*;
-import static net.minecraft.client.renderer.RenderStateShard.LEQUAL_DEPTH_TEST;
+import static net.minecraft.client.renderer.RenderStateShard.BLOCK_SHEET_MIPPED;
+import static net.minecraft.client.renderer.RenderStateShard.LIGHTMAP;
 
 public class TilingSolidShader extends CoreShader {
 

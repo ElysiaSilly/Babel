@@ -12,6 +12,7 @@
     "client.EntityRenderDispatcherMixin",
     "client.GameRendererMixin",
     "client.GuiMixin",
+    "client.LevelRendererMixin",
     "client.MinecraftMixin"
   ],
   "injectors": {

@@ -31,6 +31,12 @@ import java.util.Map;
 
 public class CycleBlockItem extends BlockItem {
 
+    public enum Mode { RANDOM_ONLY, CYCLE_ONLY, RANDOM_AND_CYCLE }
+
+    public static boolean random(Mode mode) {
+        return mode.equals(Mode.RANDOM_ONLY) || mode.equals(Mode.RANDOM_AND_CYCLE);
+    }
+
     private final Mode mode;
     private boolean assignToItem = false;
 
@@ -44,7 +50,7 @@ public class CycleBlockItem extends BlockItem {
         super(null, properties);
 
         this.mode = mode;
-        this.index = this.mode.random ? 0 : 1;
+        this.index = random(this.mode) ? 0 : 1;
 
         this.blocks.addAll(List.of(blocks));
         this.max = this.blocks.size();// + 1;
@@ -52,6 +58,14 @@ public class CycleBlockItem extends BlockItem {
 
     public CycleBlockItem assignToItem() {
         this.assignToItem = true; return this;
+    }
+
+    public List<DefinedBlockState> blocks() {
+        return this.blocks;
+    }
+
+    public DefinedBlockState block() {
+        return this.blocks.get(this.index);
     }
 
     @Override
@@ -71,7 +85,7 @@ public class CycleBlockItem extends BlockItem {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        if(context.getItemInHand().getCount() < getOptStateBlock().getCost() && !context.getPlayer().hasInfiniteMaterials()) return InteractionResult.FAIL;
+        if(context.getItemInHand().getCount() < getOptStateBlock().cost() && !context.getPlayer().hasInfiniteMaterials()) return InteractionResult.FAIL;
 
         if(context.getLevel().isClientSide) return InteractionResult.SUCCESS;
 
@@ -94,7 +108,7 @@ public class CycleBlockItem extends BlockItem {
 
     @Override
     public Block getBlock() {
-        return getOptStateBlock().getBlock();
+        return getOptStateBlock().block();
     }
 
     public DefinedBlockState getOptStateBlock() {
@@ -110,7 +124,7 @@ public class CycleBlockItem extends BlockItem {
     }
 
     public int getNextIndex(int index) {
-        int min = this.mode.random ? 0 : 1;
+        int min = random(this.mode) ? 0 : 1;
 
         if(index < this.max) {
             index++;
@@ -122,7 +136,7 @@ public class CycleBlockItem extends BlockItem {
     }
 
     public int getPreviousIndex(int index) {
-        int min = this.mode.random ? 0 : 1;
+        int min = random(this.mode) ? 0 : 1;
 
         if(index > min && index != 0) {
             index--;
@@ -134,7 +148,7 @@ public class CycleBlockItem extends BlockItem {
     }
 
     public Block getRandomBlock(Level level) {
-        return this.blocks.get(level.random.nextInt(blocks.size())).getBlock();
+        return this.blocks.get(level.random.nextInt(blocks.size())).block();
     }
 
     public boolean cycleBlock() {
@@ -153,7 +167,7 @@ public class CycleBlockItem extends BlockItem {
     public void registerBlocks(Map<Block, Item> blockToItemMap, Item item) {
         if(assignToItem) {
             for(DefinedBlockState block : this.blocks) {
-                blockToItemMap.put(block.getBlock(), item);
+                blockToItemMap.put(block.block(), item);
             }
         }
     }
@@ -221,25 +235,10 @@ public class CycleBlockItem extends BlockItem {
                             soundtype.getPitch() * 0.8F
                     );
                     level.gameEvent(GameEvent.BLOCK_PLACE, blockpos, GameEvent.Context.of(player, blockstate1));
-                    itemstack.consume(getOptStateBlock().getCost(), player);
+                    itemstack.consume(getOptStateBlock().cost(), player);
                     return InteractionResult.sidedSuccess(level.isClientSide);
                 }
             }
-        }
-    }
-
-    public enum Mode {
-
-        RANDOM_ONLY(true, false),
-        CYCLE_ONLY(false, true),
-        RANDOM_AND_CYCLE(true, true);
-
-        public final boolean random;
-        public final boolean selection;
-
-        Mode(boolean random, boolean selection) {
-            this.random = random;
-            this.selection = selection;
         }
     }
 }

@@ -1,12 +1,12 @@
 package com.elysiasilly.babel.api.theatre.storage;
 
+import com.elysiasilly.babel.Babel;
+import com.elysiasilly.babel.api.BabelRegistries;
 import com.elysiasilly.babel.api.theatre.Theatre;
 import com.elysiasilly.babel.api.theatre.scene.ClientScene;
 import com.elysiasilly.babel.api.theatre.scene.Scene;
 import com.elysiasilly.babel.api.theatre.scene.SceneType;
 import com.elysiasilly.babel.api.theatre.scene.ServerScene;
-import com.elysiasilly.babel.Babel;
-import com.elysiasilly.babel.api.BabelRegistries;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;

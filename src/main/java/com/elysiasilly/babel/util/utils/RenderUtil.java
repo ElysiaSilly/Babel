@@ -18,6 +18,7 @@ public class RenderUtil {
 
     /// cubes
 
+    // this fucking sucks
     public record Cube(boolean up, boolean down, boolean east, boolean west, boolean north, boolean south, UV upUV, UV downUV, UV eastUV, UV westUV, UV northUV, UV southUV) {
         public static Cube cubePillarUV(UV side, UV end) {
             return new Cube(true, true, true, true, true, true, end, end, side, side, side, side);
@@ -168,16 +169,8 @@ public class RenderUtil {
     }
 
     public static void drawPlane(VertexConsumer consumer, Matrix4f matrix4f, int packedLight, RGBA rgba, Vec3 a, Vec3 b, Vec3 c, Vec3 d, UV uv) {
-        consumer.addVertex(matrix4f, (float) c.x, (float) c.y, (float) c.z)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setUv(uv.startU(), uv.startV())
-                .setLight(packedLight)
-                .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
-                .setUv1(0, 0) // ?
-                .setUv2(1, 1) // ?
-                .setNormal(0, 0, 0); // ?
 
-        consumer.addVertex(matrix4f, (float) a.x, (float) a.y, (float) a.z)
+        consumer.addVertex(matrix4f, (float) c.x, (float) c.y, (float) c.z)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setUv(uv.startU(), uv.endV())
                 .setLight(packedLight)
@@ -186,7 +179,7 @@ public class RenderUtil {
                 .setUv2(1, 1) // ?
                 .setNormal(0, 0, 0); // ?
 
-        consumer.addVertex(matrix4f, (float) d.x, (float) d.y, (float) d.z)
+        consumer.addVertex(matrix4f, (float) a.x, (float) a.y, (float) a.z)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setUv(uv.endU(), uv.endV())
                 .setLight(packedLight)
@@ -195,9 +188,18 @@ public class RenderUtil {
                 .setUv2(1, 1) // ?
                 .setNormal(0, 0, 0); // ?
 
-        consumer.addVertex(matrix4f, (float) b.x,   (float) b.y,   (float) b.z)
+        consumer.addVertex(matrix4f, (float) d.x, (float) d.y, (float) d.z)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setUv(uv.endU(), uv.startV())
+                .setLight(packedLight)
+                .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
+                .setUv1(0, 0) // ?
+                .setUv2(1, 1) // ?
+                .setNormal(0, 0, 0); // ?
+
+        consumer.addVertex(matrix4f, (float) b.x,   (float) b.y,   (float) b.z)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setUv(uv.startU(), uv.startV())
                 .setLight(packedLight)
                 .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
                 .setUv1(0, 0) // ?

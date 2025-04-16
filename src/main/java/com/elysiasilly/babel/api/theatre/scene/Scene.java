@@ -17,7 +17,6 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.fml.ModLoader;
 
 import java.util.ArrayList;
 import java.util.Collection;

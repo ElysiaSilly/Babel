@@ -1,11 +1,11 @@
 package com.elysiasilly.babel.api;
 
+import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.api.client.lexicon.element.LexiconElement;
 import com.elysiasilly.babel.api.client.lexicon.layer.LexiconPageLayer;
 import com.elysiasilly.babel.api.client.lexicon.page.LexiconPage;
 import com.elysiasilly.babel.api.theatre.actor.ActorType;
 import com.elysiasilly.babel.api.theatre.scene.SceneType;
-import com.elysiasilly.babel.Babel;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.neoforged.bus.api.SubscribeEvent;

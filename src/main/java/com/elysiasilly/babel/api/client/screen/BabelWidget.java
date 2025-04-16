@@ -1,8 +1,8 @@
 package com.elysiasilly.babel.api.client.screen;
 
-import com.elysiasilly.babel.util.utils.RenderUtil;
 import com.elysiasilly.babel.util.conversions.VectorConversions;
 import com.elysiasilly.babel.util.resource.RGBA;
+import com.elysiasilly.babel.util.utils.RenderUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.phys.Vec2;

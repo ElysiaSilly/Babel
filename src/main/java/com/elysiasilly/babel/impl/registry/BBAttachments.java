@@ -1,7 +1,7 @@
 package com.elysiasilly.babel.impl.registry;
 
-import com.elysiasilly.babel.api.theatre.storage.ChunkData;
 import com.elysiasilly.babel.Babel;
+import com.elysiasilly.babel.api.theatre.storage.ChunkData;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
