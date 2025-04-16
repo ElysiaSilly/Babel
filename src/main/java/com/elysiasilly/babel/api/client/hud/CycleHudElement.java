@@ -1,7 +1,7 @@
 package com.elysiasilly.babel.api.client.hud;
 
 import com.elysiasilly.babel.api.common.item.cycleable.CycleBlockItem;
-import com.elysiasilly.babel.api.common.item.cycleable.DefinedBlockState;
+import com.elysiasilly.babel.api.common.item.cycleable.PredefinedBlockState;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -24,7 +24,7 @@ public class CycleHudElement {
 
     public CycleHudElement(CycleBlockItem item) {
         this.item = item;
-        for(DefinedBlockState state : item.blocks()) {
+        for(PredefinedBlockState state : item.blocks()) {
             elements.add(new Element(state, this));
         }
     }
@@ -38,12 +38,11 @@ public class CycleHudElement {
     }
 
     public int index(Element element) {
-        int index = elements().indexOf(element);
-        return index + 1;
+        return elements().indexOf(element);
     }
 
     public int position() {
-        return item.getIndex();
+        return item.index();
     }
 
     public boolean selected(Element element) {
@@ -68,16 +67,16 @@ public class CycleHudElement {
     public static class Element {
 
         private final CycleHudElement element;
-        private final DefinedBlockState state;
+        private final PredefinedBlockState state;
 
         private float size = 0;
 
-        public Element(DefinedBlockState state, CycleHudElement element) {
+        public Element(PredefinedBlockState state, CycleHudElement element) {
             this.state = state;
             this.element = element;
         }
 
-        public DefinedBlockState state() {
+        public PredefinedBlockState state() {
             return this.state;
         }
 
@@ -115,13 +114,15 @@ public class CycleHudElement {
             float offset = this.size * .5f;
 
 
-            poseStack.last().pose().translate(-offset, -offset, 0);
+            poseStack.last().pose().translate(-offset, offset, 0);
 
-            poseStack.rotateAround(Axis.YP.rotationDegrees(50), offset, offset, offset);
-            poseStack.rotateAround(Axis.XP.rotationDegrees(22.5f), offset, offset, offset);
-            poseStack.rotateAround(Axis.ZP.rotationDegrees(22.5f), offset, offset, offset);
+            poseStack.rotateAround(Axis.YP.rotationDegrees(45), offset, offset, offset);
+            poseStack.rotateAround(Axis.XP.rotationDegrees(-22.5f), offset, offset, offset);
+            poseStack.rotateAround(Axis.ZP.rotationDegrees(-22.5f), offset, offset, offset);
 
-            poseStack.scale(this.size, this.size, this.size);
+            poseStack.scale(this.size, -this.size, this.size);
+
+
             if(this.size != 0) mc.getBlockRenderer().renderSingleBlock(state.get(), poseStack, multiBufferSource, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
 
             RenderSystem.disableBlend();

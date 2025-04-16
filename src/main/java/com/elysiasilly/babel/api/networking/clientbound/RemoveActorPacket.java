@@ -1,9 +1,9 @@
-package com.elysiasilly.babel.api.theatre.networking.clientbound;
+package com.elysiasilly.babel.api.networking.clientbound;
 
 import com.elysiasilly.babel.api.BabelRegistries;
+import com.elysiasilly.babel.api.networking.PayloadHandler;
 import com.elysiasilly.babel.api.theatre.Theatre;
 import com.elysiasilly.babel.api.theatre.actor.Actor;
-import com.elysiasilly.babel.api.theatre.networking.PayloadHandler;
 import com.elysiasilly.babel.api.theatre.scene.Scene;
 import com.elysiasilly.babel.api.theatre.scene.SceneType;
 import net.minecraft.client.Minecraft;

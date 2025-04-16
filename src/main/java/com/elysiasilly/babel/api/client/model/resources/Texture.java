@@ -1,6 +1,5 @@
 package com.elysiasilly.babel.api.client.model.resources;
 
-import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.api.client.model.Util;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;

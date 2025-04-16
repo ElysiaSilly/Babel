@@ -1,15 +1,12 @@
 package com.elysiasilly.babel.impl.client.render;
 
 import com.elysiasilly.babel.util.resource.RGBA;
-import com.elysiasilly.babel.util.resource.UV;
-import com.elysiasilly.babel.util.utils.RenderUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;

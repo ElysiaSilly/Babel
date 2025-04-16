@@ -4,16 +4,14 @@ import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.api.client.model.ModelLoader;
 import com.elysiasilly.babel.api.client.model.Util;
 import com.elysiasilly.babel.api.client.model.resources.CubeModelElement;
-import com.elysiasilly.babel.api.client.model.resources.model.Model;
 import com.elysiasilly.babel.api.client.model.resources.ModelElement;
+import com.elysiasilly.babel.api.client.model.resources.model.Model;
 import com.elysiasilly.babel.api.theatre.actor.render.ActorRenderer;
 import com.elysiasilly.babel.impl.common.actor.TankActor;
 import com.elysiasilly.babel.util.resource.RGBA;
-import com.elysiasilly.babel.util.utils.RenderUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 

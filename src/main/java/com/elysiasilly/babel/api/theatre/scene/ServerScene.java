@@ -1,10 +1,10 @@
 package com.elysiasilly.babel.api.theatre.scene;
 
+import com.elysiasilly.babel.api.networking.clientbound.AddActorPacket;
+import com.elysiasilly.babel.api.networking.clientbound.RemoveActorPacket;
+import com.elysiasilly.babel.api.networking.serverbound.RequestLoadChunkPacket;
 import com.elysiasilly.babel.api.theatre.actor.Actor;
 import com.elysiasilly.babel.api.theatre.actor.ActorEvents;
-import com.elysiasilly.babel.api.theatre.networking.clientbound.AddActorPacket;
-import com.elysiasilly.babel.api.theatre.networking.clientbound.RemoveActorPacket;
-import com.elysiasilly.babel.api.theatre.networking.serverbound.RequestLoadChunkPacket;
 import com.elysiasilly.babel.api.theatre.storage.ChunkData;
 import com.elysiasilly.babel.impl.registry.BBAttachments;
 import com.elysiasilly.babel.util.utils.DevUtil;

@@ -8,8 +8,6 @@ import com.elysiasilly.babel.util.utils.RenderUtil;
 import com.elysiasilly.babel.util.utils.ShaderUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.core.BlockPos;

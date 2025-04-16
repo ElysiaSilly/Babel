@@ -1,10 +1,10 @@
-package com.elysiasilly.babel.api.theatre.networking.clientbound;
+package com.elysiasilly.babel.api.networking.clientbound;
 
 import com.elysiasilly.babel.api.BabelRegistries;
+import com.elysiasilly.babel.api.networking.PayloadHandler;
 import com.elysiasilly.babel.api.theatre.Theatre;
 import com.elysiasilly.babel.api.theatre.actor.Actor;
 import com.elysiasilly.babel.api.theatre.actor.ActorType;
-import com.elysiasilly.babel.api.theatre.networking.PayloadHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;

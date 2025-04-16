@@ -2,7 +2,6 @@ package com.elysiasilly.babel.api.client.model;
 
 import com.elysiasilly.babel.api.client.model.resources.CubeModelElement;
 import com.elysiasilly.babel.api.client.model.resources.Face;
-import com.elysiasilly.babel.util.MathUtil;
 import com.elysiasilly.babel.util.resource.RGBA;
 import com.elysiasilly.babel.util.resource.UV;
 import com.google.gson.JsonArray;
@@ -10,11 +9,8 @@ import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 

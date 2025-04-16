@@ -1,11 +1,11 @@
-package com.elysiasilly.babel.api.theatre.networking;
+package com.elysiasilly.babel.api.networking;
 
 import com.elysiasilly.babel.Babel;
-import com.elysiasilly.babel.api.theatre.networking.clientbound.AddActorPacket;
-import com.elysiasilly.babel.api.theatre.networking.clientbound.RemoveActorPacket;
-import com.elysiasilly.babel.api.theatre.networking.clientbound.UpdateActorPacket;
-import com.elysiasilly.babel.api.theatre.networking.serverbound.RequestLoadChunkPacket;
-import com.elysiasilly.babel.api.theatre.networking.serverbound.RequestUpdateActorPacket;
+import com.elysiasilly.babel.api.networking.clientbound.AddActorPacket;
+import com.elysiasilly.babel.api.networking.clientbound.RemoveActorPacket;
+import com.elysiasilly.babel.api.networking.clientbound.UpdateActorPacket;
+import com.elysiasilly.babel.api.networking.serverbound.RequestLoadChunkPacket;
+import com.elysiasilly.babel.api.networking.serverbound.RequestUpdateActorPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

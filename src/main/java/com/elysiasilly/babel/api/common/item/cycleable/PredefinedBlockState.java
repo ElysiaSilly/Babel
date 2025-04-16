@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.properties.Property;
 import java.util.HashMap;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class DefinedBlockState {
+public class PredefinedBlockState {
 
     private final Block block;
     private boolean context = false;
@@ -18,19 +18,19 @@ public class DefinedBlockState {
 
     private BlockState computedState;
 
-    public DefinedBlockState(Block block) {
+    public PredefinedBlockState(Block block) {
         this.block = block;
     }
 
-    public <P extends Comparable<P>, V extends P> DefinedBlockState set(Property<P> property, V value) {
+    public <P extends Comparable<P>, V extends P> PredefinedBlockState set(Property<P> property, V value) {
         this.properties.putIfAbsent(property, new PropertyValuePair<>(property, value)); return this;
     }
 
-    public DefinedBlockState placementContext() {
+    public PredefinedBlockState placementContext() {
         this.context = true; return this;
     }
 
-    public DefinedBlockState cost(int cost) {
+    public PredefinedBlockState cost(int cost) {
         this.cost = cost; return this;
     }
 
@@ -46,7 +46,7 @@ public class DefinedBlockState {
         if(computedState == null) {
             BlockState state = block().defaultBlockState();
 
-            for (PropertyValuePair entry : this.properties.values()) {
+            for(PropertyValuePair entry : this.properties.values()) {
                 state = state.setValue(entry.property(), entry.value());
             }
 

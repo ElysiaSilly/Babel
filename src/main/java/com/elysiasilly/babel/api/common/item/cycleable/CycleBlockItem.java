@@ -8,9 +8,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -33,63 +32,157 @@ public class CycleBlockItem extends BlockItem {
 
     public enum Mode { RANDOM_ONLY, CYCLE_ONLY, RANDOM_AND_CYCLE }
 
-    public static boolean random(Mode mode) {
-        return mode.equals(Mode.RANDOM_ONLY) || mode.equals(Mode.RANDOM_AND_CYCLE);
-    }
-
     private final Mode mode;
     private boolean assignToItem = false;
 
-    private final List<DefinedBlockState> blocks = new ArrayList<>();
-    private int index;
-    private final int max;
+    private final List<PredefinedBlockState> blocks = new ArrayList<>();
 
-    private int random;
+    private int random = 0, index = 0, previousIndex = 0;
 
-    public CycleBlockItem(Properties properties, Mode mode, DefinedBlockState...blocks) {
+    public CycleBlockItem(Properties properties, Mode mode, PredefinedBlockState...blocks) {
         super(null, properties);
 
         this.mode = mode;
-        this.index = random(this.mode) ? 0 : 1;
-
         this.blocks.addAll(List.of(blocks));
-        this.max = this.blocks.size();// + 1;
     }
+
+    ///
+
+    public int size() {
+        return blocks().size();
+    }
+
+    public boolean shouldAssignToItem() {
+        return this.assignToItem;
+    }
+
+    public boolean randomOnly() {
+        return mode().equals(Mode.RANDOM_ONLY);
+    }
+
+    public boolean cycleOnly() {
+        return mode().equals(Mode.CYCLE_ONLY);
+    }
+
+    public boolean randomAndCycle() {
+        return mode().equals(Mode.RANDOM_AND_CYCLE);
+    }
+
+    public boolean canRandom() {
+        return mode().equals(Mode.RANDOM_ONLY) || mode().equals(Mode.RANDOM_AND_CYCLE);
+    }
+
+    public boolean isRandom() {
+        return canRandom() && index() >= blocks().size();
+    }
+
+    public List<PredefinedBlockState> blocks() {
+        return this.blocks;
+    }
+
+    public void saveIndex() {
+        this.previousIndex = index();
+    }
+
+    public void loadIndex() {
+        index(this.previousIndex);
+    }
+
+    public int index() {
+        return this.index;
+    }
+
+    public void index(int index) {
+        this.index = index;
+    }
+
+    public Mode mode() {
+        return this.mode;
+    }
+
+    public int random() {
+        return this.random;
+    }
+
+    @Override
+    public Block getBlock() {
+        return block().block();
+    }
+
+    public PredefinedBlockState block() {
+        return blocks().get(isRandom() ? random() : index());
+    }
+
+    public void nextIndex() {
+        index(nextIndex(index()));
+    }
+
+    public int nextIndex(int index) {
+        return isRandom() || (!canRandom() && index == size() - 1) ? 0 : index + 1;
+    }
+
+    public void previousIndex() {
+        index(previousIndex(index()));
+    }
+
+    public int previousIndex(int index) {
+        return index == 0 ? canRandom() ? size() + 1 : size() : index - 1;
+    }
+
+    public Block randomBlock(RandomSource random) {
+        return blocks().get(random.nextInt(blocks.size())).block();
+    }
+
+    public boolean cycleRandom() {
+        if(canRandom()) {
+            if(isRandom()) {
+                saveIndex();
+                index(size());
+            } else {
+                loadIndex();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean cyclePrevious() {
+        if(randomOnly()) {
+            return false;
+        } else {
+            previousIndex();
+            return true;
+        }
+    }
+
+    public boolean cycleNext() {
+        if(randomOnly()) {
+            return false;
+        } else {
+            nextIndex();
+            return true;
+        }
+    }
+
+    public void random(RandomSource random) {
+        this.random = random.nextInt(size());
+    }
+
+    ///
 
     public CycleBlockItem assignToItem() {
         this.assignToItem = true; return this;
     }
 
-    public List<DefinedBlockState> blocks() {
-        return this.blocks;
-    }
-
-    public DefinedBlockState block() {
-        return this.blocks.get(this.index);
-    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        ItemStack item = player.getItemInHand(usedHand);
-
-        if(!player.isShiftKeyDown()) return InteractionResultHolder.pass(item);
-
-        if(level.isClientSide) return InteractionResultHolder.success(item);
-
-        boolean flag = cycleBlock();
-
-        if(flag) player.setItemInHand(usedHand, item);
-
-        return flag ? InteractionResultHolder.success(item) : InteractionResultHolder.pass(item);
-    }
+    ///
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        if(context.getItemInHand().getCount() < getOptStateBlock().cost() && !context.getPlayer().hasInfiniteMaterials()) return InteractionResult.FAIL;
+        if(context.getItemInHand().getCount() < block().cost() && !context.getPlayer().hasInfiniteMaterials()) return InteractionResult.FAIL;
 
         if(context.getLevel().isClientSide) return InteractionResult.SUCCESS;
 
-        this.random = context.getLevel().random.nextInt(blocks.size());
+        random(context.getLevel().random);
 
         InteractionResult interactionResult = this.place(new BlockPlaceContext(context));
         if (!interactionResult.consumesAction() && context.getItemInHand().has(DataComponents.FOOD)) {
@@ -102,71 +195,14 @@ public class CycleBlockItem extends BlockItem {
 
     @Override
     protected @Nullable BlockState getPlacementState(BlockPlaceContext context) {
-        BlockState blockstate = getOptStateBlock().get(context); //this.getBlock().getStateForPlacement(context);
+        BlockState blockstate = block().get(context);
         return blockstate != null && this.canPlace(context, blockstate) ? blockstate : null;
     }
 
     @Override
-    public Block getBlock() {
-        return getOptStateBlock().block();
-    }
-
-    public DefinedBlockState getOptStateBlock() {
-        if(index == 0) {
-            return this.blocks.get(this.random);
-        } else {
-            return getOptStateBlock(index);
-        }
-    }
-
-    public int getIndex() {
-        return this.index;
-    }
-
-    public int getNextIndex(int index) {
-        int min = random(this.mode) ? 0 : 1;
-
-        if(index < this.max) {
-            index++;
-        } else if (index > min) {
-            index = min;
-        }
-
-        return index;
-    }
-
-    public int getPreviousIndex(int index) {
-        int min = random(this.mode) ? 0 : 1;
-
-        if(index > min && index != 0) {
-            index--;
-        } else {
-            index = this.max;
-        }
-
-        return index;
-    }
-
-    public Block getRandomBlock(Level level) {
-        return this.blocks.get(level.random.nextInt(blocks.size())).block();
-    }
-
-    public boolean cycleBlock() {
-        if(this.mode == Mode.RANDOM_ONLY) return false;
-
-        this.index = getNextIndex(this.index);
-
-        return true;
-    }
-
-    public DefinedBlockState getOptStateBlock(int index) {
-        return this.blocks.get(index - 1);
-    }
-
-    @Override
     public void registerBlocks(Map<Block, Item> blockToItemMap, Item item) {
-        if(assignToItem) {
-            for(DefinedBlockState block : this.blocks) {
+        if(shouldAssignToItem()) {
+            for(PredefinedBlockState block : blocks()) {
                 blockToItemMap.put(block.block(), item);
             }
         }
@@ -179,18 +215,10 @@ public class CycleBlockItem extends BlockItem {
 
     @Override
     public String getDescriptionId() {
-        return Component.translatable(this.getOrCreateDescriptionId()).getString() + getBlockDescription(index);
-    }
+        String string = randomOnly() ? "" : isRandom() ?
+                Component.translatable("misc.babel.random").getString() : Component.translatable(Util.makeDescriptionId("item", BuiltInRegistries.ITEM.getKey(this)) + "." + index()).getString();
 
-    public String getBlockDescription(int index) {
-        if(this.mode == Mode.RANDOM_ONLY) {
-            return "";
-        } else {
-            String string = index == 0 ?
-                    Component.translatable("tooltip.factory_expansion.random").getString() :
-                    Component.translatable(Util.makeDescriptionId("item", BuiltInRegistries.ITEM.getKey(this)) + "." + index).getString();
-            return " " + "(" + string + ")";
-        }
+        return Component.translatable("misc.babel.cycleable").getString().replaceAll("%1", this.getOrCreateDescriptionId()).replaceAll("%2", string);
     }
 
     @Override
@@ -235,7 +263,7 @@ public class CycleBlockItem extends BlockItem {
                             soundtype.getPitch() * 0.8F
                     );
                     level.gameEvent(GameEvent.BLOCK_PLACE, blockpos, GameEvent.Context.of(player, blockstate1));
-                    itemstack.consume(getOptStateBlock().cost(), player);
+                    itemstack.consume(block().cost(), player);
                     return InteractionResult.sidedSuccess(level.isClientSide);
                 }
             }
