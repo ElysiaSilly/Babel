@@ -21,4 +21,8 @@ public record UV(float startU, float startV, float endU, float endV) {
     public UV(TextureAtlasSprite sprite) {
         this(sprite.getU(1), sprite.getV(1), sprite.getU(0), sprite.getV(0));
     }
+
+    public UV flip() {
+        return new UV(startU(), startV(), endU(), endV());
+    }
 }

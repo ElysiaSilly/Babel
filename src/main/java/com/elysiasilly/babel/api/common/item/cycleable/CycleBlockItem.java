@@ -73,7 +73,7 @@ public class CycleBlockItem extends BlockItem {
     }
 
     public boolean isRandom() {
-        return canRandom() && index() >= blocks().size();
+        return (canRandom() && index() >= blocks().size()) || randomOnly();
     }
 
     public List<PredefinedBlockState> blocks() {
@@ -107,6 +107,10 @@ public class CycleBlockItem extends BlockItem {
     @Override
     public Block getBlock() {
         return block().block();
+    }
+
+    public PredefinedBlockState block(int index) {
+        return blocks.get((canRandom() && index >= blocks().size()) || randomOnly() ? random() : index);
     }
 
     public PredefinedBlockState block() {

@@ -20,7 +20,7 @@ public class TankActorRenderer implements ActorRenderer<TankActor> {
     @Override
     public void render(TankActor actor, float partialTick, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight) {
 
-        Model model = ModelLoader.model(Babel.location("models/dish.bbmodel"));
+        Model model = ModelLoader.model(Babel.location("models/neo_flamethrower.bbmodel"));
 
 
         for(ModelElement object : model.getElements()) {

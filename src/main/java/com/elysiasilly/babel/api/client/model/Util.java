@@ -50,12 +50,13 @@ public class Util {
         Vec3 end = new Vec3(cube.to());
 
         if(cube.up() != null) {
+
             drawPlane(consumer, matrix4f, packedLight, rgba,
                     new Vec3(start.x, end.y, start.z),
                     new Vec3(end.x, end.y, end.z),
                     new Vec3(end.x, end.y, start.z),
                     new Vec3(start.x, end.y, end.z),
-                    uv(cube.up(), Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(cube.up().texture().location()))
+                    uv(cube.up(), Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(cube.up().texture().location())).flip()
             );
         }
 
@@ -65,7 +66,7 @@ public class Util {
                     new Vec3(end.x, start.y, start.z),
                     new Vec3(end.x, start.y, end.z),
                     new Vec3(start.x, start.y, start.z),
-                    uv(cube.down(), Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(cube.down().texture().location()))
+                    uv(cube.down(), Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(cube.down().texture().location())).flip()
             );
         }
 
@@ -85,7 +86,7 @@ public class Util {
                     new Vec3(end.x, start.y, end.z),
                     new Vec3(end.x, end.y, end.z),
                     new Vec3(start.x, start.y, end.z),
-                    uv(cube.south(), Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(cube.south().texture().location()))
+                    uv(cube.south(), Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(cube.south().texture().location())).flip()
             );
         }
 
@@ -106,7 +107,7 @@ public class Util {
                     new Vec3(start.x, start.y, end.z),
                     new Vec3(start.x, end.y, end.z),
                     new Vec3(start.x, start.y, start.z),
-                    uv(cube.west(), Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(cube.west().texture().location()))
+                    uv(cube.west(), Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(cube.west().texture().location())).flip()
             );
         }
     }

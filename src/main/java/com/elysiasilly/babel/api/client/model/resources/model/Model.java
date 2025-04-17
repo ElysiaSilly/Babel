@@ -45,9 +45,15 @@ public class Model {
             }
         });
 
-        model.get("outliner").getAsJsonArray().forEach(element -> {
-            put(new ModelElementGroup(element.getAsJsonObject(), this));
-        });
+        if(model.get("outliner").isJsonArray()) {
+            model.get("outliner").getAsJsonArray().forEach(element -> {
+                try {
+                    if (element.isJsonObject()) put(new ModelElementGroup(element.getAsJsonObject(), this));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
     }
 
     public ModelElementGroup getOutliner(String name) {

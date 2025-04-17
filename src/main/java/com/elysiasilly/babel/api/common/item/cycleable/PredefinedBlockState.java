@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class PredefinedBlockState {
 
     private final Block block;
-    private boolean context = false;
+    private boolean context = true;
     private int cost = 1;
 
     private final HashMap<Property<?>, PropertyValuePair<?, ?>> properties =  new HashMap<>();
@@ -26,8 +26,8 @@ public class PredefinedBlockState {
         this.properties.putIfAbsent(property, new PropertyValuePair<>(property, value)); return this;
     }
 
-    public PredefinedBlockState placementContext() {
-        this.context = true; return this;
+    public PredefinedBlockState noContext() {
+        this.context = false; return this;
     }
 
     public PredefinedBlockState cost(int cost) {
@@ -68,4 +68,6 @@ public class PredefinedBlockState {
 
         return state;
     }
+
+    public record PropertyValuePair<P extends Comparable<P>, V extends P>(Property<P> property, V value) {}
 }

@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -32,10 +33,13 @@ public class BBItems {
                     new PredefinedBlockState(Blocks.WHITE_WOOL)
             ));
 
-    public static final DeferredItem<CycleBlockItem> LAMP = ITEMS.register("lamp", () ->
+    public static final DeferredItem<CycleBlockItem> ABC = ITEMS.register("test", () ->
             new CycleBlockItem(new Item.Properties(), CycleBlockItem.Mode.RANDOM_AND_CYCLE,
                     new PredefinedBlockState(Blocks.REDSTONE_LAMP).set(RedstoneLampBlock.LIT, true),
-                    new PredefinedBlockState(Blocks.REDSTONE_LAMP)
+                    new PredefinedBlockState(Blocks.REDSTONE_LAMP),
+                    new PredefinedBlockState(Blocks.SCULK),
+                    new PredefinedBlockState(Blocks.CALIBRATED_SCULK_SENSOR),
+                    new PredefinedBlockState(Blocks.PISTON).set(PistonBaseBlock.FACING, Direction.UP)
             ));
 
     public static final DeferredItem<CycleBlockItem> STAIRS = ITEMS.register("stairs", () ->
@@ -44,6 +48,6 @@ public class BBItems {
                     new PredefinedBlockState(Blocks.BRICK_STAIRS).set(StairBlock.FACING, Direction.EAST),
                     new PredefinedBlockState(Blocks.BRICK_STAIRS).set(StairBlock.FACING, Direction.SOUTH),
                     new PredefinedBlockState(Blocks.BRICK_STAIRS).set(StairBlock.FACING, Direction.WEST),
-                    new PredefinedBlockState(Blocks.BRICK_STAIRS).set(StairBlock.WATERLOGGED, true).placementContext()
+                    new PredefinedBlockState(Blocks.BRICK_STAIRS).set(StairBlock.WATERLOGGED, true).noContext()
             ));
 }
