@@ -103,7 +103,7 @@ public abstract class BabelWidget<W extends BabelWidget, S extends BabelScreen> 
         RGBA to = isHovering() || isDragging() || isFocused() ? RGBA.WHITE : new RGBA(this.bounds.depth / 2);
         if(this.current == null) this.current = to;
 
-        this.current = this.current.lerp(to, .5);
+        this.current = this.current.lerp(to, .5f);
 
         RenderUtil.drawOutlineRectangle(guiGraphics.bufferSource().getBuffer(RenderType.gui()), guiGraphics.pose().last().pose(), VectorConversions.vec2ToVec3(this.boundStart()),  VectorConversions.vec2ToVec3(this.boundEnd()), 1, this.current);
     }
