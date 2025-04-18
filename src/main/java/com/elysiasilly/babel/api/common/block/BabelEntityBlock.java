@@ -21,11 +21,11 @@ public abstract class BabelEntityBlock extends Block implements EntityBlock {
         super(properties);
     }
 
-    private boolean tickClient(Tick tick) {
+    private static boolean tickClient(Tick tick) {
         return tick.equals(Tick.ONLY_CLIENT) || tick.equals(Tick.BOTH);
     }
 
-    private boolean tickServer(Tick tick) {
+    private static boolean tickServer(Tick tick) {
         return tick.equals(Tick.ONLY_SERVER) || tick.equals(Tick.BOTH);
     }
 

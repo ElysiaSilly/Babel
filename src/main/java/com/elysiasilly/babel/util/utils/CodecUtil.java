@@ -14,11 +14,11 @@ public class CodecUtil {
             .map(decode -> new RGBA(decode.get(0), decode.get(1), decode.get(2), decode.get(4))), encode -> List.of(encode.r(), encode.g(), encode.b(), encode.a())
     );
 
-    public static final StreamCodec<ByteBuf, RGBA> RGBA_STREAM = new StreamCodec<>() {
+    public static final StreamCodec<ByteBuf, RGBA> RGBA_STREAM_CODEC = new StreamCodec<>() {
 
         @Override
         public RGBA decode(ByteBuf buffer) {
-            return new RGBA(buffer.readInt(), buffer.readInt(), buffer.readInt());
+            return new RGBA(buffer.readInt(), buffer.readInt(), buffer.readInt(), buffer.readInt());
         }
 
         @Override

@@ -10,6 +10,10 @@ import java.util.function.Supplier;
 
 public class ItemStackUtil {
 
+    //public static void getOrElse(ItemStack stack) {
+    //    stack.set()
+    //}
+
     public static boolean isValid(ItemStack...stacks) {
         for(ItemStack stack : stacks) {
             if(stack == null || stack.isEmpty()) return false;

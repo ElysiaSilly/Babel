@@ -1,6 +1,8 @@
 package com.elysiasilly.babel.util.utils;
 
+import com.elysiasilly.babel.util.conversions.ColourConversions;
 import com.elysiasilly.babel.util.conversions.VectorConversions;
+import com.elysiasilly.babel.util.resource.RGBA;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -35,6 +37,14 @@ public class SerializationUtil {
 
     public static Vector3f vector3f(String id, CompoundTag tag) {
         return VectorConversions.toJOML(NumberUtil.byteToFloat(tag.getByteArray(id)));
+    }
+
+    public static void rgba(String id, RGBA rgba, CompoundTag tag) {
+        tag.putByteArray(id, NumberUtil.intToByte(rgba.array()));
+    }
+
+    public static RGBA rgba(String id, CompoundTag tag) {
+        return ColourConversions.rgba(NumberUtil.byteToInt(tag.getByteArray(id)));
     }
 
     ///

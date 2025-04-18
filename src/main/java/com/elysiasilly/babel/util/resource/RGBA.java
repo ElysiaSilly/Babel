@@ -110,6 +110,10 @@ public class RGBA {
         return ColourConversions.argb(this);
     }
 
+    public int[] array() {
+        return ColourConversions.array(this);
+    }
+
     ///
 
     public int r() {
@@ -182,7 +186,7 @@ public class RGBA {
 
     public static final Codec<RGBA> CODEC = CodecUtil.RGBA_CODEC;
 
-    public static final StreamCodec<ByteBuf, RGBA> STREAM = CodecUtil.RGBA_STREAM;
+    public static final StreamCodec<ByteBuf, RGBA> STREAM_CODEC = CodecUtil.RGBA_STREAM_CODEC;
 
     ///
 
