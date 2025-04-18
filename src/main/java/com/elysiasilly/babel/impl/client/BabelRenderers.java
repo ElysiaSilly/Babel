@@ -2,7 +2,7 @@ package com.elysiasilly.babel.impl.client;
 
 import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.api.client.hud.CycleHudRenderer;
-import com.elysiasilly.babel.api.theatre.actor.render.ActorRenderersEvent;
+import com.elysiasilly.babel.api.events.ActorRenderersEvent;
 import com.elysiasilly.babel.impl.client.render.actor.TankActorRenderer;
 import com.elysiasilly.babel.impl.client.render.actor.TestActorRenderer;
 import com.elysiasilly.babel.impl.registry.BBActors;
@@ -16,9 +16,9 @@ import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 public class BabelRenderers {
 
     @SubscribeEvent
-    private static void renderers(ActorRenderersEvent event) {
-        event.registerRenderer(BBActors.TEST_ACTOR.get(), TestActorRenderer::new);
-        event.registerRenderer(BBActors.TANK.get(), TankActorRenderer::new);
+    private static void renderers(ActorRenderersEvent.RegisterRenderer event) {
+        event.register(BBActors.TEST_ACTOR.get(), TestActorRenderer::new);
+        event.register(BBActors.TANK.get(), TankActorRenderer::new);
     }
 
     @SubscribeEvent

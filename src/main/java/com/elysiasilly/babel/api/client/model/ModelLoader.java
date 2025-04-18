@@ -39,12 +39,8 @@ public class ModelLoader extends SimplePreparableReloadListener<Map<ResourceLoca
     protected Map<ResourceLocation, JsonElement> prepare(ResourceManager resourceManager, ProfilerFiller profiler) {
         HashMap<ResourceLocation, JsonElement> map = new HashMap<>();
 
-        System.out.println("BEGAN PARSING");
-
         for(Map.Entry<ResourceLocation, Resource> entry : resourceManager.listResources("models", path -> path.getPath().endsWith(".bbmodel")).entrySet()) {
             ResourceLocation location = entry.getKey();
-
-            System.out.println(location);
 
             try {
                 BufferedReader reader = entry.getValue().openAsReader();

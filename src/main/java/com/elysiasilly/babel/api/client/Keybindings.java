@@ -1,6 +1,7 @@
 package com.elysiasilly.babel.api.client;
 
 import com.elysiasilly.babel.Babel;
+import com.elysiasilly.babel.api.client.hud.CycleHudRenderer;
 import com.elysiasilly.babel.api.common.item.cycleable.CycleBlockItem;
 import com.elysiasilly.babel.impl.client.BabelKeybindings;
 import net.minecraft.client.Minecraft;
@@ -21,10 +22,10 @@ public class Keybindings {
         if(player != null && player.getMainHandItem().getItem() instanceof CycleBlockItem item) {
             boolean flag = false;
             while(BabelKeybindings.CYCLE_NEXT.get().consumeClick()) {
-                flag = item.cycleNext();
+                flag = CycleHudRenderer.LAYER.idle() ? CycleHudRenderer.LAYER.resetIdle() : item.cycleNext();
             }
             while(BabelKeybindings.CYCLE_PREVIOUS.get().consumeClick()) {
-                flag = item.cyclePrevious();
+                flag = CycleHudRenderer.LAYER.idle() ? CycleHudRenderer.LAYER.resetIdle() : item.cyclePrevious();
             }
             while(BabelKeybindings.CYCLE_RANDOM.get().consumeClick()) {
                 flag = item.cycleRandom();

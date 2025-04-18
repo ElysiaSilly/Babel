@@ -1,7 +1,7 @@
-package com.elysiasilly.babel.api.networking.serverbound;
+package com.elysiasilly.babel.networking.serverbound;
 
 import com.elysiasilly.babel.api.BabelRegistries;
-import com.elysiasilly.babel.api.networking.PayloadHandler;
+import com.elysiasilly.babel.networking.PayloadHandler;
 import com.elysiasilly.babel.api.theatre.Theatre;
 import com.elysiasilly.babel.api.theatre.actor.Actor;
 import com.elysiasilly.babel.api.theatre.scene.Scene;

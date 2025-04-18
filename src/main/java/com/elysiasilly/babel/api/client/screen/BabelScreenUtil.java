@@ -1,7 +1,7 @@
 package com.elysiasilly.babel.api.client.screen;
 
 import com.elysiasilly.babel.util.resource.RGBA;
-import com.elysiasilly.babel.util.utils.ItemUtil;
+import com.elysiasilly.babel.util.utils.ItemStackUtil;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -24,7 +24,7 @@ public class BabelScreenUtil {
 
     // todo : lighting for flat models is broken
     private static void drawItem(ItemStack stack, PoseStack pose, Vec2 pos, float depth, Vec2 offset, float scale) {
-        if(ItemUtil.isInvalid(stack)) return;
+        if(ItemStackUtil.isInvalid(stack)) return;
 
         pose.pushPose();
 
@@ -47,7 +47,7 @@ public class BabelScreenUtil {
     }
 
     public static void drawItemDecor(ItemStack stack, PoseStack pose, Vec2 pos, float depth, Vec2 offset, float scale) {
-        if(ItemUtil.isInvalid(stack)) return;
+        if(ItemStackUtil.isInvalid(stack)) return;
 
         pose.pushPose();
 
@@ -67,10 +67,10 @@ public class BabelScreenUtil {
     }
 
     public static void fill(VertexConsumer consumer, Matrix4f matrix4f, Vec2 min, Vec2 max, float z, RGBA rgba) {
-        consumer.addVertex(matrix4f, min.x, min.y, z).setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha);
-        consumer.addVertex(matrix4f, min.x, max.y, z).setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha);
-        consumer.addVertex(matrix4f, max.x, max.y, z).setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha);
-        consumer.addVertex(matrix4f, max.x, min.y, z).setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha);
+        consumer.addVertex(matrix4f, min.x, min.y, z).setColor(rgba.r(), rgba.g(), rgba.b(), rgba.a());
+        consumer.addVertex(matrix4f, min.x, max.y, z).setColor(rgba.r(), rgba.g(), rgba.b(), rgba.a());
+        consumer.addVertex(matrix4f, max.x, max.y, z).setColor(rgba.r(), rgba.g(), rgba.b(), rgba.a());
+        consumer.addVertex(matrix4f, max.x, min.y, z).setColor(rgba.r(), rgba.g(), rgba.b(), rgba.a());
     }
 
     public static void blit() {}

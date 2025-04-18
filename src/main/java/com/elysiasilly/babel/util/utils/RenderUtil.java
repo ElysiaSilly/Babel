@@ -108,7 +108,7 @@ public class RenderUtil {
     }
 
     public static void drawVoxelShape(VertexConsumer consumer, PoseStack stack, VoxelShape shape, RGBA rgba, boolean idkWhatThisIsFor) {
-        LevelRenderer.renderVoxelShape(stack, consumer, shape, 0, 0, 0, rgba.red, rgba.green, rgba.blue, rgba.alpha, idkWhatThisIsFor);
+        LevelRenderer.renderVoxelShape(stack, consumer, shape, 0, 0, 0, rgba.r(), rgba.g(), rgba.b(), rgba.a(), idkWhatThisIsFor);
     }
 
     /// lines
@@ -122,8 +122,8 @@ public class RenderUtil {
 
         Vector3f normal = i.sub(f).normalize();
 
-        consumer.addVertex(stack, (float) start.x, (float) start.y, (float) start.z).setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha).setNormal(stack, normal.x, normal.y, normal.z);
-        consumer.addVertex(stack, (float) end.x, (float) end.y, (float) end.z).setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha).setNormal(stack, normal.x, normal.y, normal.z);
+        consumer.addVertex(stack, (float) start.x, (float) start.y, (float) start.z).setColor(rgba.r(), rgba.g(), rgba.b(), rgba.a()).setNormal(stack, normal.x, normal.y, normal.z);
+        consumer.addVertex(stack, (float) end.x, (float) end.y, (float) end.z).setColor(rgba.r(), rgba.g(), rgba.b(), rgba.a()).setNormal(stack, normal.x, normal.y, normal.z);
     }
 
     public static void drawLineThatIsActuallyARectangle(VertexConsumer consumer, Matrix4f matrix4f, Vec3 start, Vec3 end, float girth, RGBA rgba) {
@@ -174,7 +174,7 @@ public class RenderUtil {
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setUv(uv.startU(), uv.endV())
                 .setLight(packedLight)
-                .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
+                .setColor(rgba.r(), rgba.g(), rgba.b(), rgba.a())
                 .setUv1(0, 0) // ?
                 .setUv2(1, 1) // ?
                 .setNormal(0, 0, 0); // ?
@@ -183,7 +183,7 @@ public class RenderUtil {
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setUv(uv.endU(), uv.endV())
                 .setLight(packedLight)
-                .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
+                .setColor(rgba.r(), rgba.g(), rgba.b(), rgba.a())
                 .setUv1(0, 0) // ?
                 .setUv2(1, 1) // ?
                 .setNormal(0, 0, 0); // ?
@@ -192,7 +192,7 @@ public class RenderUtil {
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setUv(uv.endU(), uv.startV())
                 .setLight(packedLight)
-                .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
+                .setColor(rgba.r(), rgba.g(), rgba.b(), rgba.a())
                 .setUv1(0, 0) // ?
                 .setUv2(1, 1) // ?
                 .setNormal(0, 0, 0); // ?
@@ -201,7 +201,7 @@ public class RenderUtil {
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setUv(uv.startU(), uv.startV())
                 .setLight(packedLight)
-                .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
+                .setColor(rgba.r(), rgba.g(), rgba.b(), rgba.a())
                 .setUv1(0, 0) // ?
                 .setUv2(0, 0) // ?
                 .setNormal(0, 0, 0); // ?

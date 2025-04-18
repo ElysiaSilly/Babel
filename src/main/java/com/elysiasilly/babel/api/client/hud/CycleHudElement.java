@@ -25,10 +25,11 @@ public class CycleHudElement {
 
     public CycleHudElement(CycleBlockItem item) {
         this.item = item;
-        for(PredefinedBlockState state : item.blocks()) {
+
+        int size = item().randomOnly() ? 0 : item().randomAndCycle() ? item().size() + 1 : item().size();
+        for(int i = 0; i <= size; i++) {
             elements().add(new Element(this));
         }
-        if(item().canRandom()) elements().add(new Element(this));
     }
 
     public List<Element> elements() {
@@ -57,6 +58,10 @@ public class CycleHudElement {
 
     public boolean idle() {
         return this.tick > 400;
+    }
+
+    public void tick(int tick) {
+        this.tick = tick;
     }
 
     public void render(GuiGraphics guiGraphics) {

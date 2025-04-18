@@ -8,23 +8,20 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Supplier;
 
-public class ItemUtil {
+public class ItemStackUtil {
 
     public static boolean isValid(ItemStack...stacks) {
         for(ItemStack stack : stacks) {
-            if(stack == null) return true;
-            if(stack.isEmpty()) return true;
+            if(stack == null || stack.isEmpty()) return false;
         }
-        return false;
+        return true;
     }
 
     public static boolean isInvalid(ItemStack...stacks) {
         for(ItemStack stack : stacks) {
-            if(isValid(stack)) {
-                return false;
-            }
+            if(stack == null || stack.isEmpty()) return true;
         }
-        return true;
+        return false;
     }
 
     public static void serialize(String id, ItemStack stack, CompoundTag tag, HolderLookup.Provider registries) {
@@ -35,6 +32,7 @@ public class ItemUtil {
         return SerializationUtil.itemStack(id, tag, registries);
     }
 
+    @Deprecated
     public static boolean hasComponent(ItemStack stack, Supplier<? extends DataComponentType<?>> component) {
         return stack.has(component) ? stack.get(component) != null : false;
     }

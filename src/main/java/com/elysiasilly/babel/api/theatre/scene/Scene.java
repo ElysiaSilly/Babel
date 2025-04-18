@@ -1,7 +1,7 @@
 package com.elysiasilly.babel.api.theatre.scene;
 
+import com.elysiasilly.babel.api.events.ActorEvents;
 import com.elysiasilly.babel.api.theatre.actor.Actor;
-import com.elysiasilly.babel.api.theatre.actor.ActorEvents;
 import com.elysiasilly.babel.api.theatre.actor.ActorSelector;
 import com.elysiasilly.babel.api.theatre.storage.ActorStorage;
 import com.elysiasilly.babel.util.MCUtil;
@@ -81,7 +81,7 @@ public abstract class Scene<L extends Level> {
     }
 
     public void addActor(Actor actor) {
-        if(DevUtil.postEventCancelable(new ActorEvents.ActorAdded(actor, this))) {
+        if(DevUtil.postEventCancelable(new ActorEvents.Added(actor, this))) {
             actor.setScene(this);
             storage().addActor(actor);
             actor.onAdd();
@@ -89,7 +89,7 @@ public abstract class Scene<L extends Level> {
     }
 
     public void removeActor(Actor actor) {
-        if(DevUtil.postEventCancelable(new ActorEvents.ActorRemoved(actor, this))) {
+        if(DevUtil.postEventCancelable(new ActorEvents.Removed(actor, this))) {
             actor.onRemove();
             actor.markRemoved();
             storage().removeActor(actor);

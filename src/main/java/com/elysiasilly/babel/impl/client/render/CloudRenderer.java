@@ -75,22 +75,22 @@ public class CloudRenderer {
     public static void drawPlane(BufferBuilder builder, RGBA rgba, Vec3 a, Vec3 b, Vec3 c, Vec3 d) {
         builder.addVertex((float) c.x, (float) c.y, (float) c.z)
                 .setUv(0, 0)
-                .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
+                .setColor(rgba.r(), rgba.g(), rgba.b(), rgba.a())
                 .setNormal(0, 0, 0);
 
         builder.addVertex((float) a.x, (float) a.y, (float) a.z)
                 .setUv(0, 0)
-                .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
+                .setColor(rgba.r(), rgba.g(), rgba.b(), rgba.a())
                 .setNormal(0, 0, 0);
 
         builder.addVertex((float) d.x, (float) d.y, (float) d.z)
                 .setUv(0, 0)
-                .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
+                .setColor(rgba.r(), rgba.g(), rgba.b(), rgba.a())
                 .setNormal(0, 0, 0);
 
         builder.addVertex((float) b.x, (float) b.y, (float) b.z)
                 .setUv(0, 0)
-                .setColor(rgba.red, rgba.green, rgba.blue, rgba.alpha)
+                .setColor(rgba.r(), rgba.g(), rgba.b(), rgba.a())
                 .setNormal(0, 0, 0);
     }
 }

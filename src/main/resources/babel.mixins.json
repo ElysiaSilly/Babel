@@ -6,7 +6,8 @@
   "refmap": "babel.refmap.json",
   "mixins": [
     "common.ClientHooksMixin",
-    "common.FireBlockMixin"
+    "common.FireBlockMixin",
+    "common.ItemStackMixin"
   ],
   "client": [
     "client.EntityRenderDispatcherMixin",

@@ -56,35 +56,6 @@ public class MathUtil {
         }
     }
 
-    public static class numbers {
-
-        public static float castToRange(float oldMin, float oldMax, float newMin, float newMax, float value) {
-            return (((value - oldMin) * (newMax - newMin)) / (oldMax - oldMin)) + newMin;
-        }
-
-        public static double castToRange(double oldMin, double oldMax, double newMin, double newMax, double value) {
-            return (((value - oldMin) * (newMax - newMin)) / (oldMax - oldMin)) + newMin;
-        }
-
-        public static int castToRangeInt(float oldMin, float oldMax, int newMin, int newMax, float value) {
-            return Math.round(castToRange(oldMin, oldMax, newMin, newMax, value));
-        }
-
-        public static float closest(float number, float...values) {
-            float dif = Math.abs(values[0] - number);
-            int index = 0;
-            for(int i = 1; i < values.length; i++){
-                float temp = Math.abs(values[i] - number);
-                if(temp < dif) {
-                    index = i;
-                    dif = temp;
-                }
-            }
-            return values[index];
-        }
-
-    }
-
     public static class shapes {
 
         public static List<Vec3> sphere(int radius, float clamp) {

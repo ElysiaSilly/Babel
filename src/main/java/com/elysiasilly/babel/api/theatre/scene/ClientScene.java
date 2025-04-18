@@ -1,6 +1,6 @@
 package com.elysiasilly.babel.api.theatre.scene;
 
-import com.elysiasilly.babel.api.networking.serverbound.RequestLoadChunkPacket;
+import com.elysiasilly.babel.networking.serverbound.RequestLoadChunkPacket;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.neoforged.neoforge.network.PacketDistributor;

@@ -2,8 +2,8 @@ package com.elysiasilly.babel.impl.client.render;
 
 import com.elysiasilly.babel.impl.client.BabelShaders;
 import com.elysiasilly.babel.impl.client.shader.EntityShadowShader;
-import com.elysiasilly.babel.util.MathUtil;
 import com.elysiasilly.babel.util.resource.RGBA;
+import com.elysiasilly.babel.util.utils.NumberUtil;
 import com.elysiasilly.babel.util.utils.RenderUtil;
 import com.elysiasilly.babel.util.utils.ShaderUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -98,7 +98,7 @@ public class ShadowRenderer {
 
                         ShaderUtil.setUniform(instance(), "Rotation", -Math.toRadians(entity.getVisualRotationYInDegrees() % 360));
 
-                        double offsetY = MathUtil.numbers.castToRange(0, 1, 1, 0, entityPos.x - blockPos.getX());
+                        double offsetY = NumberUtil.castToRange(0, 1, 1, 0, entityPos.x - blockPos.getX());
                         double offsetZ = entityPos.z - blockPos.getZ();
                         ShaderUtil.setUniform(instance(), "Offset", offsetZ, offsetY);
 

@@ -30,6 +30,8 @@ import java.util.Map;
 
 public class CycleBlockItem extends BlockItem {
 
+    /// todo block picking (middle mouse click)
+
     public enum Mode { RANDOM_ONLY, CYCLE_ONLY, RANDOM_AND_CYCLE }
 
     private final Mode mode;
