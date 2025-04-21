@@ -1,12 +1,12 @@
 package com.elysiasilly.babel.api.theatre.scene;
 
 import com.elysiasilly.babel.api.events.ActorEvents;
+import com.elysiasilly.babel.api.theatre.actor.Actor;
+import com.elysiasilly.babel.api.theatre.storage.ChunkData;
+import com.elysiasilly.babel.core.registry.BBAttachments;
 import com.elysiasilly.babel.networking.clientbound.AddActorPacket;
 import com.elysiasilly.babel.networking.clientbound.RemoveActorPacket;
 import com.elysiasilly.babel.networking.serverbound.RequestLoadChunkPacket;
-import com.elysiasilly.babel.api.theatre.actor.Actor;
-import com.elysiasilly.babel.api.theatre.storage.ChunkData;
-import com.elysiasilly.babel.impl.registry.BBAttachments;
 import com.elysiasilly.babel.util.utils.DevUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -48,7 +48,7 @@ public abstract class ServerScene extends Scene<ServerLevel> {
         for(ChunkData.ActorData data : serializedData.data()) {
             Actor actor = data.actorType().create().self();
             actor.deserializeForSaving(data.tag(), level().registryAccess());
-            DevUtil.postEvent(new ActorEvents.Loaded(actor, this, chunk));
+            DevUtil.postModEvent(new ActorEvents.Loaded(actor, this, chunk));
             addActor(actor);
         }
     }
@@ -68,7 +68,7 @@ public abstract class ServerScene extends Scene<ServerLevel> {
         List<ChunkData.ActorData> data = new ArrayList<>();
 
         for(Actor actor : storage().getActorsInChunk(chunk.getPos())) {
-            DevUtil.postEvent(new ActorEvents.Unloaded(actor, this, chunk));
+            DevUtil.postModEvent(new ActorEvents.Unloaded(actor, this, chunk));
 
             CompoundTag tag = new CompoundTag();
             actor.serializeForSaving(tag, level().registryAccess());

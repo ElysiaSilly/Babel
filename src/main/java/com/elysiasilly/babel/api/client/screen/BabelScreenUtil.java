@@ -5,7 +5,11 @@ import com.elysiasilly.babel.util.utils.ItemStackUtil;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
@@ -14,8 +18,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 public class BabelScreenUtil {
+
+    public static int OVERLAY = OverlayTexture.NO_OVERLAY, LIGHT = LightTexture.FULL_BRIGHT;
+
 
     public static void drawItemWithDecor(ItemStack stack, PoseStack pose, Vec2 pos, float depth, Vec2 offset, float scale) {
         drawItem(stack, pose, pos, depth, offset, scale);
@@ -55,12 +64,32 @@ public class BabelScreenUtil {
         pose.popPose();
     }
 
-    public static void drawBlock(BlockState state, PoseStack pose, Vec2 pos, float depth, Vec2 offset, float scale) {
+    /// misc
 
-        pose.pushPose();
-
-        pose.popPose();
+    public static void drawBlock(GuiGraphics guiGraphics, BlockState state, Vector2f pos, float z, Vector3f rot, float scale) {
+        drawBlock(guiGraphics.bufferSource(), guiGraphics.pose(), state, pos, z, rot, scale);
     }
+
+    @SuppressWarnings("deprecation")
+    public static void drawBlock(MultiBufferSource bufferSource, PoseStack poseStack, BlockState state, Vector2f pos, float z, Vector3f rot, float scale) {
+        poseStack.pushPose();
+
+        float offset = scale / 2;
+
+        poseStack.translate(pos.x - offset, pos.y - offset, z - offset);
+
+        poseStack.rotateAround(Axis.XP.rotationDegrees(-35 + rot.x), offset, offset, offset);
+        poseStack.rotateAround(Axis.YP.rotationDegrees(45  + rot.y), offset, offset, offset);
+        poseStack.rotateAround(Axis.ZP.rotationDegrees(0   + rot.z), offset, offset, offset);
+
+        poseStack.scale(scale, -scale, scale);
+
+        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(state, poseStack, bufferSource, LIGHT, OVERLAY);
+
+        poseStack.popPose();
+    }
+
+    ///
 
     public static void fill(WidgetBounds bounds, VertexConsumer consumer, Matrix4f matrix4f, RGBA rgba) {
         fill(consumer, matrix4f, bounds.globalStart, bounds.globalEnd, bounds.depth, rgba);

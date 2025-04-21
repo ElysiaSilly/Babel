@@ -3,9 +3,13 @@ package com.elysiasilly.babel.util.utils;
 import com.elysiasilly.babel.util.conversions.ColourConversions;
 import com.elysiasilly.babel.util.conversions.VectorConversions;
 import com.elysiasilly.babel.util.resource.RGBA;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
@@ -14,6 +18,24 @@ import org.joml.Vector3f;
 import java.util.Optional;
 
 public class SerializationUtil {
+
+    public static void component(String id, Component component, CompoundTag tag) {
+        tag.put(id, ComponentSerialization.CODEC.encodeStart(NbtOps.INSTANCE, component).getOrThrow());
+    }
+
+    public static Component component(String id, CompoundTag tag) {
+        return ComponentSerialization.CODEC.parse(NbtOps.INSTANCE, tag.get(id)).getOrThrow();
+    }
+
+    ///
+
+    public static void blockPos(String id, BlockPos pos, CompoundTag tag) {
+        tag.putIntArray(id, VectorConversions.toArray(pos));
+    }
+
+    public static BlockPos blockPos(String id, CompoundTag tag) {
+        return VectorConversions.toBlockPos(tag.getIntArray(id));
+    }
 
     public static void vector3d(String id, Vector3d vec, CompoundTag tag) {
         tag.putByteArray(id, NumberUtil.doubleToByte(VectorConversions.toArray(vec)));
@@ -38,6 +60,8 @@ public class SerializationUtil {
     public static Vector3f vector3f(String id, CompoundTag tag) {
         return VectorConversions.toJOML(NumberUtil.byteToFloat(tag.getByteArray(id)));
     }
+
+    ///
 
     public static void rgba(String id, RGBA rgba, CompoundTag tag) {
         tag.putByteArray(id, NumberUtil.intToByte(rgba.array()));

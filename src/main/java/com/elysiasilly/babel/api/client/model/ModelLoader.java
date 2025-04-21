@@ -25,6 +25,8 @@ import java.util.Map;
 @EventBusSubscriber(modid = Babel.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModelLoader extends SimplePreparableReloadListener<Map<ResourceLocation, JsonElement>> {
 
+    // TODO move from gson to codec
+
     private static final ModelLoader INSTANCE = new ModelLoader();
 
     private static final Map<ResourceLocation, Model> CACHE = new HashMap<>();

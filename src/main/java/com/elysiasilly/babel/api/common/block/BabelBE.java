@@ -37,7 +37,8 @@ public abstract class BabelBE extends BlockEntity {
     @Override
     public @NotNull CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         CompoundTag tag = new CompoundTag();
-        return serialize(tag, registries);
+        serialize(tag, registries);
+        return tag;
     }
 
     @Override
@@ -48,7 +49,7 @@ public abstract class BabelBE extends BlockEntity {
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        tag = serialize(tag, registries);
+        serialize(tag, registries);
         super.saveAdditional(tag, registries);
     }
 
@@ -63,7 +64,7 @@ public abstract class BabelBE extends BlockEntity {
         deserialize(pkt.getTag(), lookupProvider);
     }
 
-    public abstract CompoundTag serialize(CompoundTag tag, HolderLookup.Provider registries);
+    public abstract void serialize(CompoundTag tag, HolderLookup.Provider registries);
 
     public abstract void deserialize(CompoundTag tag, HolderLookup.Provider registries);
 }

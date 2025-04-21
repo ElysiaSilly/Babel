@@ -1,6 +1,9 @@
 package com.elysiasilly.babel.util.utils;
 
+import com.elysiasilly.babel.api.client.IDepthRenderTarget;
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.shaders.Uniform;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 
@@ -38,7 +41,19 @@ public class ShaderUtil {
         if(uniform != null) uniform.set(x, y, z, w);
     }
 
+    ///
+
     public static boolean stage(RenderLevelStageEvent event, RenderLevelStageEvent.Stage stage) {
         return event.getStage() != stage;
+    }
+
+    ///
+
+    public static RenderTarget depthBuffer() {
+        return ((IDepthRenderTarget) Minecraft.getInstance().levelRenderer).babel$getDepthRenderTarget();
+    }
+
+    public static RenderTarget mainBuffer() {
+        return Minecraft.getInstance().getMainRenderTarget();
     }
 }

@@ -1,0 +1,37 @@
+{
+  "item": "minecraft:oak_planks",
+  "merge": [
+    "minecraft:oak_slab", "minecraft:oak_stairs"
+  ],
+  "mode": "both",
+  "entries": [
+    {
+      "block": "minecraft:oak_slab",
+      "cost": 1,
+      "context": true,
+      "properties": {}
+    },{
+      "block": "minecraft:oak_stairs",
+      "cost": 1,
+      "context": true,
+      "properties": {}
+    },{
+      "block": "minecraft:oak_log",
+      "cost": 1,
+      "context": false,
+      "properties": {
+        "axis": "z"
+      }
+    },{
+      "block": "minecraft:oak_planks",
+      "cost": 1,
+      "context": true,
+      "properties": {}
+    },{
+      "block": "minecraft:calibrated_sculk_sensor",
+      "cost": 1,
+      "context": true,
+      "properties": {}
+    }
+  ]
+}

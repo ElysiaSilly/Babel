@@ -1,11 +1,11 @@
 package com.elysiasilly.babel.networking.serverbound;
 
-import com.elysiasilly.babel.api.BabelRegistries;
-import com.elysiasilly.babel.networking.PayloadHandler;
 import com.elysiasilly.babel.api.theatre.Theatre;
 import com.elysiasilly.babel.api.theatre.scene.Scene;
 import com.elysiasilly.babel.api.theatre.scene.SceneType;
 import com.elysiasilly.babel.api.theatre.scene.ServerScene;
+import com.elysiasilly.babel.core.BBRegistries;
+import com.elysiasilly.babel.networking.PayloadHandler;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -24,7 +24,7 @@ public record RequestLoadChunkPacket(long chunkPos, ResourceKey<Level> dimension
     public static final StreamCodec<RegistryFriendlyByteBuf, RequestLoadChunkPacket> CODEC = StreamCodec.composite(
             ByteBufCodecs.VAR_LONG, RequestLoadChunkPacket::chunkPos,
             ResourceKey.streamCodec(Registries.DIMENSION), RequestLoadChunkPacket::dimension,
-            ByteBufCodecs.registry(BabelRegistries.SCENE_TYPE.key()), RequestLoadChunkPacket::sceneType,
+            ByteBufCodecs.registry(BBRegistries.SCENE_TYPE.key()), RequestLoadChunkPacket::sceneType,
             RequestLoadChunkPacket::new
     );
 

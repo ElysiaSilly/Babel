@@ -1,6 +1,6 @@
 package com.elysiasilly.babel.api.theatre.scene;
 
-import com.elysiasilly.babel.api.BabelRegistries;
+import com.elysiasilly.babel.core.BBRegistries;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -23,7 +23,7 @@ public class SceneType<C extends ClientScene, S extends ServerScene> {
     }
 
     public static ResourceLocation getKey(SceneType<?, ?> sceneType) {
-        return BabelRegistries.SCENE_TYPE.getKey(sceneType);
+        return BBRegistries.SCENE_TYPE.getKey(sceneType);
     }
 
     public C createClient(ClientLevel client) {

@@ -12,7 +12,7 @@ import net.neoforged.neoforge.common.util.Lazy;
 import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(modid = Babel.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class BabelKeybindings {
+public class BBKeyBinds {
 
     public static final String CATEGORY = "key.category.babel";
 

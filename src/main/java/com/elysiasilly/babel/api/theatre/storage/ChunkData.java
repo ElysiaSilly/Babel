@@ -1,7 +1,7 @@
 package com.elysiasilly.babel.api.theatre.storage;
 
-import com.elysiasilly.babel.api.BabelRegistries;
 import com.elysiasilly.babel.api.theatre.actor.ActorType;
+import com.elysiasilly.babel.core.BBRegistries;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;
@@ -14,7 +14,7 @@ public record ChunkData(List<ActorData> data) {
 
     public record ActorData(ActorType<?> actorType, CompoundTag tag) {
         public static final Codec<ActorData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                BabelRegistries.ACTOR_TYPE.byNameCodec().fieldOf("t").forGetter(i -> i.actorType),
+                BBRegistries.ACTOR_TYPE.byNameCodec().fieldOf("t").forGetter(i -> i.actorType),
                 CompoundTag.CODEC.fieldOf("c").forGetter(i -> i.tag)
         ).apply(instance, ActorData::new));
     }

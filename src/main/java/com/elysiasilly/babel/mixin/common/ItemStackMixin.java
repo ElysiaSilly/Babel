@@ -21,8 +21,8 @@ public abstract class ItemStackMixin implements DataComponentHolder, IItemStackE
     )
 
     private void babel$init(CallbackInfo cir) {
-        if(Babel.serverInit()) {
-            DevUtil.postEvent(new ItemStackEvents.Created((ItemStack) (Object) this, Babel.level()));
+        if(Babel.level() != null) {
+            DevUtil.postGameEvent(new ItemStackEvents.Created((ItemStack) (Object) this, Babel.level()));
         }
     }
 }

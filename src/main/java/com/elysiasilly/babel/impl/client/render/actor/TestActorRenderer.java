@@ -1,7 +1,7 @@
 package com.elysiasilly.babel.impl.client.render.actor;
 
 import com.elysiasilly.babel.api.theatre.actor.render.ActorRenderer;
-import com.elysiasilly.babel.impl.client.BabelShaders;
+import com.elysiasilly.babel.impl.client.BBShaders;
 import com.elysiasilly.babel.impl.common.actor.TestActor;
 import com.elysiasilly.babel.util.resource.RGBA;
 import com.elysiasilly.babel.util.resource.UV;
@@ -49,7 +49,7 @@ public class TestActorRenderer implements ActorRenderer<TestActor> {
         UV flowingUV = new UV(Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidExtensions.getFlowingTexture()));
 
         RenderUtil.drawCube(
-                multiBufferSource.getBuffer(BabelShaders.TILING_SOLID.getType()), // TODO
+                multiBufferSource.getBuffer(BBShaders.TILING_SOLID.getType()), // TODO
                 poseStack.last().pose(),
                 packedLight,
                 RGBA.NULL,

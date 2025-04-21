@@ -1,9 +1,12 @@
 package com.elysiasilly.babel.networking;
 
 import com.elysiasilly.babel.Babel;
+import com.elysiasilly.babel.api.client.Keybindings;
 import com.elysiasilly.babel.networking.clientbound.AddActorPacket;
+import com.elysiasilly.babel.networking.clientbound.CycleDBIPacket;
 import com.elysiasilly.babel.networking.clientbound.RemoveActorPacket;
 import com.elysiasilly.babel.networking.clientbound.UpdateActorPacket;
+import com.elysiasilly.babel.networking.serverbound.RequestCycleDBIPacket;
 import com.elysiasilly.babel.networking.serverbound.RequestLoadChunkPacket;
 import com.elysiasilly.babel.networking.serverbound.RequestUpdateActorPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -24,9 +27,13 @@ public class PayloadHandler {
         registrar.playToClient(AddActorPacket.TYPE, AddActorPacket.CODEC, AddActorPacket::run);
         registrar.playToClient(UpdateActorPacket.TYPE, UpdateActorPacket.CODEC, UpdateActorPacket::run);
 
+        registrar.playToClient(CycleDBIPacket.TYPE, CycleDBIPacket.CODEC, Keybindings::cycleNext);
+
         // serverbound
         registrar.playToServer(RequestUpdateActorPacket.TYPE, RequestUpdateActorPacket.CODEC, RequestUpdateActorPacket::run);
         registrar.playToServer(RequestLoadChunkPacket.TYPE, RequestLoadChunkPacket.CODEC, RequestLoadChunkPacket::run);
+
+        registrar.playToServer(RequestCycleDBIPacket.TYPE, RequestCycleDBIPacket.CODEC, Keybindings::cycleNext);
     }
 
     // forgive me

@@ -12,7 +12,7 @@ import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import java.io.IOException;
 
 @EventBusSubscriber(modid = Babel.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class BabelShaders {
+public class BBShaders {
 
     public static final TilingCutoutShader TILING_CUTOUT = new TilingCutoutShader();
     public static final TilingSolidShader TILING_SOLID = new TilingSolidShader();

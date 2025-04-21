@@ -1,8 +1,8 @@
 package com.elysiasilly.babel.impl.common.item;
 
 import com.elysiasilly.babel.api.theatre.Theatre;
+import com.elysiasilly.babel.core.registry.BBActors;
 import com.elysiasilly.babel.impl.common.actor.TankActor;
-import com.elysiasilly.babel.impl.registry.BBActors;
 import com.elysiasilly.babel.util.MCUtil;
 import com.elysiasilly.babel.util.conversions.VectorConversions;
 import net.minecraft.world.InteractionHand;

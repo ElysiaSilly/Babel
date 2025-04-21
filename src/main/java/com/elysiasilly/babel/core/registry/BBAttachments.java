@@ -1,4 +1,4 @@
-package com.elysiasilly.babel.impl.registry;
+package com.elysiasilly.babel.core.registry;
 
 import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.api.theatre.storage.ChunkData;

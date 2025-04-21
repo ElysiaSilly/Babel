@@ -1,11 +1,11 @@
 package com.elysiasilly.babel.networking.serverbound;
 
-import com.elysiasilly.babel.api.BabelRegistries;
-import com.elysiasilly.babel.networking.PayloadHandler;
 import com.elysiasilly.babel.api.theatre.Theatre;
 import com.elysiasilly.babel.api.theatre.actor.Actor;
 import com.elysiasilly.babel.api.theatre.scene.Scene;
 import com.elysiasilly.babel.api.theatre.scene.SceneType;
+import com.elysiasilly.babel.core.BBRegistries;
+import com.elysiasilly.babel.networking.PayloadHandler;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -22,7 +22,7 @@ public record RequestUpdateActorPacket(UUID uuid, SceneType<?, ?> sceneType) imp
 
     public static final StreamCodec<RegistryFriendlyByteBuf, RequestUpdateActorPacket> CODEC = StreamCodec.composite(
             UUIDUtil.STREAM_CODEC, RequestUpdateActorPacket::uuid,
-            ByteBufCodecs.registry(BabelRegistries.SCENE_TYPE.key()), RequestUpdateActorPacket::sceneType,
+            ByteBufCodecs.registry(BBRegistries.SCENE_TYPE.key()), RequestUpdateActorPacket::sceneType,
             RequestUpdateActorPacket::new
     );
 

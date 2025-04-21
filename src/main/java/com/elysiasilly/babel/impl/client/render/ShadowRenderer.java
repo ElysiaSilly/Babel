@@ -1,6 +1,6 @@
 package com.elysiasilly.babel.impl.client.render;
 
-import com.elysiasilly.babel.impl.client.BabelShaders;
+import com.elysiasilly.babel.impl.client.BBShaders;
 import com.elysiasilly.babel.impl.client.shader.EntityShadowShader;
 import com.elysiasilly.babel.util.resource.RGBA;
 import com.elysiasilly.babel.util.utils.NumberUtil;
@@ -29,7 +29,7 @@ public class ShadowRenderer {
 
 
     public static EntityShadowShader shader() {
-        return BabelShaders.ENTITY_SHADOW;
+        return BBShaders.ENTITY_SHADOW;
     }
 
     public static ShaderInstance instance() {

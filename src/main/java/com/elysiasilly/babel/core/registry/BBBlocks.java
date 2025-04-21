@@ -1,4 +1,4 @@
-package com.elysiasilly.babel.impl.registry;
+package com.elysiasilly.babel.core.registry;
 
 import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.impl.common.block.TrophyBlock;
@@ -8,30 +8,31 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class BBBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.createBlocks(Babel.MODID);
     public static final DeferredRegister.Items BLOCKITEMS = DeferredRegister.createItems(Babel.MODID);
 
-    public static DeferredBlock<Block> CAVERS_TROPHY;
-    public static DeferredBlock<Block> BUILDERS_TROPHY;
-    public static DeferredBlock<Block> INQUISITIVES_TROPHY;
-    public static DeferredBlock<Block> BABEL_TROPHY;
+    public enum Mod { FNE, CALVARIAE, MUSICA_UNIVERSALIS, BABEL }
+
+    public static final Map<Mod, DeferredBlock<TrophyBlock>> TROPHIES = new HashMap<>();
 
     public static void reg() {
-        if(DevUtil.isModPresent("calvariae")) {
-            CAVERS_TROPHY = regWithItem("cavers_trophy", () -> new TrophyBlock(BlockBehaviour.Properties.of()));
-        }
-        if(DevUtil.isModPresent("factory_expansion")) {
-            BUILDERS_TROPHY = regWithItem("builders_trophy", () -> new TrophyBlock(BlockBehaviour.Properties.of()));
-        }
-        if(DevUtil.isModPresent("musica_universalis")) {
-            INQUISITIVES_TROPHY = regWithItem("inquisitives_trophy", () -> new TrophyBlock(BlockBehaviour.Properties.of()));
+        int mods = Mod.values().length, index = 0;
+
+        for(Mod mod : Mod.values()) {
+            String modid = mod.toString().toLowerCase();
+            if(DevUtil.isModPresent(modid) && !mod.equals(Mod.BABEL)) {
+               TROPHIES.put(mod, regWithItem(modid + "_trophy", () -> new TrophyBlock(BlockBehaviour.Properties.of())));
+               index++;
+            }
         }
 
-        if(DevUtil.isModsPresent("calvariae", "factory_expansions", "musica_universalis")) {
-            BABEL_TROPHY = regWithItem("babel_trophy", () -> new TrophyBlock(BlockBehaviour.Properties.of()));
+        if(index == mods) {
+            TROPHIES.put(Mod.BABEL, regWithItem("babel_trophy", () -> new TrophyBlock(BlockBehaviour.Properties.of())));
         }
     }
 

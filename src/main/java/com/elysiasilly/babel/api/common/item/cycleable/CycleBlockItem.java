@@ -46,6 +46,8 @@ public class CycleBlockItem extends BlockItem {
 
         this.mode = mode;
         this.blocks.addAll(List.of(blocks));
+
+
     }
 
     ///

@@ -18,4 +18,6 @@ public class VectorUtil {
     public static double dist(Vec3 start, Vec3 end) {
         return VectorConversions.toJOML(start).distance(VectorConversions.toJOML(end));
     }
+
+    /// within
 }

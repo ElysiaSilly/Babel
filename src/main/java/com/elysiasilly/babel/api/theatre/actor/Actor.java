@@ -1,10 +1,10 @@
 package com.elysiasilly.babel.api.theatre.actor;
 
 import com.elysiasilly.babel.Babel;
-import com.elysiasilly.babel.networking.clientbound.UpdateActorPacket;
-import com.elysiasilly.babel.networking.serverbound.RequestUpdateActorPacket;
 import com.elysiasilly.babel.api.theatre.scene.Scene;
 import com.elysiasilly.babel.api.theatre.scene.SceneType;
+import com.elysiasilly.babel.networking.clientbound.UpdateActorPacket;
+import com.elysiasilly.babel.networking.serverbound.RequestUpdateActorPacket;
 import com.elysiasilly.babel.util.utils.SerializationUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.HolderLookup;

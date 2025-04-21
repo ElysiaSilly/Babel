@@ -24,6 +24,6 @@ public class ClientHooksMixin {
     )
 
     private static void babel$initClientHooks(Minecraft mc, ReloadableResourceManager resourceManager, CallbackInfo ci) {
-        DevUtil.postEvent(new ActorRenderersEvent.RegisterRenderer());
+        DevUtil.postModEvent(new ActorRenderersEvent.RegisterRenderer());
     }
 }

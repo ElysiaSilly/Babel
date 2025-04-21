@@ -1,6 +1,6 @@
 package com.elysiasilly.babel.api.theatre.actor;
 
-import com.elysiasilly.babel.api.BabelRegistries;
+import com.elysiasilly.babel.core.BBRegistries;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.UUID;
@@ -20,7 +20,7 @@ public class ActorType<A extends Actor> {
     }
 
     public static ResourceLocation getKey(ActorType<?> actorType) {
-        return BabelRegistries.ACTOR_TYPE.getKey(actorType);
+        return BBRegistries.ACTOR_TYPE.getKey(actorType);
     }
 
     public A create(UUID uuid) {

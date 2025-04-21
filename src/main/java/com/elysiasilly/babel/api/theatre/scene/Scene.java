@@ -81,7 +81,7 @@ public abstract class Scene<L extends Level> {
     }
 
     public void addActor(Actor actor) {
-        if(DevUtil.postEventCancelable(new ActorEvents.Added(actor, this))) {
+        if(DevUtil.postModEventCancelable(new ActorEvents.Added(actor, this))) {
             actor.setScene(this);
             storage().addActor(actor);
             actor.onAdd();
@@ -89,7 +89,7 @@ public abstract class Scene<L extends Level> {
     }
 
     public void removeActor(Actor actor) {
-        if(DevUtil.postEventCancelable(new ActorEvents.Removed(actor, this))) {
+        if(DevUtil.postModEventCancelable(new ActorEvents.Removed(actor, this))) {
             actor.onRemove();
             actor.markRemoved();
             storage().removeActor(actor);

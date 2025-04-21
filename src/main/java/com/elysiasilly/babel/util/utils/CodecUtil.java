@@ -1,6 +1,7 @@
 package com.elysiasilly.babel.util.utils;
 
 import com.elysiasilly.babel.util.resource.RGBA;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.Util;
@@ -29,4 +30,29 @@ public class CodecUtil {
             buffer.writeInt(rgba.a());
         }
     };
+
+    ///
+
+    public static <B extends ByteBuf, L, R> StreamCodec<B, Pair<L, R>> pairStreamCodec(final StreamCodec<? super B, L> leftCodec, final StreamCodec<? super B, R> rightCodec) {
+        return new StreamCodec<>() {
+            @Override
+            public Pair<L, R> decode(B buffer) {
+                return new Pair<>(leftCodec.decode(buffer), rightCodec.decode(buffer));
+            }
+
+            @Override
+            public void encode(B buffer, Pair<L, R> value) {
+                leftCodec.encode(buffer, value.getFirst());
+                rightCodec.encode(buffer, value.getSecond());
+            }
+        };
+    }
+
+    /*
+    public static <E extends Enum<E>> Codec<E> enumCodec(E enum) {
+    }
+
+    public static <E extends Enum<E>> Codec<E> enumStreamCodec(E enum) {
+    }
+    */
 }

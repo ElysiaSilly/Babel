@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "babel.refmap.json",
   "mixins": [
+    "common.BlockItemMixin",
     "common.ClientHooksMixin",
     "common.FireBlockMixin",
     "common.ItemStackMixin"

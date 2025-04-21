@@ -58,6 +58,14 @@ public class VectorConversions {
         return BlockPos.containing(vec.x, vec.y, vec.z);
     }
 
+    public static int[] toArray(BlockPos pos) {
+        return new int[]{pos.getX(), pos.getY(), pos.getZ()};
+    }
+
+    public static BlockPos toBlockPos(int[] array) {
+        return new BlockPos(array[0], array[1], array[2]);
+    }
+
     ///
 
     public static Vec3 vec2ToVec3(Vec2 vec) {

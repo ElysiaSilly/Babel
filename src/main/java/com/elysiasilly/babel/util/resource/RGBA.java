@@ -79,7 +79,7 @@ public class RGBA {
     }
 
     public RGBA shade(float shade) {
-        return new RGBA(round(r() / shade), round(g() / shade), round(b() / shade), a());
+        return new RGBA(round(r() * shade), round(g() * shade), round(b() * shade), a());
     }
 
     private static int round(float value) {
@@ -161,7 +161,7 @@ public class RGBA {
             string = string + String.format(" %s [%s]", name, value);
         }
         if(error) {
-            throw new IllegalArgumentException("RGBA parameter(s) outside of expected range:" + string);
+            throw new IllegalArgumentException("RGBA parameter outside of expected range:" + string);
         }
     }
 
