@@ -1,6 +1,6 @@
 package com.elysiasilly.babel.api.client.render;
 
-import com.elysiasilly.babel.util.data.MutablePair;
+import com.elysiasilly.babel.util.misc.MutablePair;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;

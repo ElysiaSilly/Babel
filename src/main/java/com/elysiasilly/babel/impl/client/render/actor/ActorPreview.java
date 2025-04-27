@@ -1,10 +1,10 @@
 package com.elysiasilly.babel.impl.client.render.actor;
 
 import com.elysiasilly.babel.Babel;
-import com.elysiasilly.babel.impl.common.item.TankItem;
-import com.elysiasilly.babel.util.MCUtil;
-import com.elysiasilly.babel.util.conversions.VectorConversions;
-import com.elysiasilly.babel.util.utils.RenderUtil;
+import com.elysiasilly.babel.impl.common.item.FlamethrowerItem;
+import com.elysiasilly.babel.util.UtilsMC;
+import com.elysiasilly.babel.util.UtilsRender;
+import com.elysiasilly.babel.util.conversions.ConversionsVector;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -27,19 +27,19 @@ public class ActorPreview {
 
         if(event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_BLOCK_ENTITIES)) {
 
-            if(Minecraft.getInstance().player.getMainHandItem().getItem() instanceof TankItem item) {
+            if(Minecraft.getInstance().player.getMainHandItem().getItem() instanceof FlamethrowerItem item) {
                 MultiBufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
                 PoseStack poseStack = event.getPoseStack();
 
                 Player player = Minecraft.getInstance().player;
-                List<Vec3> ray = MCUtil.Raycast.shittyRayCast(Minecraft.getInstance().player, 10, MCUtil.Raycast.GOOD_ENOUGH);
+                List<Vec3> ray = UtilsMC.Raycast.shittyRayCast(Minecraft.getInstance().player, 10, UtilsMC.Raycast.GOOD_ENOUGH);
 
-                Vec3 pos = player.isShiftKeyDown() ? ray.getLast() : VectorConversions.toBlockPos(ray.getLast()).getBottomCenter();
+                Vec3 pos = player.isShiftKeyDown() ? ray.getLast() : ConversionsVector.toBlockPos(ray.getLast()).getBottomCenter();
                 Camera cam = Minecraft.getInstance().gameRenderer.getMainCamera();
                 poseStack.last().pose().translate((float) (pos.x - cam.getPosition().x), (float) (pos.y - cam.getPosition().y), (float) (pos.z - cam.getPosition().z));
 
 
-                RenderUtil.drawVoxelShape(bufferSource, poseStack, Block.box(-24, 0, -24, 24, 48, 24), false);
+                UtilsRender.drawVoxelShape(bufferSource, poseStack, Block.box(-24, 0, -24, 24, 48, 24), false);
             }
         }
     }

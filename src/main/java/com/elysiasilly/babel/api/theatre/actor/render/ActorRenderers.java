@@ -1,7 +1,7 @@
 package com.elysiasilly.babel.api.theatre.actor.render;
 
 import com.elysiasilly.babel.api.theatre.actor.Actor;
-import com.elysiasilly.babel.api.theatre.actor.ActorType;
+import com.elysiasilly.babel.api.theatre.actor.registry.ActorType;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;

@@ -3,7 +3,8 @@ package com.elysiasilly.babel.impl.common.item;
 import com.elysiasilly.babel.api.theatre.Theatre;
 import com.elysiasilly.babel.core.registry.BBActors;
 import com.elysiasilly.babel.impl.common.actor.TestActor;
-import com.elysiasilly.babel.util.MCUtil;
+import com.elysiasilly.babel.util.UtilsMC;
+import com.elysiasilly.babel.util.conversions.ConversionsVector;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -30,17 +31,17 @@ public class TestItem extends Item {
         if(!level.isClientSide) {
 
             if(end == null && start != null) {
-                List<Vec3> ray = MCUtil.Raycast.shittyRayCast(player, 10, MCUtil.Raycast.GOOD_ENOUGH);
+                List<Vec3> ray = UtilsMC.Raycast.shittyRayCast(player, 10, UtilsMC.Raycast.GOOD_ENOUGH);
                 end = ray.getLast();
             }
             if(start == null) {
-                List<Vec3> ray = MCUtil.Raycast.shittyRayCast(player, 10, MCUtil.Raycast.GOOD_ENOUGH);
+                List<Vec3> ray = UtilsMC.Raycast.shittyRayCast(player, 10, UtilsMC.Raycast.GOOD_ENOUGH);
                 start = ray.getLast();
             }
 
             if(start != null && end != null) {
-                TestActor actor = BBActors.TEST_ACTOR.get().create();
-                actor.setPos(start);
+                TestActor actor = BBActors.TEST_ACTOR.get().create(ConversionsVector.toJOML(start));
+                //actor.pos(start);
                 actor.init(start, end);
                 Theatre.add(level, actor);
                 start = null;

@@ -1,13 +1,13 @@
 package com.elysiasilly.babel.api.events;
 
 import com.elysiasilly.babel.api.theatre.actor.Actor;
+import com.elysiasilly.babel.api.theatre.actor.ActorRemovalReason;
 import com.elysiasilly.babel.api.theatre.scene.Scene;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
-import net.neoforged.fml.event.IModBusEvent;
 
-public abstract class ActorEvents extends Event implements IModBusEvent {
+public abstract class ActorEvents extends Event {
 
     private final Actor actor;
     private final Scene<?> scene;
@@ -32,8 +32,15 @@ public abstract class ActorEvents extends Event implements IModBusEvent {
     }
 
     public static class Removed extends ActorEvents implements ICancellableEvent {
-        public Removed(Actor actor, Scene<?> scene) {
+        private final ActorRemovalReason reason;
+
+        public Removed(Actor actor, Scene<?> scene, ActorRemovalReason reason) {
             super(actor, scene);
+            this.reason = reason;
+        }
+
+        public ActorRemovalReason reason() {
+            return this.reason;
         }
     }
 

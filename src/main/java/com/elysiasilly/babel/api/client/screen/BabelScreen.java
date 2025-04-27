@@ -1,8 +1,8 @@
 package com.elysiasilly.babel.api.client.screen;
 
 import com.elysiasilly.babel.api.client.screen.widget.*;
-import com.elysiasilly.babel.util.MathUtil;
-import com.elysiasilly.babel.util.data.ImmutableTrio;
+import com.elysiasilly.babel.util.UtilsMath;
+import com.elysiasilly.babel.util.misc.ImmutableTrio;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -73,7 +73,7 @@ public abstract class BabelScreen extends Screen {
 
         for(BabelWidget widget : getDescendants()) {
             if(widget instanceof IHoverableWidget hoverable) if(hoverable.canHover()) {
-                if(MathUtil.withinBounds(this.mousePos, widget.boundStart(), widget.boundEnd())) {
+                if(UtilsMath.withinBounds(this.mousePos, widget.boundStart(), widget.boundEnd())) {
                     temp = temp == null ? isDragging(widget) ? null : widget : temp.bounds.depth < widget.bounds.depth ? widget : temp; // todo : clean this up wtf is going on
                     // hello future me here i dont feel like deciphering this
                 }

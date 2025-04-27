@@ -1,4 +1,5 @@
 {
   "misc.babel.cycleable": "%1 [%2]",
-  "misc.babel.random": "Random"
+  "misc.babel.random": "Random",
+  "command.babel.actor.created.success": "Created new %s"
 }

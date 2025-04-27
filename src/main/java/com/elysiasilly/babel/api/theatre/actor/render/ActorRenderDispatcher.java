@@ -3,7 +3,7 @@ package com.elysiasilly.babel.api.theatre.actor.render;
 import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.api.theatre.Theatre;
 import com.elysiasilly.babel.api.theatre.actor.Actor;
-import com.elysiasilly.babel.api.theatre.actor.ActorType;
+import com.elysiasilly.babel.api.theatre.actor.registry.ActorType;
 import com.elysiasilly.babel.api.theatre.scene.Scene;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
@@ -12,12 +12,12 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3d;
 
 import java.util.List;
 import java.util.Map;
@@ -55,17 +55,17 @@ public class ActorRenderDispatcher implements ResourceManagerReloadListener {
             List<Scene<?>> scenes = Theatre.get(level);
 
             for(Scene<?> scene : scenes) {
-                for(Actor actor : scene.getActorsInStorage()) {
+                for(Actor actor : scene.actors()) {
                     PoseStack poseStack = event.getPoseStack();
 
                     poseStack.pushPose();
 
-                    Vec3 pos = actor.getPos();
+                    Vector3d pos = actor.pos();
                     Camera cam = Minecraft.getInstance().gameRenderer.getMainCamera();
                     poseStack.translate(pos.x - cam.getPosition().x, pos.y - cam.getPosition().y, pos.z - cam.getPosition().z);
 
                     ActorRenderer<?> renderer = INSTANCE.getRenderer(actor);
-                    renderer.render(actor.self(), event.getRenderTick(), poseStack, Minecraft.getInstance().renderBuffers().bufferSource(), LightTexture.FULL_SKY);
+                    renderer.renderInternal(actor.self(), event.getRenderTick(), poseStack, Minecraft.getInstance().renderBuffers().bufferSource(), LightTexture.FULL_SKY);
 
                     poseStack.popPose();
                 }

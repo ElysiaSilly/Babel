@@ -1,8 +1,8 @@
 package com.elysiasilly.babel.mixin.common;
 
-import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.api.events.ItemStackEvents;
-import com.elysiasilly.babel.util.utils.DevUtil;
+import com.elysiasilly.babel.impl.common.misc.LevelGetter;
+import com.elysiasilly.babel.util.UtilsDev;
 import net.minecraft.core.component.DataComponentHolder;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.MutableDataComponentHolder;
@@ -21,8 +21,8 @@ public abstract class ItemStackMixin implements DataComponentHolder, IItemStackE
     )
 
     private void babel$init(CallbackInfo cir) {
-        if(Babel.level() != null) {
-            DevUtil.postGameEvent(new ItemStackEvents.Created((ItemStack) (Object) this, Babel.level()));
-        }
+        LevelGetter.level().ifPresent(level ->
+            UtilsDev.postGameEvent(new ItemStackEvents.Created((ItemStack) (Object) this, level))
+        );
     }
 }

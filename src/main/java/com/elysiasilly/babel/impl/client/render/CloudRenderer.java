@@ -1,6 +1,6 @@
 package com.elysiasilly.babel.impl.client.render;
 
-import com.elysiasilly.babel.util.resource.RGBA;
+import com.elysiasilly.babel.util.type.RGBA;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;

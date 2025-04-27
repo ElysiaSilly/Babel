@@ -2,13 +2,14 @@ package com.elysiasilly.babel.networking;
 
 import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.api.client.Keybindings;
-import com.elysiasilly.babel.networking.clientbound.AddActorPacket;
-import com.elysiasilly.babel.networking.clientbound.CycleDBIPacket;
-import com.elysiasilly.babel.networking.clientbound.RemoveActorPacket;
-import com.elysiasilly.babel.networking.clientbound.UpdateActorPacket;
-import com.elysiasilly.babel.networking.serverbound.RequestCycleDBIPacket;
-import com.elysiasilly.babel.networking.serverbound.RequestLoadChunkPacket;
-import com.elysiasilly.babel.networking.serverbound.RequestUpdateActorPacket;
+import com.elysiasilly.babel.networking.dbi.clientbound.CycleDBIPacket;
+import com.elysiasilly.babel.networking.dbi.serverbound.RequestCycleDBIPacket;
+import com.elysiasilly.babel.networking.theatre.clientbound.AddActorPacket;
+import com.elysiasilly.babel.networking.theatre.clientbound.AddActorsPacket;
+import com.elysiasilly.babel.networking.theatre.clientbound.RemoveActorPacket;
+import com.elysiasilly.babel.networking.theatre.clientbound.UpdateActorPacket;
+import com.elysiasilly.babel.networking.theatre.serverbound.RequestLoadChunkPacket;
+import com.elysiasilly.babel.networking.theatre.serverbound.RequestUpdateActorPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -25,6 +26,7 @@ public class PayloadHandler {
         // clientbound
         registrar.playToClient(RemoveActorPacket.TYPE, RemoveActorPacket.CODEC, RemoveActorPacket::run);
         registrar.playToClient(AddActorPacket.TYPE, AddActorPacket.CODEC, AddActorPacket::run);
+        registrar.playToClient(AddActorsPacket.TYPE, AddActorsPacket.CODEC, AddActorsPacket::run);
         registrar.playToClient(UpdateActorPacket.TYPE, UpdateActorPacket.CODEC, UpdateActorPacket::run);
 
         registrar.playToClient(CycleDBIPacket.TYPE, CycleDBIPacket.CODEC, Keybindings::cycleNext);

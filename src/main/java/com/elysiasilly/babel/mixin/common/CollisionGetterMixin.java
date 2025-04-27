@@ -1,25 +1,41 @@
 package com.elysiasilly.babel.mixin.common;
 
-import com.elysiasilly.babel.api.theatre.Theatre;
-import com.elysiasilly.babel.api.theatre.scene.Scene;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.CollisionGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Mixin(CollisionGetter.class)
 public interface CollisionGetterMixin {
 
+    /*
+    @ModifyReturnValue(
+            method = "getCollisions",
+            at = @At("RETURN")
+    )
+
+    private Iterable<VoxelShape> babel$getEntityCollisions(Iterable<VoxelShape> original) {
+        return List.of();
+    }
+
+    @ModifyReturnValue(
+            method = "noCollision(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;)Z",
+            at = @At("RETURN")
+    )
+
+    private boolean babel$noCollision(boolean original) {
+        return true;
+    }
+
+    @ModifyReturnValue(
+            method = "noBlockCollision",
+            at = @At("RETURN")
+    )
+
+    private boolean babel$noBlockCollision(boolean original) {
+        return true;
+    }
+     */
+
+    /*
     @WrapOperation(
             method = "getCollisions",
             at = @At(
@@ -68,4 +84,8 @@ public interface CollisionGetterMixin {
             if(!shape.isEmpty()) cir.setReturnValue(false);
         }
     }
+
+     */
+
+
 }

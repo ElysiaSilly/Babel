@@ -43,7 +43,6 @@ public class DynamicBlockState {
             DynamicBlockState::new
     );
 
-
     /// Map<Property<?>, Value<?>>
     public DynamicBlockState(Block block, float cost, boolean context, Map<String, String> propertyValueMap) {
 

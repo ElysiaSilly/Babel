@@ -6,7 +6,7 @@ import com.elysiasilly.babel.api.common.item.cycleable.CycleBlockItem;
 import com.elysiasilly.babel.api.dbi.DynamicBlockItemComponent;
 import com.elysiasilly.babel.core.registry.BBComponents;
 import com.elysiasilly.babel.impl.client.BabelKeybindings;
-import com.elysiasilly.babel.networking.serverbound.DynamicBlockItemPacket;
+import com.elysiasilly.babel.networking.theatre.serverbound.DynamicBlockItemPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;

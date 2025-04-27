@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(BlockItem.class)
 public class BlockItemMixin {
 
-    @Shadow @Deprecated private Block block;
+    @Shadow private Block block;
 
     @WrapOperation(
             method = "getPlacementState",

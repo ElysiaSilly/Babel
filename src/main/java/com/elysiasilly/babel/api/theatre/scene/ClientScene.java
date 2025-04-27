@@ -1,6 +1,6 @@
 package com.elysiasilly.babel.api.theatre.scene;
 
-import com.elysiasilly.babel.networking.serverbound.RequestLoadChunkPacket;
+import com.elysiasilly.babel.networking.theatre.serverbound.RequestLoadChunkPacket;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -18,6 +18,6 @@ public abstract class ClientScene extends Scene<ClientLevel> {
 
     @Override
     public void unloadChunk(ChunkAccess chunk) {
-        this.storage().unloadChunk(chunk);
+        storage().unload(chunk);
     }
 }

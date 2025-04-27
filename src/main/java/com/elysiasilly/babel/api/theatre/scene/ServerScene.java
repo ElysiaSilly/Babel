@@ -2,13 +2,14 @@ package com.elysiasilly.babel.api.theatre.scene;
 
 import com.elysiasilly.babel.api.events.ActorEvents;
 import com.elysiasilly.babel.api.theatre.actor.Actor;
-import com.elysiasilly.babel.api.theatre.storage.ChunkData;
+import com.elysiasilly.babel.api.theatre.actor.ActorRemovalReason;
+import com.elysiasilly.babel.api.theatre.attachment.ChunkData;
 import com.elysiasilly.babel.core.registry.BBAttachments;
-import com.elysiasilly.babel.networking.clientbound.AddActorPacket;
-import com.elysiasilly.babel.networking.clientbound.RemoveActorPacket;
-import com.elysiasilly.babel.networking.serverbound.RequestLoadChunkPacket;
-import com.elysiasilly.babel.util.utils.DevUtil;
-import net.minecraft.nbt.CompoundTag;
+import com.elysiasilly.babel.networking.theatre.clientbound.AddActorPacket;
+import com.elysiasilly.babel.networking.theatre.clientbound.AddActorsPacket;
+import com.elysiasilly.babel.networking.theatre.clientbound.RemoveActorPacket;
+import com.elysiasilly.babel.networking.theatre.serverbound.RequestLoadChunkPacket;
+import com.elysiasilly.babel.util.UtilsDev;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.ChunkPos;
@@ -26,57 +27,59 @@ public abstract class ServerScene extends Scene<ServerLevel> {
     }
 
     @Override
-    public void addActor(Actor actor) {
-        super.addActor(actor);
-        if(actor.synced()) {
-            PacketDistributor.sendToPlayersTrackingChunk(level(), actor.getChunkPos(), AddActorPacket.pack(actor, level()));
+    public boolean addActor(Actor actor) {
+        boolean flag = super.addActor(actor);
+        if(actor.synced() && flag) {
+            PacketDistributor.sendToPlayersTrackingChunk(level(), actor.chunkPos(), new AddActorPacket(actor));
         }
+        return flag;
     }
 
     @Override
-    public void removeActor(Actor actor) {
-        super.removeActor(actor);
-        if(actor.synced()) {
-            PacketDistributor.sendToPlayersTrackingChunk(level(), actor.getChunkPos(), RemoveActorPacket.pack(actor));
+    public boolean removeActor(Actor actor, ActorRemovalReason reason) {
+        boolean flag = super.removeActor(actor, reason);
+        if(actor.synced() && flag) {
+            PacketDistributor.sendToPlayersTrackingChunk(level(), actor.chunkPos(), RemoveActorPacket.pack(actor, reason));
         }
+        return flag;
     }
 
     @Override
     public void loadChunk(ChunkAccess chunk) {
-        ChunkData serializedData = chunk.getData(BBAttachments.SCENE_DATA);
+        if(chunk.hasData(BBAttachments.SCENE_DATA)) {
+            ChunkData serializedData = chunk.getData(BBAttachments.SCENE_DATA);
 
-        for(ChunkData.ActorData data : serializedData.data()) {
-            Actor actor = data.actorType().create().self();
-            actor.deserializeForSaving(data.tag(), level().registryAccess());
-            DevUtil.postModEvent(new ActorEvents.Loaded(actor, this, chunk));
-            addActor(actor);
-        }
-    }
-
-    // TODO pack into a single packet because this is horrible :p
-    public void packChunkForClient(RequestLoadChunkPacket packet, ServerPlayer player) {
-        Collection<Actor> actors = storage().getActorsInChunk(new ChunkPos(packet.chunkPos()));
-        if(!actors.isEmpty()) {
-            for(Actor actor : actors) {
-                PacketDistributor.sendToPlayer(player, AddActorPacket.pack(actor, level()));
+            for(Actor.Data data : serializedData.data()) {
+                Actor actor = data.parse(level());
+                UtilsDev.postGameEvent(new ActorEvents.Loaded(actor, this, chunk));
+                addActor(actor);
             }
         }
     }
 
+    public void packChunkForClient(RequestLoadChunkPacket packet, ServerPlayer player) {
+        Collection<Actor> actors = actorsInChunk(new ChunkPos(packet.chunkPos()));
+        if(!actors.isEmpty()) PacketDistributor.sendToPlayer(player, new AddActorsPacket(actors.stream().toList()));
+
+    }
+
     @Override
     public void unloadChunk(ChunkAccess chunk) {
-        List<ChunkData.ActorData> data = new ArrayList<>();
+        //Babel.LOGGER.info("try unloading chunk!");
 
-        for(Actor actor : storage().getActorsInChunk(chunk.getPos())) {
-            DevUtil.postModEvent(new ActorEvents.Unloaded(actor, this, chunk));
+        if(!actorsInChunk(chunk.getPos()).isEmpty()) {
+            List<Actor.Data> data = new ArrayList<>();
 
-            CompoundTag tag = new CompoundTag();
-            actor.serializeForSaving(tag, level().registryAccess());
-            data.add(new ChunkData.ActorData(actor.actorType(), tag));
+            for(Actor actor : actorsInChunk(chunk.getPos())) {
+                UtilsDev.postGameEvent(new ActorEvents.Unloaded(actor, this, chunk));
+                data.add(actor.toData(level()));
+            }
+
+            //Babel.LOGGER.info("chunk has been unloaded!");
+
+            storage().unload(chunk);
+
+            chunk.setData(BBAttachments.SCENE_DATA, new ChunkData(data));
         }
-
-        this.storage().unloadChunk(chunk);
-
-        chunk.setData(BBAttachments.SCENE_DATA, new ChunkData(data));
     }
 }

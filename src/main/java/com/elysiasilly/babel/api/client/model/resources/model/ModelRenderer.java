@@ -2,8 +2,8 @@ package com.elysiasilly.babel.api.client.model.resources.model;
 
 import com.elysiasilly.babel.api.client.model.resources.CubeModelElement;
 import com.elysiasilly.babel.api.client.model.resources.ModelElement;
-import com.elysiasilly.babel.util.resource.RGBA;
-import com.elysiasilly.babel.util.utils.RenderUtil;
+import com.elysiasilly.babel.util.UtilsRender;
+import com.elysiasilly.babel.util.type.RGBA;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.world.phys.Vec3;
@@ -33,12 +33,12 @@ public class ModelRenderer {
                 poseStack.rotateAround(new Quaternionf().rotationXYZ(rot.x, rot.y, rot.z), pos.x, pos.y, pos.z);
 
 
-                RenderUtil.drawCube(
+                UtilsRender.drawCube(
                         consumer,
                         poseStack.last().pose(),
                         packedLight,
                         RGBA.BLACK,
-                        RenderUtil.Cube.cube(),
+                        UtilsRender.Cube.cube(),
                         new Vec3(cube.from()),
                         new Vec3(cube.to())
                 );

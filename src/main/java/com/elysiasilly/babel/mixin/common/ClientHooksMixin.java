@@ -1,7 +1,7 @@
 package com.elysiasilly.babel.mixin.common;
 
 import com.elysiasilly.babel.api.events.ActorRenderersEvent;
-import com.elysiasilly.babel.util.utils.DevUtil;
+import com.elysiasilly.babel.util.UtilsDev;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.neoforged.neoforge.client.ClientHooks;
@@ -24,6 +24,6 @@ public class ClientHooksMixin {
     )
 
     private static void babel$initClientHooks(Minecraft mc, ReloadableResourceManager resourceManager, CallbackInfo ci) {
-        DevUtil.postModEvent(new ActorRenderersEvent.RegisterRenderer());
+        UtilsDev.postModEvent(new ActorRenderersEvent.RegisterRenderer());
     }
 }

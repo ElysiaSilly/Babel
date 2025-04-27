@@ -5,7 +5,7 @@ import com.elysiasilly.babel.api.client.hud.CycleHudRenderer;
 import com.elysiasilly.babel.api.dbi.hud.DBIHudRenderer;
 import com.elysiasilly.babel.api.events.ActorRenderersEvent;
 import com.elysiasilly.babel.core.registry.BBActors;
-import com.elysiasilly.babel.impl.client.render.actor.TankActorRenderer;
+import com.elysiasilly.babel.impl.client.render.actor.FlamethrowerActorRenderer;
 import com.elysiasilly.babel.impl.client.render.actor.TestActorRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -19,7 +19,7 @@ public class BBRenderers {
     @SubscribeEvent
     private static void renderers(ActorRenderersEvent.RegisterRenderer event) {
         event.register(BBActors.TEST_ACTOR.get(), TestActorRenderer::new);
-        event.register(BBActors.TANK.get(), TankActorRenderer::new);
+        event.register(BBActors.FLAMETHROWER.get(), FlamethrowerActorRenderer::new);
     }
 
     @SubscribeEvent

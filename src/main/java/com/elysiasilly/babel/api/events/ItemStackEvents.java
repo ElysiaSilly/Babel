@@ -10,7 +10,7 @@ public abstract class ItemStackEvents extends Event {
     private final ItemStack stack;
     private final Item item;
 
-    public ItemStack itemStack() {
+    public ItemStack stack() {
         return this.stack;
     }
 

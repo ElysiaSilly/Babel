@@ -3,7 +3,7 @@ package com.elysiasilly.babel.api.client.model.resources.model;
 import com.elysiasilly.babel.Babel;
 import com.elysiasilly.babel.api.client.model.Util;
 import com.elysiasilly.babel.api.client.model.resources.*;
-import com.elysiasilly.babel.util.resource.RGBA;
+import com.elysiasilly.babel.util.type.RGBA;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;

@@ -39,7 +39,7 @@ public class ComponentApplier {
             FLAG = false;
         }
 
-        ItemStack stack = event.itemStack();
+        ItemStack stack = event.stack();
         if(MAP.containsKey(event.item())) {
             if(!stack.has(COMPONENT)) {
                 DynamicBlockItem dynamicBlockItem = MAP.get(event.item());

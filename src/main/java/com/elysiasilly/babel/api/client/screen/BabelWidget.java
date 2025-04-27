@@ -1,8 +1,8 @@
 package com.elysiasilly.babel.api.client.screen;
 
-import com.elysiasilly.babel.util.conversions.VectorConversions;
-import com.elysiasilly.babel.util.resource.RGBA;
-import com.elysiasilly.babel.util.utils.RenderUtil;
+import com.elysiasilly.babel.util.UtilsRender;
+import com.elysiasilly.babel.util.conversions.ConversionsVector;
+import com.elysiasilly.babel.util.type.RGBA;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.phys.Vec2;
@@ -105,7 +105,7 @@ public abstract class BabelWidget<W extends BabelWidget, S extends BabelScreen> 
 
         this.current = this.current.lerp(to, .5f);
 
-        RenderUtil.drawOutlineRectangle(guiGraphics.bufferSource().getBuffer(RenderType.gui()), guiGraphics.pose().last().pose(), VectorConversions.vec2ToVec3(this.boundStart()),  VectorConversions.vec2ToVec3(this.boundEnd()), 1, this.current);
+        UtilsRender.drawOutlineRectangle(guiGraphics.bufferSource().getBuffer(RenderType.gui()), guiGraphics.pose().last().pose(), ConversionsVector.vec2ToVec3(this.boundStart()),  ConversionsVector.vec2ToVec3(this.boundEnd()), 1, this.current);
     }
 
     public void destroy() {

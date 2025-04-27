@@ -1,22 +1,13 @@
 package com.elysiasilly.babel.mixin.common;
 
-import com.elysiasilly.babel.api.theatre.Theatre;
-import com.elysiasilly.babel.api.theatre.scene.Scene;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Mixin(Entity.class)
-public class EntityMixin {
+public abstract class EntityMixin {
 
+
+    /*
     @WrapOperation(
             method = "collide",
             at = @At(
@@ -25,6 +16,7 @@ public class EntityMixin {
     )
 
     // todo
+
     private List<VoxelShape> babel$collide(Level instance, Entity entity, AABB aabb, Operation<List<VoxelShape>> original) {
 
         List<Scene<?>> scenes = Theatre.get(instance);
@@ -41,4 +33,48 @@ public class EntityMixin {
 
         return list;
     }
+
+
+     */
+
+
+    /*
+    @Shadow public abstract void setPos(Vec3 pos);
+
+    @Shadow public abstract Vec3 position();
+
+    @ModifyReturnValue(
+            method = "collectColliders",
+            at = @At("RETURN")
+    )
+
+    private static List<VoxelShape> babel$collectColliders(List<VoxelShape> original) {
+        return List.of();
+    }
+
+    @ModifyReturnValue(
+            method = "isInWall",
+            at = @At("RETURN")
+    )
+
+    private boolean babel$isInWall(boolean original) {
+        return false;
+    }
+
+
+    @Inject(
+            method = "move",
+            at = @At(value = "HEAD"),
+            cancellable = true
+    )
+
+    private void babel$move(MoverType type, Vec3 pos, CallbackInfo ci) {
+        this.setPos(position().add(pos));
+        ci.cancel();
+    }
+
+     */
+
+
+
 }

@@ -2,36 +2,41 @@ package com.elysiasilly.babel.api.theatre.storage;
 
 import com.elysiasilly.babel.api.theatre.actor.Actor;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ActorLookup {
 
     private final Map<UUID, Actor> uuidActorMap = new HashMap<>();
 
-    public void addActor(Actor actor) {
-        this.uuidActorMap.put(actor.uuid(), actor);
+    private Map<UUID, Actor> map() {
+        return this.uuidActorMap;
     }
 
-    public void removeActor(Actor actor) {
-        removeActor(actor.uuid());
+    public void add(Actor actor) {
+        map().put(actor.uuid(), actor);
     }
 
-    public void removeActor(UUID id) {
-        this.uuidActorMap.remove(id);
+    public void remove(Actor actor) {
+        remove(actor.uuid());
     }
 
-    public Actor getActor(UUID id) {
-        return uuidActorMap.get(id);
+    public void remove(UUID uuid) {
+        map().remove(uuid);
     }
 
-    public Collection<Actor> getActors() {
-        return uuidActorMap.values();
+    public Actor actor(UUID uuid) {
+        return map().get(uuid);
+    }
+
+    public Collection<Actor> actors() {
+        return new ArrayList<>(map().values());
+    }
+
+    public boolean empty() {
+        return actors().isEmpty();
     }
 
     public void clear() {
-        this.uuidActorMap.clear();
+        map().clear();
     }
 }

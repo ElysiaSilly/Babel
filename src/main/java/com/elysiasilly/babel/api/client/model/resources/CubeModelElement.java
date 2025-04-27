@@ -2,7 +2,7 @@ package com.elysiasilly.babel.api.client.model.resources;
 
 import com.elysiasilly.babel.api.client.model.Util;
 import com.elysiasilly.babel.api.client.model.resources.model.Model;
-import com.elysiasilly.babel.util.resource.UV;
+import com.elysiasilly.babel.util.type.UV;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.joml.Vector3f;

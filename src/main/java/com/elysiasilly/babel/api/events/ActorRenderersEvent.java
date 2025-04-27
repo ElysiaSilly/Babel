@@ -1,7 +1,7 @@
 package com.elysiasilly.babel.api.events;
 
 import com.elysiasilly.babel.api.theatre.actor.Actor;
-import com.elysiasilly.babel.api.theatre.actor.ActorType;
+import com.elysiasilly.babel.api.theatre.actor.registry.ActorType;
 import com.elysiasilly.babel.api.theatre.actor.render.ActorRendererProvider;
 import com.elysiasilly.babel.api.theatre.actor.render.ActorRenderers;
 import net.neoforged.bus.api.Event;

@@ -7,15 +7,21 @@
   "mixins": [
     "common.BlockItemMixin",
     "common.ClientHooksMixin",
+    "common.CollisionGetterMixin",
+    "common.CommonLevelAccessorMixin",
+    "common.EntityGetterMixin",
+    "common.EntityMixin",
     "common.FireBlockMixin",
-    "common.ItemStackMixin"
+    "common.ItemStackMixin",
+    "common.ServerPlayerGameModeMixin"
   ],
   "client": [
     "client.EntityRenderDispatcherMixin",
     "client.GameRendererMixin",
     "client.GuiMixin",
     "client.LevelRendererMixin",
-    "client.MinecraftMixin"
+    "client.MinecraftMixin",
+    "common.LocalPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

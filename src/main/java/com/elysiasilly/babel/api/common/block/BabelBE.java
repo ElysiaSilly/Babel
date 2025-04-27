@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public abstract class BabelBE extends BlockEntity {
 
@@ -20,11 +19,15 @@ public abstract class BabelBE extends BlockEntity {
     }
 
     @Override
-    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
+    public final Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    public void markDirty(BlockUpdate update) {
+    public final void updateClient() {
+        update(BlockUpdate.CLIENTS);
+    }
+
+    public final void update(BlockUpdate update) {
         this.setChanged();
         assert level != null;
         level.sendBlockUpdated(worldPosition, this.getBlockState(), this.getBlockState(), update.value);
@@ -35,36 +38,36 @@ public abstract class BabelBE extends BlockEntity {
     public void tickClient() {}
 
     @Override
-    public @NotNull CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+    public final @NotNull CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         CompoundTag tag = new CompoundTag();
         serialize(tag, registries);
         return tag;
     }
 
     @Override
-    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+    public final void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
         deserialize(tag, lookupProvider);
         super.handleUpdateTag(tag, lookupProvider);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+    protected final void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         serialize(tag, registries);
         super.saveAdditional(tag, registries);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+    protected final void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         deserialize(tag, registries);
         super.loadAdditional(tag, registries);
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+    public final void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
         deserialize(pkt.getTag(), lookupProvider);
     }
 
-    public abstract void serialize(CompoundTag tag, HolderLookup.Provider registries);
+    public void serialize(CompoundTag tag, HolderLookup.Provider registries) {}
 
-    public abstract void deserialize(CompoundTag tag, HolderLookup.Provider registries);
+    public void deserialize(CompoundTag tag, HolderLookup.Provider registries) {}
 }

@@ -3,9 +3,9 @@ package com.elysiasilly.babel.impl.client.render.actor;
 import com.elysiasilly.babel.api.theatre.actor.render.ActorRenderer;
 import com.elysiasilly.babel.impl.client.BBShaders;
 import com.elysiasilly.babel.impl.common.actor.TestActor;
-import com.elysiasilly.babel.util.resource.RGBA;
-import com.elysiasilly.babel.util.resource.UV;
-import com.elysiasilly.babel.util.utils.RenderUtil;
+import com.elysiasilly.babel.util.UtilsRender;
+import com.elysiasilly.babel.util.type.RGBA;
+import com.elysiasilly.babel.util.type.UV;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -25,7 +25,7 @@ public class TestActorRenderer implements ActorRenderer<TestActor> {
         LevelRenderer.renderVoxelShape(
                 poseStack,
                 multiBufferSource.getBuffer(RenderType.lines()),
-                actor.getCollisionBox(),
+                actor.collisionShape(),
                 0,
                 0,
                 0,
@@ -48,12 +48,12 @@ public class TestActorRenderer implements ActorRenderer<TestActor> {
         UV stillUV = new UV(Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidExtensions.getStillTexture()));
         UV flowingUV = new UV(Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidExtensions.getFlowingTexture()));
 
-        RenderUtil.drawCube(
+        UtilsRender.drawCube(
                 multiBufferSource.getBuffer(BBShaders.TILING_SOLID.getType()), // TODO
                 poseStack.last().pose(),
                 packedLight,
                 RGBA.NULL,
-                RenderUtil.Cube.cubePillarUV(flowingUV, stillUV),
+                UtilsRender.Cube.cubePillarUV(flowingUV, stillUV),
                 Vec3.ZERO,
                 end
         );

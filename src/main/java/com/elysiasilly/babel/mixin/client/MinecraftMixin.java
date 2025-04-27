@@ -43,7 +43,7 @@ public class MinecraftMixin {
         InteractionResult result = scene.playerInteractionRequest(this.player, hand, stack);
 
         if(result.consumesAction()) {
-            if (result.shouldSwing()) {
+            if(result.shouldSwing()) {
                 this.player.swing(hand);
             }
             ci.cancel();

@@ -2,8 +2,8 @@ package com.elysiasilly.babel.api.client.model;
 
 import com.elysiasilly.babel.api.client.model.resources.CubeModelElement;
 import com.elysiasilly.babel.api.client.model.resources.Face;
-import com.elysiasilly.babel.util.resource.RGBA;
-import com.elysiasilly.babel.util.resource.UV;
+import com.elysiasilly.babel.util.type.RGBA;
+import com.elysiasilly.babel.util.type.UV;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -16,7 +16,7 @@ import org.joml.Vector3f;
 
 import java.util.UUID;
 
-import static com.elysiasilly.babel.util.utils.RenderUtil.drawPlane;
+import static com.elysiasilly.babel.util.UtilsRender.drawPlane;
 
 public class Util {
 
