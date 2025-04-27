@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public abstract class PhysicsActor extends Actor {
 
-    private Vector3d velocity = new Vector3d(), force = new Vector3d();
+    private Vector3d velocity = new Vector3d();
 
     public PhysicsActor(Vector3d pos, UUID uuid, CompoundTag tag) {
         super(pos, uuid, tag);
@@ -29,24 +29,15 @@ public abstract class PhysicsActor extends Actor {
     public void onTick() {
         server().ifPresent(server -> {
 
-            //float tickSpeed = 1;
+            float tickSpeed = 1;
 
+            Vector3d force = new Vector3d();
 
-            force(force().add(
-                    gravity().mul(mass()) )
-            );
+            force.add(gravity().mul(mass()));
 
-            //System.out.println(UtilsFormatting.vector3d(force()));
+            velocity(velocity().add(force.div(mass()).mul(tickSpeed)));
 
-            velocity(velocity().add(
-                    force().div(mass()) )
-            );
-
-            offset(
-                    velocity()
-            );
-
-            force(new Vector3d());
+            offset(velocity().mul(tickSpeed));
         });
     }
 
@@ -61,28 +52,18 @@ public abstract class PhysicsActor extends Actor {
     @Override
     public void serialize(CompoundTag tag, HolderLookup.Provider registries) {
         UtilsSerialization.vector3d("vel", velocity(), tag);
-        UtilsSerialization.vector3d("force", force(), tag);
     }
 
     @Override
     public void deserialize(CompoundTag tag, HolderLookup.Provider registries) {
         velocity(UtilsSerialization.vector3d("vel", tag));
-        force(UtilsSerialization.vector3d("force", tag));
     }
 
     public void velocity(Vector3d velocity) {
         this.velocity = velocity;
     }
 
-    public void force(Vector3d force) {
-        this.force = force;
-    }
-
     public Vector3d velocity() {
         return new Vector3d(this.velocity);
-    }
-
-    public Vector3d force() {
-        return new Vector3d(this.force);
     }
 }
