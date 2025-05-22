@@ -19,12 +19,12 @@ public class LevelGetter {
     }
 
     @SubscribeEvent
-    private static void serverStart(ServerStartingEvent event) {
+    private static void serverStart(final ServerStartingEvent event) {
         LEVEL = event.getServer().overworld();
     }
 
     @SubscribeEvent
-    private static void serverStop(ServerStoppedEvent event) {
+    private static void serverStop(final ServerStoppedEvent event) {
         LEVEL = null;
     }
 }

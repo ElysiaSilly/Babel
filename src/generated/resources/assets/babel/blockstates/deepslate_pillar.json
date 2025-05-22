@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "babel:block/deepslate/pillar/block",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "babel:block/deepslate/pillar/block"
+    },
+    "axis=z": {
+      "model": "babel:block/deepslate/pillar/block",
+      "x": 90
+    }
+  }
+}

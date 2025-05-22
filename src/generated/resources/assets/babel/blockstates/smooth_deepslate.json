@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "babel:block/deepslate/smooth/block"
+    }
+  }
+}

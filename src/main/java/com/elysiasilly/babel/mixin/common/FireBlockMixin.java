@@ -1,6 +1,6 @@
 package com.elysiasilly.babel.mixin.common;
 
-import com.elysiasilly.babel.api.common.block.api.ITransformOnBurnBlock;
+import com.elysiasilly.babel.api.common.block.api.TransformOnBurnBlock;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -29,6 +29,6 @@ public class FireBlockMixin {
     // TODO : transformation occasionally fails for whatever reason
 
     private void babel$checkBurnOut(Level level, BlockPos pos, int chance, RandomSource random, int age, Direction face, CallbackInfo ci, @Local BlockState before) {
-        if(before.getBlock() instanceof ITransformOnBurnBlock block) block.onBurn(level, pos, face, before);
+        if(before.getBlock() instanceof TransformOnBurnBlock block) block.onBurn(level, pos, face, before);
     }
 }

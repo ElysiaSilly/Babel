@@ -2,12 +2,11 @@ package com.elysiasilly.babel.api.theatre.handler;
 
 import com.elysiasilly.babel.api.theatre.actor.Actor;
 import com.elysiasilly.babel.api.theatre.actor.ActorPredicates;
+import com.elysiasilly.babel.api.theatre.collision.MeshCollider;
 import com.elysiasilly.babel.api.theatre.scene.Scene;
-import com.elysiasilly.babel.api.theatre.util.Element;
 import net.minecraft.core.SectionPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
-import org.joml.Quaterniond;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,9 +79,9 @@ public class ActorCollisionHandler {
         for(AABB actorAABB : actor.collisionShapeWorldSpace().toAabbs()) {
             if(entityAABB.intersects(actorAABB)) {
 
-                Element entityMesh = new Element(null, new Quaterniond(), entityAABB);
+                MeshCollider entityMesh = new MeshCollider(null, entityAABB);
 
-                Element actorMesh = new Element(null, new Quaterniond(), actorAABB);
+                MeshCollider actorMesh = new MeshCollider(null, actorAABB);
 
                 /*
                 Vec3 entityCentre = entityAABB.getCenter();

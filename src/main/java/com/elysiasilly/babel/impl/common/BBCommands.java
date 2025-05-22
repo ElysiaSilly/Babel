@@ -17,7 +17,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 public class BBCommands {
 
     @SubscribeEvent
-    static void commands(final RegisterCommandsEvent event) {
+    private static void register(final RegisterCommandsEvent event) {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
         CommandBuildContext context = event.getBuildContext();
         Commands.CommandSelection selection = event.getCommandSelection();
@@ -32,6 +32,5 @@ public class BBCommands {
         LiteralCommandNode<CommandSourceStack> source = dispatcher.register(argumentBuilder);
 
         dispatcher.register(Commands.literal(Babel.MODID).redirect(source));
-
     }
 }

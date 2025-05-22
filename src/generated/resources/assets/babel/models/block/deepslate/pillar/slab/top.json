@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "babel:block/deepslate/pillar/end",
+    "side": "babel:block/deepslate/pillar/side",
+    "top": "babel:block/deepslate/pillar/end"
+  }
+}

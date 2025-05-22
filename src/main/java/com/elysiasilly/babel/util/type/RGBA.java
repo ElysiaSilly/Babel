@@ -2,7 +2,7 @@ package com.elysiasilly.babel.util.type;
 
 import com.elysiasilly.babel.util.UtilsCodec;
 import com.elysiasilly.babel.util.UtilsMath;
-import com.elysiasilly.babel.util.conversions.ConverionsColour;
+import com.elysiasilly.babel.util.conversions.ConversionsColour;
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -98,24 +98,16 @@ public class RGBA {
         return Math.round(start + delta * (end - start));
     }
 
-    public int dec() {
-        return ConverionsColour.dec(this);
-    }
-
-    public int hex() {
-        return ConverionsColour.hex(this);
-    }
-
     public int abgr() {
-        return ConverionsColour.toABGR(this);
+        return ConversionsColour.toABGR(this);
     }
 
     public int argb() {
-        return ConverionsColour.toARGB(this);
+        return ConversionsColour.toARGB(this);
     }
 
     public int[] array() {
-        return ConverionsColour.toArray(this);
+        return ConversionsColour.toArray(this);
     }
 
     ///

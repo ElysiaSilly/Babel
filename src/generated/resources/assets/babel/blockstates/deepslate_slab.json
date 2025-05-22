@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "type=bottom,waterlogged=false": {
+      "model": "babel:block/deepslate/normal/slab/bottom"
+    },
+    "type=bottom,waterlogged=true": {
+      "model": "babel:block/deepslate/normal/slab/bottom"
+    },
+    "type=double,waterlogged=false": {
+      "model": "babel:block/deepslate/normal/slab/double"
+    },
+    "type=double,waterlogged=true": {
+      "model": "babel:block/deepslate/normal/slab/double"
+    },
+    "type=top,waterlogged=false": {
+      "model": "babel:block/deepslate/normal/slab/top"
+    },
+    "type=top,waterlogged=true": {
+      "model": "babel:block/deepslate/normal/slab/top"
+    }
+  }
+}

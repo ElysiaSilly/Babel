@@ -11,6 +11,8 @@ import com.elysiasilly.babel.api.theatre.storage.ActorStorage;
 import com.elysiasilly.babel.networking.theatre.clientbound.UpdateActorPacket;
 import com.elysiasilly.babel.util.UtilsDev;
 import com.elysiasilly.babel.util.UtilsMC;
+import net.minecraft.CrashReport;
+import net.minecraft.CrashReportCategory;
 import net.minecraft.Util;
 import net.minecraft.core.SectionPos;
 import net.minecraft.network.chat.Component;
@@ -31,9 +33,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-@SuppressWarnings({"unchecked"})
 public abstract class Scene<L extends Level> implements SceneLike {
 
+    //private final TaskQueue tasks;
     private final ActorCollisionHandler collisionHandler = new ActorCollisionHandler(this);
     private final ActorStorage storage = new ActorStorage();
     private final L level;
@@ -42,17 +44,22 @@ public abstract class Scene<L extends Level> implements SceneLike {
 
     protected Scene(L level) {
         this.level = level;
+        //this.tasks = new TaskQueue(level);
     }
 
     public L level() {
         return this.level;
     }
 
+    //public TaskQueue tasks() {
+    //     return this.tasks;
+    //}
+
     public ResourceKey<Level> dimension() {
         return level().dimension();
     }
 
-    public <S extends Scene<?>> S self() {
+    @SuppressWarnings({"unchecked"}) public <S extends Scene<?>> S self() {
         return (S) this;
     }
 
@@ -73,11 +80,16 @@ public abstract class Scene<L extends Level> implements SceneLike {
     public final void tickInternal() {
         try {
             this.ticks++;
+            //tasks().tick();
             tickActors();
             collisionHandler().tick();
             onTick();
-        } catch (Exception e) {
-            throw new RuntimeException(String.format("Something went wrong while trying to tick %s [%s]", this, actors().size()), e);
+        } catch (Throwable throwable) {
+            CrashReport report = CrashReport.forThrowable(throwable, "Ticking Scene");
+
+            CrashReportCategory category = report.addCategory("Scene being ticked");
+            category.setDetail("Scene", this);
+            category.setDetail("Actors in Storage", actors().size());
         }
     }
 

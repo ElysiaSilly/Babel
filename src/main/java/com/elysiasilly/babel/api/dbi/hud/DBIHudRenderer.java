@@ -1,6 +1,6 @@
 package com.elysiasilly.babel.api.dbi.hud;
 
-import com.elysiasilly.babel.api.client.screen.BabelScreenUtil;
+import com.elysiasilly.babel.api.client.screen.old.BabelScreenUtil;
 import com.elysiasilly.babel.api.dbi.DynamicBlockItemComponent;
 import com.elysiasilly.babel.api.dbi.DynamicBlockState;
 import com.elysiasilly.babel.core.registry.BBComponents;

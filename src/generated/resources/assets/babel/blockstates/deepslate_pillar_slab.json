@@ -1,0 +1,76 @@
+{
+  "variants": {
+    "axis=x,type=bottom,waterlogged=false": {
+      "model": "babel:block/deepslate/pillar/slab/bottom",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,type=bottom,waterlogged=true": {
+      "model": "babel:block/deepslate/pillar/slab/bottom",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,type=double,waterlogged=false": {
+      "model": "babel:block/deepslate/pillar/slab/double",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,type=double,waterlogged=true": {
+      "model": "babel:block/deepslate/pillar/slab/double",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,type=top,waterlogged=false": {
+      "model": "babel:block/deepslate/pillar/slab/top",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,type=top,waterlogged=true": {
+      "model": "babel:block/deepslate/pillar/slab/top",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,type=bottom,waterlogged=false": {
+      "model": "babel:block/deepslate/pillar/slab/bottom"
+    },
+    "axis=y,type=bottom,waterlogged=true": {
+      "model": "babel:block/deepslate/pillar/slab/bottom"
+    },
+    "axis=y,type=double,waterlogged=false": {
+      "model": "babel:block/deepslate/pillar/slab/double"
+    },
+    "axis=y,type=double,waterlogged=true": {
+      "model": "babel:block/deepslate/pillar/slab/double"
+    },
+    "axis=y,type=top,waterlogged=false": {
+      "model": "babel:block/deepslate/pillar/slab/top"
+    },
+    "axis=y,type=top,waterlogged=true": {
+      "model": "babel:block/deepslate/pillar/slab/top"
+    },
+    "axis=z,type=bottom,waterlogged=false": {
+      "model": "babel:block/deepslate/pillar/slab/bottom",
+      "x": 90
+    },
+    "axis=z,type=bottom,waterlogged=true": {
+      "model": "babel:block/deepslate/pillar/slab/bottom",
+      "x": 90
+    },
+    "axis=z,type=double,waterlogged=false": {
+      "model": "babel:block/deepslate/pillar/slab/double",
+      "x": 90
+    },
+    "axis=z,type=double,waterlogged=true": {
+      "model": "babel:block/deepslate/pillar/slab/double",
+      "x": 90
+    },
+    "axis=z,type=top,waterlogged=false": {
+      "model": "babel:block/deepslate/pillar/slab/top",
+      "x": 90
+    },
+    "axis=z,type=top,waterlogged=true": {
+      "model": "babel:block/deepslate/pillar/slab/top",
+      "x": 90
+    }
+  }
+}

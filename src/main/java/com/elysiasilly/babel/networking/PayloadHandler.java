@@ -20,7 +20,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 public class PayloadHandler {
 
     @SubscribeEvent
-    public static void onRegisterPayLoadHandlers(final RegisterPayloadHandlersEvent event) {
+    private static void onRegisterPayLoadHandlers(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1");
 
         // clientbound

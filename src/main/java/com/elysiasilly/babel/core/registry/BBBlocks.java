@@ -1,48 +1,44 @@
 package com.elysiasilly.babel.core.registry;
 
 import com.elysiasilly.babel.Babel;
-import com.elysiasilly.babel.impl.common.block.TrophyBlock;
-import com.elysiasilly.babel.util.UtilsDev;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredRegister;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Supplier;
+import com.elysiasilly.babel.api.registry.Registrar;
 
 public class BBBlocks {
-    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Babel.MODID);
-    public static final DeferredRegister.Items BLOCKITEMS = DeferredRegister.createItems(Babel.MODID);
 
-    public enum Mod { FNE, CALVARIAE, MUSALIS, BABEL }
+    public static final Registrar REGISTRAR = new Registrar(Babel.MODID);
 
-    public static final Map<Mod, DeferredBlock<TrophyBlock>> TROPHIES = new HashMap<>();
+    /*
+    public static final BlockEntry<StairsBlock> DEEPSLATE_STAIRS = REGISTRAR.blockEntry("deepslate_stairs", () -> new StairsBlock(BlockBehaviour.Properties.of()))
+            .assets(block -> Presets.stairs(block, "deepslate", "deepslate_top", "babel:deepslate/normal/stairs"))
+            .build();
 
-    public static void reg() {
-        int mods = Mod.values().length, index = 0;
+    public static final BlockEntry<RotatedSlabBlock> DEEPSLATE_SLAB = REGISTRAR.blockEntry("deepslate_slab", () -> new RotatedSlabBlock(BlockBehaviour.Properties.of()))
+            .assets(block -> Presets.pillar_slab(block, "deepslate", "deepslate_top", "babel:deepslate/normal/slab"))
+            .build();
 
-        for(Mod mod : Mod.values()) {
-            String modid = mod.toString().toLowerCase();
-            if(UtilsDev.isModPresent(modid) && !mod.equals(Mod.BABEL)) {
-               TROPHIES.put(mod, regWithItem(modid + "_trophy", () -> new TrophyBlock(BlockBehaviour.Properties.of())));
-               index++;
-            }
-        }
+    ///
 
-        if(index == mods) {
-            TROPHIES.put(Mod.BABEL, regWithItem("babel_trophy", () -> new TrophyBlock(BlockBehaviour.Properties.of())));
-        }
-    }
+    public static final BlockEntry<RotatedPillarBlock> DEEPSLATE_PILLAR = REGISTRAR.blockEntry("deepslate_pillar", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()))
+            .assets(block -> Presets.pillar(block, "babel:deepslate/pillar/side", "babel:deepslate/pillar/end", "babel:deepslate/pillar/block"))
+            .build();
 
-    /// register block and item
-    @SuppressWarnings({"unchecked"})
-    private static <T extends Block> DeferredBlock<T> regWithItem(String id, Supplier<? extends Block> blockType) {
+    public static final BlockEntry<RotatedSlabBlock> DEEPSLATE_PILLAR_SLAB = REGISTRAR.blockEntry("deepslate_pillar_slab", () -> new RotatedSlabBlock(BlockBehaviour.Properties.of()))
+            .assets(block -> Presets.pillar_slab(block, "babel:deepslate/pillar/side", "babel:deepslate/pillar/end", "babel:deepslate/pillar/slab"))
+            .build();
 
-        var tempBlock = BLOCKS.register(id, blockType);
-        BLOCKITEMS.registerSimpleBlockItem(tempBlock);
-        return (DeferredBlock<T>) tempBlock;
-    }
+    ///
 
+    public static final BlockEntry<Block> SMOOTH_DEEPSLATE = REGISTRAR.blockEntry("smooth_deepslate", () -> new Block(BlockBehaviour.Properties.of()))
+            .assets(block -> Presets.block(block, "babel:deepslate/smooth", "babel:deepslate/smooth/block"))
+            .build();
+
+    public static final BlockEntry<StairsBlock> SMOOTH_DEEPSLATE_STAIRS = REGISTRAR.blockEntry("smooth_deepslate_stairs", () -> new StairsBlock(BlockBehaviour.Properties.of()))
+            .assets(block -> Presets.stairs(block, "babel:deepslate/smooth", "babel:deepslate/smooth/stairs"))
+            .build();
+
+    public static final BlockEntry<SlabBlock> SMOOTH_DEEPSLATE_SLAB = REGISTRAR.blockEntry("smooth_deepslate_slab", () -> new SlabBlock(BlockBehaviour.Properties.of()))
+            .assets(block -> Presets.slab(block, "babel:deepslate/smooth", "babel:deepslate/smooth/slab"))
+            .build();
+
+     */
 }

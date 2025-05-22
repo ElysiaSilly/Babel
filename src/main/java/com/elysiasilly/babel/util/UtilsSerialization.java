@@ -1,7 +1,7 @@
 package com.elysiasilly.babel.util;
 
-import com.elysiasilly.babel.util.conversions.ConverionsColour;
 import com.elysiasilly.babel.util.conversions.ConversionsArray;
+import com.elysiasilly.babel.util.conversions.ConversionsColour;
 import com.elysiasilly.babel.util.conversions.ConversionsVector;
 import com.elysiasilly.babel.util.type.RGBA;
 import net.minecraft.core.BlockPos;
@@ -69,7 +69,7 @@ public class UtilsSerialization {
     }
 
     public static RGBA rgba(String id, CompoundTag tag) {
-        return ConverionsColour.toRGBA(ConversionsArray.toInt(tag.getByteArray(id)));
+        return ConversionsColour.fromArray(ConversionsArray.toInt(tag.getByteArray(id)));
     }
 
     ///

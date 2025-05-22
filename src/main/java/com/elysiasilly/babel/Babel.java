@@ -49,6 +49,8 @@ public class Babel {
     );
 
     public Babel(final IEventBus bus, final ModContainer container) {
+        BBBlocks.REGISTRAR.register(bus);
+
         for(DeferredRegister<?> registry : REGISTRIES)
             registry.register(bus);
         for(Map.Entry<ModConfig.Type, ModConfigSpec> config : CONFIGS.entrySet())

@@ -1,6 +1,6 @@
 package com.elysiasilly.babel.mixin.client;
 
-import com.elysiasilly.babel.api.client.screen.screen.IHideElementsScreen;
+import com.elysiasilly.babel.api.client.screen.old.screen.IHideElementsScreen;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
